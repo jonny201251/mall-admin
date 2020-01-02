@@ -1,0 +1,2 @@
+1.controller的方法如果返回json数据，需要加上@ResponseResult，返回值类型为String，必须使用GlobalResponseResult包装
+2.controller的方法需要跳转到页面，访问路径后加上‘.html’

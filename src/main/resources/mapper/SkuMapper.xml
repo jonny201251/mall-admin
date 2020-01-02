@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hthyaq.malladmin.mapper.SkuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hthyaq.malladmin.model.entity.Sku">
+        <id column="id" property="id" />
+        <result column="spu_id" property="spuId" />
+        <result column="title" property="title" />
+        <result column="images" property="images" />
+        <result column="price" property="price" />
+        <result column="indexes" property="indexes" />
+        <result column="sku_spec" property="skuSpec" />
+        <result column="saleable" property="saleable" />
+        <result column="valid" property="valid" />
+        <result column="sku_code" property="skuCode" />
+        <result column="type" property="type" />
+        <result column="create_time" property="createTime" />
+        <result column="last_update_time" property="lastUpdateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, spu_id, title, images, price, indexes, sku_spec, saleable, valid, sku_code, type, create_time, last_update_time
+    </sql>
+
+</mapper>
