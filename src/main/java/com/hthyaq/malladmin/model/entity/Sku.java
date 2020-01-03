@@ -2,11 +2,12 @@ package com.hthyaq.malladmin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -48,6 +49,8 @@ public class Sku implements Serializable {
      * 销售价格，单位为分
      */
     private Double price;
+
+    private Integer stock;
 
     /**
      * 特有规格属性在spu属性模板中的对应下标组合
