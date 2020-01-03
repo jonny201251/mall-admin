@@ -98,7 +98,8 @@ public class BrandController {
         //从中间表中查出brandId
         List<CategoryBrand> tmpList = categoryBrandService.list(new QueryWrapper<CategoryBrand>().eq("category_id", categoryId));
         if (tmpList.size() == 0) {
-            throw new RuntimeException("该商品类目下还没有绑定品牌");
+            return list;
+//            throw new RuntimeException("该商品类目下还没有绑定品牌");
         }
         List<Integer> brandIdList = tmpList.stream().map(CategoryBrand::getBrandId).collect(Collectors.toList());
         //查出品牌
