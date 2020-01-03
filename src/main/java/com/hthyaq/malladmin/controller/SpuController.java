@@ -90,7 +90,7 @@ public class SpuController {
             List<LabelName> genericList = Lists.newArrayList();
             //复杂规格-sku特有属性
             List<LabelName> specialList = Lists.newArrayList();
-            List<SpecificationParam> paramList = specificationParamService.list(new QueryWrapper<SpecificationParam>().eq("category_id", categoryId));
+            List<SpecificationParam> paramList = specificationParamService.list(new QueryWrapper<SpecificationParam>().eq("category_id", categoryId).orderByAsc("id"));
             for (SpecificationParam tmp : paramList) {
                 if (tmp.getGeneric().equals(1)) {
                     genericList.add(new LabelName(tmp.getName(), tmp.getId()));
@@ -107,7 +107,7 @@ public class SpuController {
         } else if (GlobalConstants.complexSpecNo.equals(specType)) {
             //复杂规格-通用属性
             List<LabelName> genericList = Lists.newArrayList();
-            List<SpecificationParam> paramList = specificationParamService.list(new QueryWrapper<SpecificationParam>().eq("category_id", categoryId));
+            List<SpecificationParam> paramList = specificationParamService.list(new QueryWrapper<SpecificationParam>().eq("category_id", categoryId).orderByAsc("id"));
             paramList.forEach(tmp -> genericList.add(new LabelName(tmp.getName(), tmp.getId())));
             if (genericList.size() > 0) {
                 map.put("genericSpec", genericList);
@@ -115,13 +115,11 @@ public class SpuController {
         } else if (GlobalConstants.easySpec.equals(specType)) {
             //简单规格-通用属性
             List<LabelName> genericList = Lists.newArrayList();
-            List<SpecificationParam2> paramList = specificationParam2Service.list(new QueryWrapper<SpecificationParam2>().eq("category_id", categoryId));
+            List<SpecificationParam2> paramList = specificationParam2Service.list(new QueryWrapper<SpecificationParam2>().eq("category_id", categoryId).orderByAsc("id"));
             paramList.forEach(tmp -> genericList.add(new LabelName(tmp.getName(), tmp.getId())));
             if (genericList.size() > 0) {
                 map.put("genericSpec", genericList);
             }
-        } else {
-            throw new RuntimeException("该商品类目下还没有绑定商品属性");
         }
         return map;
     }
