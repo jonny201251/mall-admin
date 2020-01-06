@@ -138,10 +138,51 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                 specSellerDefineList.forEach(tmp -> tmp.setSpuId(spuId));
                 flag = flag && specSellerDefineService.saveBatch(specSellerDefineList);
             }
-        } else if (GlobalConstants.complexSpecNo.equals(specType)) {
-
-        } else if (GlobalConstants.easySpec.equals(specType)) {
-
+        } else if (GlobalConstants.complexSpecNo.equals(specType) || GlobalConstants.easySpec.equals(specType)) {
+            int i=1/0;
+            //1.spu
+            Spu spu = new Spu();
+            BeanUtils.copyProperties(spuView, spu);
+            //spu的images
+            if (images.length > 0) {
+                List<String> list = Lists.newArrayList();
+                for (MultipartFile imageFile : images) {
+                    String dbPath = UploadImageUtil.save(imageFile);
+                    list.add(dbPath);
+                }
+                spu.setImages(Joiner.on(",").join(list));
+            }
+            flag = this.save(spu);
+            //获取spu的id
+            Long spuId = spu.getId();
+            //2.spu_detail
+            SpuDetail spuDetail = new SpuDetail();
+            spuDetail.setSpuId(spuId);
+            spuDetail.setDescription(description);
+            spuDetail.setPackingList(jsonObject.getString("packingList"));
+            spuDetail.setAfterService(jsonObject.getString("afterService"));
+            //spu_detail的generic_spec
+            if (!Strings.isNullOrEmpty(genericSpec)) {
+                spuDetail.setGenericSpec(genericSpec);
+            }
+            flag = flag && spuDetailService.save(spuDetail);
+            //3.sku
+            SkuView skuView = JSON.parseObject(jsonObject.getString("skuItem"), SkuView.class);
+            List<Sku> skuList = skuView.getDataSource();
+            if (skuList.size() > 0) {
+                for (Sku sku : skuList) {
+                    sku.setSpuId(spuId);
+                    sku.setTitle(spu.getTitle());
+                }
+                flag = flag && skuService.saveBatch(skuList);
+            }
+            //4.specSellerDefine
+            SpecSellerDefineView specSellerDefineView = JSON.parseObject(jsonObject.getString("specSellerDefine"), SpecSellerDefineView.class);
+            List<SpecSellerDefine> specSellerDefineList = specSellerDefineView.getDataSource();
+            if (specSellerDefineList.size() > 0) {
+                specSellerDefineList.forEach(tmp -> tmp.setSpuId(spuId));
+                flag = flag && specSellerDefineService.saveBatch(specSellerDefineList);
+            }
         }
         return flag;
     }
