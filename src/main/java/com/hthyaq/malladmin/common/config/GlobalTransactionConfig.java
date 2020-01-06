@@ -20,7 +20,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 @Aspect
 @Configuration
 public class GlobalTransactionConfig {
-    private static final String POINTCUT_EXPRESSION = "execution (public * com.hthyaq.zybadmin.service.impl.*ServiceImpl.*(..))";
+    private static final String POINTCUT_EXPRESSION = "execution (public * com.hthyaq.malladmin.service.impl.*ServiceImpl.*(..))";
 
     @Autowired
     private PlatformTransactionManager transactionManager;

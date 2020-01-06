@@ -1,7 +1,10 @@
 package com.hthyaq.malladmin.service;
 
-import com.hthyaq.malladmin.model.entity.Spu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hthyaq.malladmin.model.entity.Spu;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -12,5 +15,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-12-24
  */
 public interface SpuService extends IService<Spu> {
-
+    //获取商品的规格模板
+    public String getSpecType(Integer categoryId);
+    //添加商品
+    public Boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException;
+    //商品的复杂规格
+    public Boolean addComplexItem(MultipartFile[] images, String description, String form, String genericSpec);
+    //商品的简单规格
+    public Boolean addEasyItem(MultipartFile[] images, String description, String form, String genericSpec);
 }

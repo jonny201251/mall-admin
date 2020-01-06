@@ -7,7 +7,6 @@ import com.google.common.collect.Maps;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.UploadImageUtil;
-import com.hthyaq.malladmin.model.entity.SpecificationGroup;
 import com.hthyaq.malladmin.model.entity.SpecificationParam;
 import com.hthyaq.malladmin.model.entity.SpecificationParam2;
 import com.hthyaq.malladmin.model.responseResult.GlobalResponseResult;
@@ -15,6 +14,7 @@ import com.hthyaq.malladmin.model.vo.LabelName;
 import com.hthyaq.malladmin.service.SpecificationGroupService;
 import com.hthyaq.malladmin.service.SpecificationParam2Service;
 import com.hthyaq.malladmin.service.SpecificationParamService;
+import com.hthyaq.malladmin.service.SpuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +38,8 @@ import java.util.Map;
 @RequestMapping("/spu")
 public class SpuController {
     @Autowired
+    private SpuService spuService;
+    @Autowired
     private SpecificationGroupService specificationGroupService;
     @Autowired
     private SpecificationParamService specificationParamService;
@@ -52,39 +54,24 @@ public class SpuController {
     }
 
     @PostMapping("/add")
-    public GlobalResponseResult add(String form, MultipartFile[] files) throws IOException {
-        System.out.println();
-        return GlobalResponseResult.success("a");
+    @ResponseResult
+    public boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
+        return spuService.add(images,description,form,genericSpec);
     }
 
     //根据categoryId返回规格类型
     @GetMapping("/specType")
     public GlobalResponseResult specType(Integer categoryId) {
-        return GlobalResponseResult.success(getSpecType(categoryId));
+        return GlobalResponseResult.success(spuService.getSpecType(categoryId));
     }
 
-    //规格类型--以后放入缓存中
-    private String getSpecType(Integer categoryId) {
-        //默认为简单规格
-        String type = GlobalConstants.easySpec;
-        //复杂规格
-        List<SpecificationGroup> groupList = specificationGroupService.list(new QueryWrapper<SpecificationGroup>().eq("category_id", categoryId));
-        if (groupList.size() > 0) {
-            type = GlobalConstants.complexSpecNo;
-            List<SpecificationParam> paramList = specificationParamService.list(new QueryWrapper<SpecificationParam>().eq("category_id", categoryId).eq("generic", 0));
-            if (paramList.size() > 0) {
-                type = GlobalConstants.complexSpecHave;
-            }
-        }
-        return type;
-    }
 
     //根据categoryId获取商品的通用规格和sku特有规格
     @GetMapping("/specAll")
     @ResponseResult
     public Map<String, Object> specAll(Integer categoryId) {
         Map<String, Object> map = Maps.newHashMap();
-        String specType = getSpecType(categoryId);
+        String specType = spuService.getSpecType(categoryId);
         if (GlobalConstants.complexSpecHave.equals(specType)) {
             //复杂规格-通用属性
             List<LabelName> genericList = Lists.newArrayList();

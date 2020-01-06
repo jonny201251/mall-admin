@@ -58,7 +58,7 @@ public class Spu implements Serializable {
     /**
      * 商品所属类目的id
      */
-    private Integer category;
+    private Integer categoryId;
 
     /**
      * 商品所属品牌id
