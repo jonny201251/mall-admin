@@ -187,13 +187,4 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         return flag;
     }
 
-    @Override
-    public Boolean addComplexItem(MultipartFile[] images, String description, String form, String genericSpec) {
-        return null;
-    }
-
-    @Override
-    public Boolean addEasyItem(MultipartFile[] images, String description, String form, String genericSpec) {
-        return null;
-    }
 }

@@ -1,7 +1,11 @@
 package com.hthyaq.malladmin.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
@@ -9,6 +13,7 @@ import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.UploadImageUtil;
 import com.hthyaq.malladmin.model.entity.SpecificationParam;
 import com.hthyaq.malladmin.model.entity.SpecificationParam2;
+import com.hthyaq.malladmin.model.entity.Spu;
 import com.hthyaq.malladmin.model.responseResult.GlobalResponseResult;
 import com.hthyaq.malladmin.model.vo.LabelName;
 import com.hthyaq.malladmin.service.SpecificationGroupService;
@@ -53,10 +58,22 @@ public class SpuController {
         return GlobalResponseResult.success(dbPath);
     }
 
+    @GetMapping("/list")
+    @ResponseResult
+    public IPage<Spu> list(String json) {
+        //字符串解析成java对象
+        JSONObject jsonObject = JSON.parseObject(json);
+        //从对象中获取值
+        Integer currentPage = jsonObject.getInteger("currentPage");
+        Integer pageSize = jsonObject.getInteger("pageSize");
+        QueryWrapper<Spu> queryWrapper = new QueryWrapper<>();
+        return spuService.page(new Page<>(currentPage, pageSize), queryWrapper);
+    }
+
     @PostMapping("/add")
     @ResponseResult
     public boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
-        return spuService.add(images,description,form,genericSpec);
+        return spuService.add(images, description, form, genericSpec);
     }
 
     //根据categoryId返回规格类型
@@ -64,7 +81,6 @@ public class SpuController {
     public GlobalResponseResult specType(Integer categoryId) {
         return GlobalResponseResult.success(spuService.getSpecType(categoryId));
     }
-
 
     //根据categoryId获取商品的通用规格和sku特有规格
     @GetMapping("/specAll")

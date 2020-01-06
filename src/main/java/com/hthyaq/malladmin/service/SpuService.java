@@ -19,8 +19,4 @@ public interface SpuService extends IService<Spu> {
     public String getSpecType(Integer categoryId);
     //添加商品
     public Boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException;
-    //商品的复杂规格
-    public Boolean addComplexItem(MultipartFile[] images, String description, String form, String genericSpec);
-    //商品的简单规格
-    public Boolean addEasyItem(MultipartFile[] images, String description, String form, String genericSpec);
 }
