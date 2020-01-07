@@ -82,8 +82,8 @@ public class SpuController {
 
     @PostMapping("/edit")
     @ResponseResult
-    public boolean edit(String oldImages,MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException {
-        return spuService.edit(oldImages,newImages, description, form, genericSpec);
+    public boolean edit(String oldImages, MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException {
+        return spuService.edit(oldImages, newImages, description, form, genericSpec);
     }
 
     //根据categoryId返回规格类型
@@ -148,15 +148,8 @@ public class SpuController {
         List<SpecSellerDefine> specSellerDefineList = specSellerDefineService.list(new QueryWrapper<SpecSellerDefine>().eq("spu_id", spu.getId()).orderByAsc("id"));
         //sku
         List<Sku> skuList = skuService.list(new QueryWrapper<Sku>().eq("spu_id", spu.getId()).orderByAsc("id"));
-
+        //规格类型
         String specType = spuService.getSpecType(spu.getCategoryId());
-        if (GlobalConstants.complexSpecHave.equals(specType)) {
-
-        } else if (GlobalConstants.complexSpecNo.equals(specType)) {
-
-        } else if (GlobalConstants.easySpec.equals(specType)) {
-
-        }
         //组装
         BeanUtils.copyProperties(spu, spuReverseView);
         BeanUtils.copyProperties(spuDetail, spuReverseView);
@@ -166,6 +159,7 @@ public class SpuController {
             spuReverseView.setSpecSellerDefine(specSellerDefineChildForm);
         }
         spuReverseView.setSkuList(skuList);
+        spuReverseView.setType(specType);
         return spuReverseView;
     }
 }
