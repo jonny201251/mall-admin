@@ -19,4 +19,6 @@ public interface SpuService extends IService<Spu> {
     public String getSpecType(Integer categoryId);
     //添加商品
     public Boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException;
+
+    public Boolean edit(String oldImage, MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException;
 }

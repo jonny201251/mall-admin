@@ -80,6 +80,12 @@ public class SpuController {
         return spuService.add(images, description, form, genericSpec);
     }
 
+    @PostMapping("/edit")
+    @ResponseResult
+    public boolean edit(String oldImage,MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException {
+        return spuService.edit(oldImage,newImages, description, form, genericSpec);
+    }
+
     //根据categoryId返回规格类型
     @GetMapping("/specType")
     public GlobalResponseResult specType(Integer categoryId) {

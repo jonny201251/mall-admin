@@ -139,7 +139,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                 flag = flag && specSellerDefineService.saveBatch(specSellerDefineList);
             }
         } else if (GlobalConstants.complexSpecNo.equals(specType) || GlobalConstants.easySpec.equals(specType)) {
-            int i=1/0;
             //1.spu
             Spu spu = new Spu();
             BeanUtils.copyProperties(spuView, spu);
@@ -186,5 +185,152 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         }
         return flag;
     }
+
+    @Override
+    public Boolean edit(String oldImages, MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException {
+        boolean flag = true;
+        JSONObject jsonObject = JSON.parseObject(form);
+        Spu spuView = JSON.parseObject(form, Spu.class);
+        String specType = this.getSpecType(spuView.getCategoryId());
+        if (GlobalConstants.complexSpecHave.equals(specType)) {
+            //1.spu
+            Spu spu = new Spu();
+            BeanUtils.copyProperties(spuView, spu);
+            //spu的images
+            if (newImages.length > 0) {
+                List<String> list = Lists.newArrayList();
+                for (MultipartFile imageFile : newImages) {
+                    String dbPath = UploadImageUtil.save(imageFile);
+                    list.add(dbPath);
+                }
+                if (!Strings.isNullOrEmpty(oldImages)) {
+                    spu.setImages(oldImages + "," + Joiner.on(",").join(list));
+                } else {
+                    spu.setImages(Joiner.on(",").join(list));
+                }
+            } else {
+                spu.setImages(oldImages);
+            }
+            flag = this.updateById(spu);
+            //获取spu的id
+            Long spuId = spu.getId();
+            //2.spu_detail
+            SpuDetail spuDetail = new SpuDetail();
+            spuDetail.setSpuId(spuId);
+            spuDetail.setDescription(description);
+            spuDetail.setPackingList(jsonObject.getString("packingList"));
+            spuDetail.setAfterService(jsonObject.getString("afterService"));
+            //spu_detail的generic_spec
+            if (!Strings.isNullOrEmpty(genericSpec)) {
+                spuDetail.setGenericSpec(genericSpec);
+            }
+            //spu_detail的special_spec
+            Map<String, List<String>> specialSpecMap = Maps.newHashMap();
+            List<SpecificationParam> paramList = specificationParamService.list(new QueryWrapper<SpecificationParam>().eq("category_id", spu.getCategoryId()).eq("generic", 0).orderByAsc("id"));
+            for (SpecificationParam specificationParam : paramList) {
+                Integer id = specificationParam.getId();
+                SpecialSpecView specialSpecView = JSON.parseObject(jsonObject.getString(id + ""), SpecialSpecView.class);
+                List<Value> dataSource = specialSpecView.getDataSource();
+                if (dataSource.size() > 0) {
+                    specialSpecMap.put(id + "", dataSource.stream().map(Value::getValue).collect(Collectors.toList()));
+                }
+            }
+            if (specialSpecMap.size() > 0) {
+                spuDetail.setSpecialSpec(JSON.toJSONString(specialSpecMap));
+            }
+            flag = flag && spuDetailService.updateById(spuDetail);
+            //3.sku
+            //先删除
+            flag = flag && skuService.remove(new QueryWrapper<Sku>().eq("spu_id", spuId));
+            SkuView skuView = JSON.parseObject(jsonObject.getString("skuItem"), SkuView.class);
+            List<Sku> skuList = skuView.getDataSource();
+            if (skuList.size() > 0) {
+                for (Sku sku : skuList) {
+                    sku.setSpuId(spuId);
+                    //title
+                    StringBuilder title = new StringBuilder(spu.getTitle());
+                    JSONObject skuSpecObject = JSON.parseObject(sku.getSkuSpec());
+                    for (SpecificationParam specificationParam : paramList) {
+                        Integer id = specificationParam.getId();
+                        String specValue = skuSpecObject.getString(id + "");
+                        if (!Strings.isNullOrEmpty(specValue)) {
+                            title.append(" ").append(specValue);
+                        }
+                    }
+                    sku.setTitle(title.toString());
+                }
+                //后保存
+                flag = flag && skuService.saveBatch(skuList);
+            }
+            //4.specSellerDefine
+            //先删除
+            flag = flag && specSellerDefineService.remove(new QueryWrapper<SpecSellerDefine>().eq("spu_id", spuId));
+            SpecSellerDefineView specSellerDefineView = JSON.parseObject(jsonObject.getString("specSellerDefine"), SpecSellerDefineView.class);
+            List<SpecSellerDefine> specSellerDefineList = specSellerDefineView.getDataSource();
+            if (specSellerDefineList.size() > 0) {
+                specSellerDefineList.forEach(tmp -> tmp.setSpuId(spuId));
+                //后保存
+                flag = flag && specSellerDefineService.saveBatch(specSellerDefineList);
+            }
+        } else if (GlobalConstants.complexSpecNo.equals(specType) || GlobalConstants.easySpec.equals(specType)) {
+            //1.spu
+            Spu spu = new Spu();
+            BeanUtils.copyProperties(spuView, spu);
+            //spu的images
+            if (newImages.length > 0) {
+                List<String> list = Lists.newArrayList();
+                for (MultipartFile imageFile : newImages) {
+                    String dbPath = UploadImageUtil.save(imageFile);
+                    list.add(dbPath);
+                }
+                if (!Strings.isNullOrEmpty(oldImages)) {
+                    spu.setImages(oldImages + "," + Joiner.on(",").join(list));
+                } else {
+                    spu.setImages(Joiner.on(",").join(list));
+                }
+            } else {
+                spu.setImages(oldImages);
+            }
+            flag = this.updateById(spu);
+            //获取spu的id
+            Long spuId = spu.getId();
+            //2.spu_detail
+            SpuDetail spuDetail = new SpuDetail();
+            spuDetail.setSpuId(spuId);
+            spuDetail.setDescription(description);
+            spuDetail.setPackingList(jsonObject.getString("packingList"));
+            spuDetail.setAfterService(jsonObject.getString("afterService"));
+            //spu_detail的generic_spec
+            if (!Strings.isNullOrEmpty(genericSpec)) {
+                spuDetail.setGenericSpec(genericSpec);
+            }
+            flag = flag && spuDetailService.updateById(spuDetail);
+            //3.sku
+            //先删除
+            flag = flag && skuService.remove(new QueryWrapper<Sku>().eq("spu_id", spuId));
+            SkuView skuView = JSON.parseObject(jsonObject.getString("skuItem"), SkuView.class);
+            List<Sku> skuList = skuView.getDataSource();
+            if (skuList.size() > 0) {
+                for (Sku sku : skuList) {
+                    sku.setSpuId(spuId);
+                    sku.setTitle(spu.getTitle());
+                }
+                //后保存
+                flag = flag && skuService.saveBatch(skuList);
+            }
+            //4.specSellerDefine
+            //先删除
+            flag = flag && specSellerDefineService.remove(new QueryWrapper<SpecSellerDefine>().eq("spu_id", spuId));
+            SpecSellerDefineView specSellerDefineView = JSON.parseObject(jsonObject.getString("specSellerDefine"), SpecSellerDefineView.class);
+            List<SpecSellerDefine> specSellerDefineList = specSellerDefineView.getDataSource();
+            if (specSellerDefineList.size() > 0) {
+                specSellerDefineList.forEach(tmp -> tmp.setSpuId(spuId));
+                //后保存
+                flag = flag && specSellerDefineService.saveBatch(specSellerDefineList);
+            }
+        }
+        return flag;
+    }
+
 
 }
