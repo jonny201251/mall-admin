@@ -82,8 +82,8 @@ public class SpuController {
 
     @PostMapping("/edit")
     @ResponseResult
-    public boolean edit(String oldImage,MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException {
-        return spuService.edit(oldImage,newImages, description, form, genericSpec);
+    public boolean edit(String oldImages,MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException {
+        return spuService.edit(oldImages,newImages, description, form, genericSpec);
     }
 
     //根据categoryId返回规格类型

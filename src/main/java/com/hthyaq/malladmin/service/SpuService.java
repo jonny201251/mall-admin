@@ -20,5 +20,5 @@ public interface SpuService extends IService<Spu> {
     //添加商品
     public Boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException;
 
-    public Boolean edit(String oldImage, MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException;
+    public Boolean edit(String oldImages, MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException;
 }
