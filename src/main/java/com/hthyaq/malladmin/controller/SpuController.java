@@ -11,15 +11,13 @@ import com.google.common.collect.Maps;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.UploadImageUtil;
-import com.hthyaq.malladmin.model.entity.SpecificationParam;
-import com.hthyaq.malladmin.model.entity.SpecificationParam2;
-import com.hthyaq.malladmin.model.entity.Spu;
+import com.hthyaq.malladmin.model.bean.ChildForm;
+import com.hthyaq.malladmin.model.entity.*;
 import com.hthyaq.malladmin.model.responseResult.GlobalResponseResult;
 import com.hthyaq.malladmin.model.vo.LabelName;
-import com.hthyaq.malladmin.service.SpecificationGroupService;
-import com.hthyaq.malladmin.service.SpecificationParam2Service;
-import com.hthyaq.malladmin.service.SpecificationParamService;
-import com.hthyaq.malladmin.service.SpuService;
+import com.hthyaq.malladmin.model.vo.SpuReverseView;
+import com.hthyaq.malladmin.service.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,11 +43,17 @@ public class SpuController {
     @Autowired
     private SpuService spuService;
     @Autowired
+    private SkuService skuService;
+    @Autowired
+    private SpuDetailService spuDetailService;
+    @Autowired
     private SpecificationGroupService specificationGroupService;
     @Autowired
     private SpecificationParamService specificationParamService;
     @Autowired
     private SpecificationParam2Service specificationParam2Service;
+    @Autowired
+    private SpecSellerDefineService specSellerDefineService;
 
     //将富文本编辑器的图片存储起来
     @PostMapping("/uploadImage")
@@ -125,5 +129,37 @@ public class SpuController {
             }
         }
         return map;
+    }
+
+    @GetMapping("/getById")
+    @ResponseResult
+    public SpuReverseView getById(Integer id) {
+        SpuReverseView spuReverseView = new SpuReverseView();
+        //spu
+        Spu spu = spuService.getById(id);
+        SpuDetail spuDetail = spuDetailService.getOne(new QueryWrapper<SpuDetail>().eq("spu_id", id));
+        //specSellerDefine
+        List<SpecSellerDefine> specSellerDefineList = specSellerDefineService.list(new QueryWrapper<SpecSellerDefine>().eq("spu_id", spu.getId()).orderByAsc("id"));
+        //sku
+        List<Sku> skuList = skuService.list(new QueryWrapper<Sku>().eq("spu_id", spu.getId()).orderByAsc("id"));
+
+        String specType = spuService.getSpecType(spu.getCategoryId());
+        if (GlobalConstants.complexSpecHave.equals(specType)) {
+
+        } else if (GlobalConstants.complexSpecNo.equals(specType)) {
+
+        } else if (GlobalConstants.easySpec.equals(specType)) {
+
+        }
+        //组装
+        BeanUtils.copyProperties(spu, spuReverseView);
+        BeanUtils.copyProperties(spuDetail, spuReverseView);
+        if (specSellerDefineList.size() > 0) {
+            ChildForm<SpecSellerDefine> specSellerDefineChildForm = new ChildForm<>();
+            specSellerDefineChildForm.setDataSource(specSellerDefineList);
+            spuReverseView.setSpecSellerDefine(specSellerDefineChildForm);
+        }
+        spuReverseView.setSkuList(skuList);
+        return spuReverseView;
     }
 }

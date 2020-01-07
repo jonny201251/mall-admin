@@ -65,22 +65,17 @@ public class Sku implements Serializable {
     /**
      * 是否上架，0下架，1上架
      */
-    private Boolean saleable;
+    private Integer saleable;
 
     /**
      * 是否有效，0无效，1有效
      */
-    private Boolean valid;
+    private Integer valid;
 
     /**
      * 商品货号，指卖家管理商品的编号，买家不可见
      */
     private String skuCode;
-
-    /**
-     * 是否有多条数据，0只有一条数据，1有
-     */
-    private Boolean type;
 
     /**
      * 添加时间
