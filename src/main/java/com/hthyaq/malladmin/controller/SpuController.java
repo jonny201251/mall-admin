@@ -163,4 +163,9 @@ public class SpuController {
         return spuReverseView;
     }
 
+    @GetMapping("/a")
+    @ResponseResult
+    public Map<String, Object> a(Long id){
+        return spuService.getItemData(id);
+    }
 }

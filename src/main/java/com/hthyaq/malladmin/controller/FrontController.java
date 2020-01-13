@@ -18,7 +18,6 @@ public class FrontController {
         return "front/cart";
     }
 
-
     @GetMapping("/item.html")
     public String item(Long id, Model model) {
         System.out.println(id);
@@ -27,7 +26,7 @@ public class FrontController {
         // 准备数据模型
         model.addAllAttributes(attributes);
         // 返回视图
-        return "front/item";
+        return "front/item-" + attributes.get("specType");
     }
 
     @GetMapping("/login.html")

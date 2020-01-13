@@ -41,6 +41,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     @Autowired
     private SpecificationParamService specificationParamService;
     @Autowired
+    private SpecificationParam2Service specificationParam2Service;
+    @Autowired
     private SpuDetailService spuDetailService;
     @Autowired
     private SkuService skuService;
@@ -121,7 +123,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                 for (Sku sku : skuList) {
                     sku.setSpuId(spuId);
                     //设置图片
-                    if(!Strings.isNullOrEmpty(spu.getImages())){
+                    if (!Strings.isNullOrEmpty(spu.getImages())) {
                         List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
                         sku.setImages(Joiner.on(",").join(skuImagesList));
                     }
@@ -179,6 +181,11 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (skuList.size() > 0) {
                 for (Sku sku : skuList) {
                     sku.setSpuId(spuId);
+                    //设置图片
+                    if (!Strings.isNullOrEmpty(spu.getImages())) {
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        sku.setImages(Joiner.on(",").join(skuImagesList));
+                    }
                     sku.setTitle(spu.getTitle());
                 }
                 flag = flag && skuService.saveBatch(skuList);
@@ -256,7 +263,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                 for (Sku sku : skuList) {
                     sku.setSpuId(spuId);
                     //设置图片
-                    if(!Strings.isNullOrEmpty(spu.getImages())){
+                    if (!Strings.isNullOrEmpty(spu.getImages())) {
                         List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
                         sku.setImages(Joiner.on(",").join(skuImagesList));
                     }
@@ -326,6 +333,11 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (skuList.size() > 0) {
                 for (Sku sku : skuList) {
                     sku.setSpuId(spuId);
+                    //设置图片
+                    if (!Strings.isNullOrEmpty(spu.getImages())) {
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        sku.setImages(Joiner.on(",").join(skuImagesList));
+                    }
                     sku.setTitle(spu.getTitle());
                 }
                 //后保存
@@ -348,24 +360,26 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     @Override
     public Map<String, Object> getItemData(Long spuId) {
         Map<String, Object> model = new HashMap<>();
-
         // 查询spu
         Spu spu = this.getById(spuId);
-
         // 查询skus
         List<Sku> skus = skuService.list(new QueryWrapper<Sku>().eq("spu_id", spuId));
-
         // 查询详情detail
         SpuDetail detail = spuDetailService.getById(spuId);
-
         // 查询brand
         Brand brand = brandService.getById(spu.getBrandId());
-
         // 查询商品的分类
         List<Category> categories = categoryService.getAllParenCategory(spu.getCategoryId());
-
-        // 查询规格参数
-        List<SpecialGroupView> specs = specificationGroupService.getSpecialByCategoryId(spu.getCategoryId());
+        String specType = this.getSpecType(spu.getCategoryId());
+        model.put("specType", specType);
+        // 查询-复杂规格参数
+        if (GlobalConstants.complexSpecHave.equals(specType) || GlobalConstants.complexSpecNo.equals(specType)) {
+            List<SpecialGroupView> specs = specificationGroupService.getSpecialByCategoryId(spu.getCategoryId());
+            model.put("specs", specs);
+        } else if (GlobalConstants.easySpec.equals(specType)) {
+            List<SpecificationParam2> specs = specificationParam2Service.list(new QueryWrapper<SpecificationParam2>().eq("category_id", spu.getCategoryId()));
+            model.put("specs", specs);
+        }
 
         model.put("title", spu.getTitle());
         model.put("subTitle", spu.getSubTitle());
@@ -373,9 +387,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         model.put("detail", detail);
         model.put("brand", brand);
         model.put("categories", categories);
-        model.put("specs", specs);
         return model;
     }
-
 
 }
