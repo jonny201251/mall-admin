@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
-    <title>宇淘商城--商品详情页</title>
+    <title th:text="${title}">商品详情页</title>
     <link rel="icon" href="front/img/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="front/css/webbase.css"/>
@@ -18,9 +18,11 @@
             display: inline-block;
             width: 300px;
         }
+
         .Ptable {
             margin: 10px 0;
         }
+
         .Ptable-item {
             padding: 12px 0;
             line-height: 220%;
@@ -28,15 +30,18 @@
             font-size: 12px;
             border-bottom: 1px solid #eee;
         }
+
         .Ptable-item h3 {
             width: 110px;
             text-align: right;
         }
+
         .Ptable-item h3, .package-list h3 {
             font-weight: 400;
             font-size: 12px;
             float: left;
         }
+
         h3 {
             display: block;
             font-size: 1.17em;
@@ -46,9 +51,11 @@
             -webkit-margin-end: 0px;
             font-weight: bold;
         }
+
         .Ptable-item dl {
             margin-left: 110px;
         }
+
         dl {
             display: block;
             -webkit-margin-before: 1em;
@@ -56,19 +63,23 @@
             -webkit-margin-start: 0px;
             -webkit-margin-end: 0px;
         }
+
         .Ptable-item dt {
             width: 160px;
             float: left;
             text-align: right;
             padding-right: 5px;
         }
+
         .Ptable-item dd {
             margin-left: 210px;
         }
+
         dd {
             display: block;
             -webkit-margin-start: 40px;
         }
+
         .package-list {
             padding: 12px 0;
             line-height: 220%;
@@ -76,10 +87,12 @@
             font-size: 12px;
             margin-top: -1px;
         }
+
         .package-list h3 {
             width: 130px;
             text-align: right;
         }
+
         .package-list p {
             margin-left: 155px;
             padding-right: 50px;
@@ -94,7 +107,109 @@
 <!--页面顶部，由js动态加载-->
 <div id="itemApp">
     <div id="nav-bottom">
-        <ly-top></ly-top>
+        <div class='nav-top'>
+            <div class='py-container'>
+                <div class='shortcut'>
+                    <ul class='fl'>
+                        <li class='f-item'>商城欢迎您！</li>
+                        <li class="f-item">请
+                            <a href="login.html" target="_blank">登录</a>
+                            <span>
+									<a href="register.html" target="_blank">免费注册</a>
+								</span>
+                        </li>
+                    </ul>
+                    <ul class='fr'>
+                        <li class='f-item'>我的订单</li>
+                        <li class='f-item space'></li>
+                        <li class='f-item'><a href='home.html' target='_blank'>我的商城</a></li>
+                        <li class='f-item space'></li>
+                        <li class='f-item'>商城会员</li>
+                        <li class='f-item space'></li>
+                        <li class='f-item'>企业采购</li>
+                        <li class='f-item space'></li>
+                        <li class='f-item'>关注商城</li>
+                        <li class='f-item space'></li>
+                        <li class='f-item' id='service'>
+                            <span>客户服务</span>
+                            <ul class='service'>
+                                <li><a href='/cooperation.html' target='_blank'>合作招商</a></li>
+                                <li><a href='/shoplogin.html' target='_blank'>商家后台</a></li>
+                                <li><a href='/cooperation.html' target='_blank'>合作招商</a></li>
+                                <li><a href='#'>商家后台</a></li>
+                            </ul>
+                        </li>
+                        <li class='f-item space'></li>
+                        <li class='f-item'>网站导航</li>
+                    </ul>
+                </div>
+            </div>
+            <!--头部-->
+            <div class='header' id='headApp'>
+                <div class='py-container'>
+                    <div class='yui3-g Logo'>
+                        <div class='yui3-u Left logoArea'>
+                            <a class='logo-bd' title='商城' href='index.html' target='_blank'></a>
+                        </div>
+                        <div class='yui3-u Center searchArea'>
+                            <div class='search'>
+                                <form action='' class='sui-form form-inline'>
+                                    <!--searchAutoComplete-->
+                                    <div class='input-append'>
+                                        <input type='text' id='autocomplete' class='input-error input-xxlarge'/>
+                                        <button class='sui-btn btn-xlarge btn-danger' type='button'>搜索</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class='hotwords'>
+                                <ul>
+                                    <li class='f-item'>商城首发</li>
+                                    <li class='f-item'>亿元优惠</li>
+                                    <li class='f-item'>9.9元团购</li>
+                                    <li class='f-item'>每满99减30</li>
+                                    <li class='f-item'>亿元优惠</li>
+                                    <li class='f-item'>9.9元团购</li>
+                                    <li class='f-item'>办公用品</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class='yui3-u Right shopArea'>
+                            <div class='fr shopcar'>
+                                <div class='show-shopcar' id='shopcar'>
+                                    <span class='car'></span>
+                                    <a class='sui-btn btn-default btn-xlarge' href='cart.html' target='_blank'>
+                                        <span>我的购物车</span>
+                                        <i class='shopnum'>0</i>
+                                    </a>
+                                    <div class='clearfix shopcarlist' id='shopcarlist' style='display:none'>
+                                        <p>'啊哦，你的购物车还没有商品哦！'</p>
+                                        <p>'啊哦，你的购物车还没有商品哦！'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='yui3-g NavList'>
+                        <div class='yui3-u Left all-sort'>
+                            <h4>商城精品</h4>
+                        </div>
+                        <div class='yui3-u Center navArea'>
+                            <ul class='nav'>
+                                <li class='f-item'>服装城</li>
+                                <li class='f-item'>美妆馆</li>
+                                <li class='f-item'>品优超市</li>
+                                <li class='f-item'>全球购</li>
+                                <li class='f-item'>闪购</li>
+                                <li class='f-item'>团购</li>
+                                <li class='f-item'>有趣</li>
+                                <li class='f-item'><a href='seckill-index.html' target='_blank'>秒杀</a></li>
+                            </ul>
+                        </div>
+                        <div class='yui3-u Right'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="py-container">
         <div id="item">
@@ -144,36 +259,7 @@
                         <div class="summary-wrap">
                             <div class="fl title"><i>价　　格</i></div>
                             <div class="fl price">
-                                <i>¥</i><em v-text="ly.formatPrice(sku.price)"></em><span>降价通知</span>
-                            </div>
-                            <div class="fr remark"><i>累计评价</i><em>612188</em></div>
-                        </div>
-                        <div class="summary-wrap">
-                            <div class="fl title">
-                                <i>促　　销</i>
-                            </div>
-                            <div class="fl fix-width">
-                                <i class="red-bg">加价购</i>
-                                <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换
-                                    购热销商品</em>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="support">
-                        <div class="summary-wrap">
-                            <div class="fl title">
-                                <i>支　　持</i>
-                            </div>
-                            <div class="fl fix-width">
-                                <em class="t-gray">以旧换新，闲置手机回收 4G套餐超值抢 礼品购</em>
-                            </div>
-                        </div>
-                        <div class="summary-wrap">
-                            <div class="fl title">
-                                <i>配 送 至</i>
-                            </div>
-                            <div class="fl fix-width">
-                                <em class="t-gray">上海 <span v-text="sku.stock > 0 ? '有货' : '缺货'"></span></em>
+                                <i>¥</i><em v-text="sku.price"></em>
                             </div>
                         </div>
                     </div>
@@ -182,7 +268,7 @@
                             <dl v-for="(options,id) in specialSpec" :key="id">
                                 <dt>
                                     <div class="fl title">
-                                        <i v-text="params[id]"></i>
+                                        <i v-text="params[id]" style="display:inline-block;width:48px;"></i>
                                     </div>
                                 </dt>
                                 <dd v-for="(o,i) in options" :key="i" @click="selectSku(id,i)">
@@ -343,109 +429,29 @@
                     </div>
                 </div>
                 <div class="fr detail">
-                    <div class="clearfix fitting">
-                        <h4 class="kt">选择搭配</h4>
-                        <div class="good-suits">
-                            <div class="fl master">
-                                <div class="list-wrap">
-                                    <div class="p-img">
-                                        <img src="front/img/_/l-m01.png"/>
-                                    </div>
-                                    <em>￥5299</em>
-                                    <i>+</i>
-                                </div>
-                            </div>
-                            <div class="fl suits">
-                                <ul class="suit-list">
-                                    <li class="">
-                                        <div id="e">
-                                            <img src="front/img/_/dp01.png"/>
-                                        </div>
-                                        <i>Feless费勒斯VR</i>
-                                        <label data-toggle="checkbox" class="checkbox-pretty">
-                                            <input type="checkbox"><span>39</span>
-                                        </label>
-                                    </li>
-                                    <li class="">
-                                        <div id="1"><img src="front/img/_/dp02.png"/></div>
-                                        <i>Feless费勒斯VR</i>
-                                        <label data-toggle="checkbox" class="checkbox-pretty">
-                                            <input type="checkbox"><span>50</span>
-                                        </label>
-                                    </li>
-                                    <li class="">
-                                        <div id="2"><img src="front/img/_/dp03.png"/></div>
-                                        <i>Feless费勒斯VR</i>
-                                        <label data-toggle="checkbox" class="checkbox-pretty">
-                                            <input type="checkbox"><span>59</span>
-                                        </label>
-                                    </li>
-                                    <li class="">
-                                        <div id="3"><img src="front/img/_/dp04.png"/></div>
-                                        <i>Feless费勒斯VR</i>
-                                        <label data-toggle="checkbox" class="checkbox-pretty">
-                                            <input type="checkbox"><span>99</span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="fr result">
-                                <div class="num">已选购0件商品</div>
-                                <div class="price-tit"><strong>套餐价</strong></div>
-                                <div class="price">￥5299</div>
-                                <button class="sui-btn  btn-danger addshopcar">加入购物车</button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="tab-main intro">
                         <ul class="sui-nav nav-tabs tab-wraped">
                             <li class="active">
                                 <a href="#one" data-toggle="tab">
-                                    <span>商品介绍</span>
+                                    <span>商品详情</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#two" data-toggle="tab">
-                                    <span>规格与包装</span>
+                                    <span>规格参数</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#three" data-toggle="tab">
-                                    <span>售后保障</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#four" data-toggle="tab">
-                                    <span>商品评价</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#five" data-toggle="tab">
-                                    <span>手机社区</span>
+                                    <span>包装售后</span>
                                 </a>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
                         <div class="tab-content tab-wraped">
                             <div id="one" class="tab-pane active">
-                                <ul class="goods-intro-list unstyled" style="list-style: none;">
-                                    <li>分辨率：1920*1080(FHD)</li>
-                                    <li>后置摄像头：1200万像素</li>
-                                    <li>前置摄像头：500万像素</li>
-                                    <li>核 数：其他</li>
-                                    <li>频 率：以官网信息为准</li>
-                                    <li>品牌： Apple</li>
-                                    <li>商品名称：APPLEiPhone 6s Plus</li>
-                                    <li>商品编号：1861098</li>
-                                    <li>商品毛重：0.51kg</li>
-                                    <li>商品产地：中国大陆</li>
-                                    <li>热点：指纹识别，Apple Pay，金属机身，拍照神器</li>
-                                    <li>系统：苹果（IOS）</li>
-                                    <li>像素：1000-1600万</li>
-                                    <li>机身内存：64GB</li>
-                                </ul>
                                 <!--商品详情-->
-                                <div class="intro-detail">
+                                <div class="intro-detail" style="text-align: center">
                                     <div th:utext="${detail.description}"></div>
                                 </div>
                             </div>
@@ -460,152 +466,170 @@
                                         </dl>
                                     </div>
                                 </div>
-                                <div class="package-list">
-                                    <h3>包装清单</h3>
-                                    <p th:text="${detail.packingList}">手机X1、快速指南X1、华为SuperCharge 充电器X1、三包凭证X1、Type-C
-                                        数字耳机X1、Type-C 数据线X1、取卡针X1、TPU保护壳X1、USB Type-C转3.5mm耳机转接线X1（备注：最终以实物为准）</p>
-                                </div>
-
                             </div>
                             <div id="three" class="tab-pane">
                                 <p th:text="${detail.afterService}">售后保障</p>
-                            </div>
-                            <div id="four" class="tab-pane">
-                                <p>商品评价</p>
-                            </div>
-                            <div id="five" class="tab-pane">
-                                <p>手机社区</p>
+                                <p th:text="${detail.packingList}">包装清单</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--like-->
-            <div class="clearfix"></div>
-            <div class="like">
-                <h4 class="kt">猜你喜欢</h4>
-                <div class="like-list">
-                    <ul class="yui3-g">
-                        <li class="yui3-u-1-6">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="front/img/_/itemlike01.png"/>
+        </div>
+    </div>
+    <div class='py-container'>
+        <!-- 底部栏位 -->
+        <!--页面底部-->
+        <div class="clearfix footer">
+            <div class="py-container">
+                <div class="footlink">
+                    <div class="Mod-service">
+                        <ul class="Mod-Service-list">
+                            <li class="grid-service-item intro  intro1">
+
+                                <i class="serivce-item fl"></i>
+                                <div class="service-text">
+                                    <h4>正品保障</h4>
+                                    <p>正品保障，提供发票</p>
                                 </div>
-                                <div class="attr">
-                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+
+                            </li>
+                            <li class="grid-service-item  intro intro2">
+
+                                <i class="serivce-item fl"></i>
+                                <div class="service-text">
+                                    <h4>正品保障</h4>
+                                    <p>正品保障，提供发票</p>
                                 </div>
-                                <div class="price">
-                                    <strong>
-                                        <em>¥</em>
-                                        <i>3699.00</i>
-                                    </strong>
+
+                            </li>
+                            <li class="grid-service-item intro  intro3">
+
+                                <i class="serivce-item fl"></i>
+                                <div class="service-text">
+                                    <h4>正品保障</h4>
+                                    <p>正品保障，提供发票</p>
                                 </div>
-                                <div class="commit">
-                                    <i class="command">已有6人评价</i>
+
+                            </li>
+                            <li class="grid-service-item  intro intro4">
+
+                                <i class="serivce-item fl"></i>
+                                <div class="service-text">
+                                    <h4>正品保障</h4>
+                                    <p>正品保障，提供发票</p>
                                 </div>
+
+                            </li>
+                            <li class="grid-service-item intro intro5">
+
+                                <i class="serivce-item fl"></i>
+                                <div class="service-text">
+                                    <h4>正品保障</h4>
+                                    <p>正品保障，提供发票</p>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix Mod-list">
+                        <div class="yui3-g">
+                            <div class="yui3-u-1-6">
+                                <h4>购物指南</h4>
+                                <ul class="unstyled">
+                                    <li>购物流程</li>
+                                    <li>会员介绍</li>
+                                    <li>生活旅行/团购</li>
+                                    <li>常见问题</li>
+                                    <li>购物指南</li>
+                                </ul>
+
                             </div>
-                        </li>
-                        <li class="yui3-u-1-6">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="front/img/_/itemlike02.png"/>
-                                </div>
-                                <div class="attr">
-                                    <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                                </div>
-                                <div class="price">
-                                    <strong>
-                                        <em>¥</em>
-                                        <i>4388.00</i>
-                                    </strong>
-                                </div>
-                                <div class="commit">
-                                    <i class="command">已有700人评价</i>
-                                </div>
+                            <div class="yui3-u-1-6">
+                                <h4>配送方式</h4>
+                                <ul class="unstyled">
+                                    <li>上门自提</li>
+                                    <li>211限时达</li>
+                                    <li>配送服务查询</li>
+                                    <li>配送费收取标准</li>
+                                    <li>海外配送</li>
+                                </ul>
                             </div>
-                        </li>
-                        <li class="yui3-u-1-6">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="front/img/_/itemlike03.png"/>
-                                </div>
-                                <div class="attr">
-                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                </div>
-                                <div class="price">
-                                    <strong>
-                                        <em>¥</em>
-                                        <i>4088.00</i>
-                                    </strong>
-                                </div>
-                                <div class="commit">
-                                    <i class="command">已有700人评价</i>
-                                </div>
+                            <div class="yui3-u-1-6">
+                                <h4>支付方式</h4>
+                                <ul class="unstyled">
+                                    <li>货到付款</li>
+                                    <li>在线支付</li>
+                                    <li>分期付款</li>
+                                    <li>邮局汇款</li>
+                                    <li>公司转账</li>
+                                </ul>
                             </div>
-                        </li>
-                        <li class="yui3-u-1-6">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="front/img/_/itemlike04.png"/>
-                                </div>
-                                <div class="attr">
-                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                </div>
-                                <div class="price">
-                                    <strong>
-                                        <em>¥</em>
-                                        <i>4088.00</i>
-                                    </strong>
-                                </div>
-                                <div class="commit">
-                                    <i class="command">已有700人评价</i>
-                                </div>
+                            <div class="yui3-u-1-6">
+                                <h4>售后服务</h4>
+                                <ul class="unstyled">
+                                    <li>售后政策</li>
+                                    <li>价格保护</li>
+                                    <li>退款说明</li>
+                                    <li>返修/退换货</li>
+                                    <li>取消订单</li>
+                                </ul>
                             </div>
-                        </li>
-                        <li class="yui3-u-1-6">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="front/img/_/itemlike05.png"/>
-                                </div>
-                                <div class="attr">
-                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                </div>
-                                <div class="price">
-                                    <strong>
-                                        <em>¥</em>
-                                        <i>4088.00</i>
-                                    </strong>
-                                </div>
-                                <div class="commit">
-                                    <i class="command">已有700人评价</i>
-                                </div>
+                            <div class="yui3-u-1-6">
+                                <h4>特色服务</h4>
+                                <ul class="unstyled">
+                                    <li>夺宝岛</li>
+                                    <li>DIY装机</li>
+                                    <li>延保服务</li>
+                                    <li>品优购E卡</li>
+                                    <li>品优购通信</li>
+                                </ul>
                             </div>
-                        </li>
-                        <li class="yui3-u-1-6">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="front/img/_/itemlike06.png"/>
-                                </div>
-                                <div class="attr">
-                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                </div>
-                                <div class="price">
-                                    <strong>
-                                        <em>¥</em>
-                                        <i>4088.00</i>
-                                    </strong>
-                                </div>
-                                <div class="commit">
-                                    <i class="command">已有700人评价</i>
-                                </div>
+                            <div class="yui3-u-1-6">
+                                <h4>帮助中心</h4>
+                                <img src="front/img/wx_cz.jpg">
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
+                    <div class="Mod-copyright">
+                        <ul class="helpLink">
+                            <li>关于我们
+                                <span class="space"></span>
+                            </li>
+                            <li>联系我们
+                                <span class="space"></span>
+                            </li>
+                            <li>关于我们
+                                <span class="space"></span>
+                            </li>
+                            <li>商家入驻
+                                <span class="space"></span>
+                            </li>
+                            <li>营销中心
+                                <span class="space"></span>
+                            </li>
+                            <li>友情链接
+                                <span class="space"></span>
+                            </li>
+                            <li>关于我们
+                                <span class="space"></span>
+                            </li>
+                            <li>营销中心
+                                <span class="space"></span>
+                            </li>
+                            <li>友情链接
+                                <span class="space"></span>
+                            </li>
+                            <li>关于我们</li>
+                        </ul>
+                        <p>地址：北京市丰台区云岗西路7号 邮编：100096 电话：400-618-4000 传真：010-82935100</p>
+                        <p>京ICP备08001421号京公网安备110108007702</p>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--页面底部END-->
     </div>
-
 </div>
 <script src="front/js/vue/vue.js"></script>
 <script src="front/js/axios.min.js"></script>
@@ -693,7 +717,7 @@
             },
             locked(id, i) {
                 // 如果只有一个可选项，永不锁定
-                if(specialSpec[id].length === 1) return false;
+                if (specialSpec[id].length === 1) return false;
                 // 如果有其它项未选，不锁定
                 let boo = true;
                 Object.keys(this.indexes).forEach(key => {
