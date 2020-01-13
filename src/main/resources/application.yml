@@ -73,6 +73,8 @@ spring:
   devtools:
     restart:
       enabled: true
+  thymeleaf:
+    cache: false
 #mybatis plus配置
 mybatis-plus:
   type-aliases-package: com.hthyaq.malladmin.model.entity

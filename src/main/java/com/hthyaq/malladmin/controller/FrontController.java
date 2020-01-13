@@ -2,6 +2,7 @@ package com.hthyaq.malladmin.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class FrontController {
@@ -91,8 +92,11 @@ public class FrontController {
     }
 
     @GetMapping("/item.html")
-    public String item() {
-        return "front/item";
+    public ModelAndView item(Long id) {
+        System.out.println(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("front/item");
+        return modelAndView;
     }
 
     @GetMapping("/login.html")
