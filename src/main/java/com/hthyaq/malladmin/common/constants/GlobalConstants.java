@@ -24,9 +24,11 @@ public class GlobalConstants {
     public static final String IMAGE_BRAND_PATH = "/image/brand/";
     //发布商品时的表单类型
     //复杂-有特有规格
-    public static final String complexSpecHave="complexSpecHave";
+    public static final String complexSpecHave = "complexSpecHave";
     //复杂-无特有规格
-    public static final String complexSpecNo="complexSpecNo";
+    public static final String complexSpecNo = "complexSpecNo";
     //简单规格
-    public static final String easySpec="easySpec";
+    public static final String easySpec = "easySpec";
+    //项目名称
+    public static final String PROJECT_PATH = "http://localhost:8082/mall";
 }

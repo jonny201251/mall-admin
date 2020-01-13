@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +120,11 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (skuList.size() > 0) {
                 for (Sku sku : skuList) {
                     sku.setSpuId(spuId);
+                    //设置图片
+                    if(!Strings.isNullOrEmpty(spu.getImages())){
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        sku.setImages(Joiner.on(",").join(skuImagesList));
+                    }
                     //title
                     StringBuilder title = new StringBuilder(spu.getTitle());
                     JSONObject skuSpecObject = JSON.parseObject(sku.getSkuSpec());
@@ -249,6 +255,11 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (skuList.size() > 0) {
                 for (Sku sku : skuList) {
                     sku.setSpuId(spuId);
+                    //设置图片
+                    if(!Strings.isNullOrEmpty(spu.getImages())){
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        sku.setImages(Joiner.on(",").join(skuImagesList));
+                    }
                     //title
                     StringBuilder title = new StringBuilder(spu.getTitle());
                     JSONObject skuSpecObject = JSON.parseObject(sku.getSkuSpec());
