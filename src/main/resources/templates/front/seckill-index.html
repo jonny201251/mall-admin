@@ -4,118 +4,67 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-	<title>商城秒杀-正品秒杀！</title>
-	<link rel="icon" href="front/img/favicon.ico">
+	<title>乐优商城--秒杀页面</title>
+	<link rel="icon" href="/assets/img/favicon.ico">
 
 
-    <link rel="stylesheet" type="text/css" href="front/css/all.css" />
-    <link rel="stylesheet" type="text/css" href="front/css/pages-seckill-index.css" />
+    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-jquery.autocomplete.css" />
+    <link rel="stylesheet" type="text/css" href="css/pages-seckill-index.css" />
 </head>
 
 <body>
+
 	<!-- 头部栏位 -->
-	<!--页面顶部-->
-<div id="nav-bottom">
-	<!--顶部-->
-	<div class="nav-top">
-		<div class="top">
-			<div class="py-container">
-				<div class="shortcut">
-					<ul class="fl">
-						<li class="f-item">商城欢迎您！</li>
-						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
-					</ul>
-					<div class="fr typelist">
-						<ul class="types">
-							<li class="f-item"><span>我的订单</span></li>
-							
-							<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-							<li class="f-item"><span><a href="home.html" target="_blank">我的商城</a></span></li>			
-							<li class="f-item"><span>商城会员</span></li>						
-							<li class="f-item"><span>企业采购</span></li>						
-							<li class="f-item"><span>关注商城</span></li>
-							<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-							<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>				
-							<li class="f-item"><span>网站导航</li>
-						</ul>
-					</div>
-					
-				</div>
-			</div>
-		</div>
+	<!--页面顶部，由js动态加载-->
+	<script type="text/javascript" src="plugins/jquery/jquery.min.js"></script>
+	<div id="nav-bottom"></div>
+    <script type="text/javascript">$("#nav-bottom").load("top.html");</script>
+	
 
-		<!--头部-->
-		<div class="header">
-			<div class="py-container">
-				<div class="yui3-g Logo">
-					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="商城" href="index.html" target="_blank"></a>
-					</div>
-					<div class="yui3-u Rit searchArea">
-						<div class="search">
-							<form action="" class="sui-form form-inline">
-								<!--searchAutoComplete-->
-								<div class="input-append">
-									<input type="text" id="autocomplete"  class="input-error input-xxlarge" />
-									<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
-								</div>
-							</form>
-						</div>
-					</div>
-					
-				</div>
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#service").hover(function(){
+		$(".service").show();
+	},function(){
+		$(".service").hide();
+	});
+	$("#shopcar").hover(function(){
+		$("#shopcarlist").show();
+	},function(){
+		$("#shopcarlist").hide();
+	});
 
-			</div>
-		</div>
-	</div>
-</div>
-
+})
+</script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/widget/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="js/widget/nav.js"></script>
+<script type="text/javascript" src="js/pages/seckill-index.js"></script>
+<script>
+	   $(function(){
+		   $("#code").hover(function(){
+			   $(".erweima").show();
+		   },function(){
+			   $(".erweima").hide();
+		   });
+	   })
+	</script>
+</body>
 
 	<div class="py-container index">
 		<!--banner-->
 		<div class="banner">
-			<img src="front/img/_/banner.png" class="img-responsive" alt="">
+			<img src="img/_/banner.png" class="img-responsive" alt="">
 		</div>
-		<!--秒杀时间-->
-		<div class="sectime">
-			<div class="item-time active">
-				<div class="time-clock">12:00</div>
-				<div class="time-state-on">
-					<span class="on-text">快抢中</span>
-					<span class="on-over">距离结束：01:02:34</span>
-				</div>
-			</div>
-			<div class="item-time">
-				<div class="time-clock">14:00</div>
-				<div class="time-state-will">
-					<span>即将开始</span>
-				</div>
-			</div>
-			<div class="item-time">
-				<div class="time-clock">16:00</div>
-				<div class="time-state-will">
-					<span>即将开始</span>
-				</div>
-			</div>
-			<div class="item-time">
-				<div class="time-clock">18:00</div>
-				<div class="time-state-will">
-					<span>即将开始</span>
-				</div>
-			</div>
-			<div class="item-time">
-				<div class="time-clock">20:00</div>
-				<div class="time-state-will">
-					<span>即将开始</span>
-				</div>
-			</div>
-		</div>
+
 		<!--商品列表-->
 		<div class="goods-list">
 			<ul class="seckill" id="seckill">
-				<li class="seckill-item">
-					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+				<li class="seckill-item" >
+					<div class="pic" onclick="location.href='seckill-item.html'">
+						<img src="img/_/list.jpg" alt=''  >
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -130,7 +79,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -145,7 +94,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -160,7 +109,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -175,7 +124,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -190,7 +139,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -205,7 +154,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -220,7 +169,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -235,7 +184,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -250,7 +199,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -265,7 +214,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -280,7 +229,7 @@
 				</li>
 				<li class="seckill-item">
 					<div class="pic">
-						<img src="front/img/_/list.jpg" alt=''>
+						<img src="img/_/list.jpg" alt=''>
 					</div>
 					<div class="intro"><span>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</span></div>
 					<div class='price'><b class='sec-price'>￥6088</b><b class='ever-price'>￥6988</b></div>
@@ -299,84 +248,23 @@
 		</div>
 		<div class="cd-top">
 			<div class="top">
-				<img src="front/img/_/gotop.png" />
+				<img src="img/_/gotop.png" />
 				<b>TOP</b>
 			</div>
 			<div class="code" id="code">
-				<span><img src="front/img/_/code.png"/></span>
+				<span><img src="img/_/code.png"/></span>
 			</div>
 			<div class="erweima">
-				<img src="front/img/_/erweima.jpg" alt="">
+				<img src="img/_/erweima.jpg" alt="">
 				<s></s>
 			</div>
 		</div>
 	</div>
 
-	<!--回到顶部-->
-
 	<!-- 底部栏位 -->
-	<!--页面底部-->
-<div class="clearfix footer">
-	<div class="py-container">
-		<div class="footlink">
-			<div class="clearfix Mod-list">
-				<div class="yui3-g">
-					<div class="yui3-u-1-6">
-						<h4>购物指南</h4>
-						<ul class="unstyled">
-							<li>购物流程</li>
-							<li>会员介绍</li>
-							<li>常见问题</li>
-							<li>购物指南</li>
-						</ul>
-
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>配送方式</h4>
-						<ul class="unstyled">
-							<li>上门自提</li>
-							<li>物流介绍</li>
-							<li>物流查询</li>
-							<li>配送费收取标准</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>支付方式</h4>
-						<ul class="unstyled">
-							<li>货到付款</li>
-							<li>在线支付</li>
-							<li>分期付款</li>
-							<li>邮局汇款</li>
-							<li>公司转账</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>售后服务</h4>
-						<ul class="unstyled">
-							<li>售后政策</li>
-							<li>价格保护</li>
-							<li>退款说明</li>
-							<li>返修/退换货</li>
-							<li>取消订单</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>帮助中心</h4>
-						<img src="front/img/wx_cz.jpg">
-					</div>
-				</div>
-			</div>
-			<div class="Mod-copyright">
-				<p>地址：北京市丰台区云岗西路7号 邮编：100074 电话：010-68740186</p>
-				<p>京ICP备17003024号</p>
-			</div>
-		</div>
-	</div>
-</div>
-<!--页面底部END-->
-	
-
-
-</body>
+	<!--页面底部，由js动态加载-->
+	<div class="clearfix footer"></div>
+	<script type="text/javascript">$(".footer").load("foot.html");</script>
+	<!--页面底部END-->
 
 </html>
