@@ -94,7 +94,7 @@ const lyTop = {
         this.key = this.getUrlParam("key");
     },
     components: {
-        shortcut:() => import('./shortcut.js')
+        shortcut:() => import('front/js/pages/shortcut.js')
     }
 }
 export default lyTop;

@@ -12,10 +12,7 @@ import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.UploadImageUtil;
 import com.hthyaq.malladmin.mapper.SpuMapper;
 import com.hthyaq.malladmin.model.entity.*;
-import com.hthyaq.malladmin.model.vo.SkuView;
-import com.hthyaq.malladmin.model.vo.SpecSellerDefineView;
-import com.hthyaq.malladmin.model.vo.SpecialSpecView;
-import com.hthyaq.malladmin.model.vo.Value;
+import com.hthyaq.malladmin.model.vo.*;
 import com.hthyaq.malladmin.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,6 +45,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     private SkuService skuService;
     @Autowired
     private SpecSellerDefineService specSellerDefineService;
+    @Autowired
+    private BrandService brandService;
+    @Autowired
+    private CategoryService categoryService;
 
     //规格类型--以后放入缓存中
     public String getSpecType(Integer categoryId) {
@@ -330,6 +332,38 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             }
         }
         return flag;
+    }
+
+    @Override
+    public Map<String, Object> getItemData(Long spuId) {
+        Map<String, Object> model = new HashMap<>();
+
+        // 查询spu
+        Spu spu = this.getById(spuId);
+
+        // 查询skus
+        List<Sku> skus = skuService.list(new QueryWrapper<Sku>().eq("spu_id", spuId));
+
+        // 查询详情detail
+        SpuDetail detail = spuDetailService.getById(spuId);
+
+        // 查询brand
+        Brand brand = brandService.getById(spu.getBrandId());
+
+        // 查询商品的分类
+        List<Category> categories = categoryService.getAllParenCategory(spu.getCategoryId());
+
+        // 查询规格参数
+        List<SpecialGroupView> specs = specificationGroupService.getSpecialByCategoryId(spu.getCategoryId());
+
+        model.put("title", spu.getTitle());
+        model.put("subTitle", spu.getSubTitle());
+        model.put("skus", skus);
+        model.put("detail", detail);
+        model.put("brand", brand);
+        model.put("categories", categories);
+        model.put("specs", specs);
+        return model;
     }
 
 

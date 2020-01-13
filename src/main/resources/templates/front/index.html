@@ -7,10 +7,10 @@
 	<title>乐优商城--首页</title>
 	 <link rel="icon" href="assets/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
-    <link rel="stylesheet" type="text/css" href="css/pages-JD-index.css" />
-    <link rel="stylesheet" type="text/css" href="css/widget-jquery.autocomplete.css" />
-    <link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css" />
+    <link rel="stylesheet" type="text/css" href="front/css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="front/css/pages-JD-index.css" />
+    <link rel="stylesheet" type="text/css" href="front/css/widget-jquery.autocomplete.css" />
+    <link rel="stylesheet" type="text/css" href="front/css/widget-cartPanelView.css" />
 
 </head>
 
@@ -21,14 +21,14 @@
 		<ly-top/>
 	</div>
 	<!--页面顶部，由js动态加载-->
-	<script src="./js/vue/vue.js"></script>
-	<script src="./js/axios.min.js"></script>
-	<script src="./js/common.js"></script>
+	<script src="front/js/vue/vue.js"></script>
+	<script src="front/js/axios.min.js"></script>
+	<script src="front/js/common.js"></script>
 	<script type="text/javascript">
         var indexVm = new Vue({
             el:"#nav-bottom",
             components:{
-                lyTop:() => import('./js/pages/top.js')
+                lyTop:() => import('front/js/pages/top.js')
 			}
         });
 	</script>

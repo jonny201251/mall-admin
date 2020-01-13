@@ -6,8 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.utils.cascade.CascadeUtil;
 import com.hthyaq.malladmin.common.utils.cascade.CascadeView;
@@ -21,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -99,33 +98,8 @@ public class CategoryController {
     //根据categoryId获取所有父级节点的名称,以后这个这个重写
     @GetMapping("/categoryNames")
     public List<String> categoryNames(Integer categoryId) {
-        List<String> list = Lists.newArrayList();
-        String tmp1 = null;
-        String tmp2 = null;
-        String tmp3 = null;
-        Category catTmp3 = categoryService.getById(categoryId);
-        if (catTmp3 != null) {
-            tmp3 = catTmp3.getName();
-            if (catTmp3.getPid() != 0) {
-                Category catTmp2 = categoryService.getById(catTmp3.getPid());
-                tmp2 = catTmp2.getName();
-                if (catTmp2.getPid() != 0) {
-                    Category catTmp1 = categoryService.getById(catTmp2.getPid());
-                    tmp1 = catTmp1.getName();
-                }
-            }
-        }
-
-        if (!Strings.isNullOrEmpty(tmp1)) {
-            list.add(tmp1);
-        }
-        if (!Strings.isNullOrEmpty(tmp2)) {
-            list.add(tmp2);
-        }
-        if (!Strings.isNullOrEmpty(tmp3)) {
-            list.add(tmp3);
-        }
-        return list;
+        List<Category> data = categoryService.getAllParenCategory(categoryId);
+        return data.stream().map(Category::getName).collect(Collectors.toList());
     }
 
 }

@@ -162,4 +162,10 @@ public class SpuController {
         spuReverseView.setType(specType);
         return spuReverseView;
     }
+
+    @GetMapping("/a")
+    @ResponseResult
+    public Map<String, Object> a(){
+        return spuService.getItemData(1L);
+    }
 }

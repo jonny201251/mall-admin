@@ -5,6 +5,7 @@ import com.hthyaq.malladmin.model.entity.Spu;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,4 +22,6 @@ public interface SpuService extends IService<Spu> {
     public Boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException;
 
     public Boolean edit(String oldImages, MultipartFile[] newImages, String description, String form, String genericSpec) throws IOException;
+    //获取用户页面需要的数据
+    public Map<String,Object> getItemData(Long spuId);
 }

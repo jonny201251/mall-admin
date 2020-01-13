@@ -1,7 +1,9 @@
 package com.hthyaq.malladmin.service;
 
-import com.hthyaq.malladmin.model.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hthyaq.malladmin.model.entity.Category;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-09-25
  */
 public interface CategoryService extends IService<Category> {
-
+    //根据categoryId获取所有父级节点的名称
+    List<Category> getAllParenCategory(Integer categoryId);
 }

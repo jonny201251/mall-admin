@@ -40,4 +40,5 @@ public class SpecificationGroup implements Serializable {
      * 排序
      */
     private Double sort;
+
 }
