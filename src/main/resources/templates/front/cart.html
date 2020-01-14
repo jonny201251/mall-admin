@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
     <title>乐优商城--购物车页面</title>
 
-    <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
-    <link rel="stylesheet" type="text/css" href="css/pages-cart.css"/>
+    <link rel="stylesheet" type="text/css" href="front/css/webbase.css"/>
+    <link rel="stylesheet" type="text/css" href="front/css/pages-cart.css"/>
 </head>
 
 <body>
@@ -145,7 +145,7 @@
                                 <div class="active item">
                                     <ul>
                                         <li>
-                                            <img src="img/like1.png"/>
+                                            <img src="front/img/like1.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -158,7 +158,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <img src="img/like2.png"/>
+                                            <img src="front/img/like2.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -171,7 +171,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <img src="img/like3.png"/>
+                                            <img src="front/img/like3.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -184,7 +184,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <img src="img/like4.png"/>
+                                            <img src="front/img/like4.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -201,7 +201,7 @@
                                 <div class="item">
                                     <ul>
                                         <li>
-                                            <img src="img/like1.png"/>
+                                            <img src="front/img/like1.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -214,7 +214,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <img src="img/like2.png"/>
+                                            <img src="front/img/like2.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -227,7 +227,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <img src="img/like3.png"/>
+                                            <img src="front/img/like3.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -240,7 +240,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <img src="img/like4.png"/>
+                                            <img src="front/img/like4.png"/>
                                             <div class="intro">
                                                 <i>Apple苹果iPhone 6s (A1699)</i>
                                             </div>
@@ -268,9 +268,9 @@
     </div>
 
 </div>
-<script src="./js/vue/vue.js"></script>
-<script src="./js/axios.min.js"></script>
-<script src="./js/common.js"></script>
+<script src="front/js/vue/vue.js"></script>
+<script src="front/js/axios.min.js"></script>
+<script src="front/js/common.js"></script>
 <script type="text/javascript">
     var cartVm = new Vue({
         el: "#cartApp",
@@ -438,21 +438,18 @@
             totalPrice() {
                 return this.selectedCarts.map(c => c.num * c.newPrice).reduce((v1, v2) => v1 + v2, 0);
             }
-        },
-        components: {
-            shortcut: () => import("/js/pages/shortcut.js")
         }
     })
 </script>
 <!-- 底部栏位 -->
 <!--页面底部，由js动态加载-->
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="front/js/plugins/jquery/jquery.min.js"></script>
 <div class="clearfix footer"></div>
 <script type="text/javascript">$(".footer").load("foot.html");</script>
 <!--页面底部END-->
-<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="js/widget/nav.js"></script>
+<script type="text/javascript" src="front/js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="front/js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="front/js/widget/nav.js"></script>
 
 </body>
 
