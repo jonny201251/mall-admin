@@ -49,7 +49,8 @@
                                                 :src="c.image" width="80px" height="80px"/></a></div>
                                         <div class="item-msg">
 												<span v-if="c.skuSpec">
-													<p v-text="c.title.substring(0, 35) + '...'"></p>
+                                                    <p v-if="c.title.length<35" v-text="c.title"></p>
+													<p v-else v-text="c.title.substring(0, 35) + '...'"></p>
                                                     <p style="margin-bottom: 0px" v-for="(v,k) in JSON.parse(c.skuSpec)"
                                                        :key="k">
                                                         <span v-text="k"></span> : <span style="color: #BE0000;"
@@ -57,7 +58,8 @@
                                                     </p>
 												</span>
                                                 <span v-else>
-													<p style="line-height: 70px" v-text="c.title.substring(0, 35) + '...'"></p>
+                                                    <p v-if="c.title.length<35" v-text="c.title" style="line-height: 70px"></p>
+													<p v-else v-text="c.title.substring(0, 35) + '...'" style="line-height: 70px"></p>
 												</span>
                                         </div>
                                     </div>
