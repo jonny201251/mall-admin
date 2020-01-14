@@ -268,7 +268,7 @@
                             <dl v-for="(options,id) in specialSpec" :key="id">
                                 <dt>
                                     <div class="fl title">
-                                        <i v-text="params[id]" style="display:inline-block;width:48px;"></i>
+                                        <i v-text="params[id]"></i>
                                     </div>
                                 </dt>
                                 <dd v-for="(o,i) in options" :key="i" @click="selectSku(id,i)">
