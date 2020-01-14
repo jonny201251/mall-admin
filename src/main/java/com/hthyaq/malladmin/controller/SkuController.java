@@ -1,9 +1,17 @@
 package com.hthyaq.malladmin.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hthyaq.malladmin.common.annotation.ResponseResult;
+import com.hthyaq.malladmin.model.entity.Sku;
+import com.hthyaq.malladmin.service.SkuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sku")
 public class SkuController {
+    @Autowired
+    SkuService skuService;
 
+    @GetMapping("/getSkuByIds")
+    @ResponseResult
+    public List<Sku> getSkuByIds(String ids) {
+        return skuService.list(new QueryWrapper<Sku>().in("id", Arrays.asList(ids.split(","))));
+    }
 }

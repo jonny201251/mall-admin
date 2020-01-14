@@ -17,13 +17,20 @@ public class FrontController {
     public String cart() {
         return "front/cart";
     }
+
     @GetMapping("/foot.html")
     public String foot() {
         return "front/foot";
     }
+
     @GetMapping("/copyright.html")
     public String copyright() {
         return "front/copyright";
+    }
+
+    @GetMapping("/shortcut.html")
+    public String shortcut() {
+        return "front/shortcut";
     }
 
     @GetMapping("/item.html")

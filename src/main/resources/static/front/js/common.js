@@ -552,6 +552,7 @@ const ly = leyou = {
      * @returns {*}
      */
     formatPrice(val) {
+        return val.toFixed(2);
         if(typeof val === 'string'){
             if(isNaN(val)){
                 return null;
