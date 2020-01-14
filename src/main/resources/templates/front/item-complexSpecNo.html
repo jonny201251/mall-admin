@@ -627,6 +627,7 @@
     const specs = /*[[${specs}]]*/ [];
 </script>
 <script>
+    var cartPath = "http://localhost:8082/mall/cart.html";
     var itemVm = new Vue({
         el: "#itemApp",
         data: {
@@ -674,33 +675,14 @@
                             title: this.sku.title,
                             image: this.images[0],
                             price: this.sku.price,
-                            num: this.num,
-                            skuSpec: JSON.stringify(this.skuSpec)
+                            num: this.num
                         })
                     }
                     // 未登录
                     ly.store.set("carts", carts);
                     // 跳转到购物车列表页
-                    window.location.href = "http://www.leyou.com/cart.html";
+                    window.location.href = cartPath;
                 })
-            },
-            locked(id, i) {
-                // 如果只有一个可选项，永不锁定
-                if (specialSpec[id].length === 1) return false;
-                // 如果有其它项未选，不锁定
-                let boo = true;
-                Object.keys(this.indexes).forEach(key => {
-                    if (key !== id && this.indexes[key] == null) {
-                        boo = false;
-                        return;
-                    }
-                });
-                if (!boo) return false;
-                // 如果当前项的组合不存在，锁定
-                const {...o} = this.indexes;
-                o[id] = i;
-                const index = Object.values(o).join("_");
-                return !indexArr.includes(index);
             }
         },
         computed: {

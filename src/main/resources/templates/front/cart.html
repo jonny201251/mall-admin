@@ -30,9 +30,8 @@
                 <div class="yui3-g cart-th">
                     <div class="yui3-u-1-4"><input type="checkbox" v-model="selectAll"/> 全部</div>
                     <div class="yui3-u-1-4">商品</div>
-                    <div class="yui3-u-1-8">单价（元）</div>
                     <div class="yui3-u-1-8">数量</div>
-                    <div class="yui3-u-1-8">小计（元）</div>
+                    <div class="yui3-u-1-8">单价（元）</div>
                     <div class="yui3-u-1-8">操作</div>
                 </div>
                 <div class="cart-item-list">
@@ -45,16 +44,20 @@
                                 </li>
                                 <li class="yui3-u-11-24">
                                     <div class="good-item">
-                                        <div class="item-img"><a :href="'/mall/item.html?id='+c.spuId" target="_blank"><img
+                                        <div class="item-img"><a :href="'/mall/item.html?id='+c.spuId"
+                                                                 target="_blank"><img
                                                 :src="c.image" width="80px" height="80px"/></a></div>
                                         <div class="item-msg">
-												<span>
+												<span v-if="c.skuSpec">
 													<p v-text="c.title.substring(0, 35) + '...'"></p>
                                                     <p style="margin-bottom: 0px" v-for="(v,k) in JSON.parse(c.skuSpec)"
                                                        :key="k">
                                                         <span v-text="k"></span> : <span style="color: #BE0000;"
                                                                                          v-text="v"></span>
                                                     </p>
+												</span>
+                                                <span v-else>
+													<p style="line-height: 70px" v-text="c.title.substring(0, 35) + '...'"></p>
 												</span>
                                         </div>
                                     </div>
@@ -141,7 +144,7 @@
                         return c.skuId;
                     });
                     ly.http.get("/sku/getSkuByIds?ids=" + ids.join(",")).then(res => {
-                        skus=res.data.data
+                        skus = res.data.data
                         carts.forEach(c => {
                             const sku = skus.find(s => s.id === c.skuId);
                             c.saleable = sku ? sku.saleable : false;
