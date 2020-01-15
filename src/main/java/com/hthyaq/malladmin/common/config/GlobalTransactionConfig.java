@@ -40,6 +40,7 @@ public class GlobalTransactionConfig {
         source.addTransactionalMethod("add*", tx_require);
         source.addTransactionalMethod("insert*", tx_require);
         source.addTransactionalMethod("save*", tx_require);
+        source.addTransactionalMethod("create*", tx_require);
         //删除
         source.addTransactionalMethod("delete*", tx_require);
         source.addTransactionalMethod("remove*", tx_require);

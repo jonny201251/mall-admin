@@ -1,5 +1,6 @@
 package com.hthyaq.malladmin.service.impl;
 
+import com.hthyaq.malladmin.model.dto.OrderDTO;
 import com.hthyaq.malladmin.model.entity.Order;
 import com.hthyaq.malladmin.mapper.OrderMapper;
 import com.hthyaq.malladmin.service.OrderService;
@@ -17,4 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
+    @Override
+    public Long createOrder(OrderDTO orderDTO) {
+        return null;
+    }
+
+    @Override
+    public Order queryById(Long id) {
+        return null;
+    }
 }

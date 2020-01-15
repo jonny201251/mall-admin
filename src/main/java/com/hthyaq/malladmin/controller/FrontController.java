@@ -73,4 +73,9 @@ public class FrontController {
         return "front/search";
     }
 
+    @GetMapping("/success.html")
+    public String success() {
+        return "front/success";
+    }
+
 }

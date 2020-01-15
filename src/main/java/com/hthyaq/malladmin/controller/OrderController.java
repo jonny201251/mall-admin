@@ -1,9 +1,12 @@
 package com.hthyaq.malladmin.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.hthyaq.malladmin.common.annotation.ResponseResult;
+import com.hthyaq.malladmin.model.dto.OrderDTO;
+import com.hthyaq.malladmin.model.entity.Order;
+import com.hthyaq.malladmin.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -15,6 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/order")
+@ResponseResult
 public class OrderController {
+    @Autowired
+    private OrderService orderService;
 
+    @PostMapping("/create")
+    public Long createOrder(@RequestBody OrderDTO orderDTO) {
+        return orderService.createOrder(orderDTO);
+    }
+
+    @GetMapping("/queryById")
+    public Order queryById(Long id) {
+        return orderService.queryById(id);
+    }
 }

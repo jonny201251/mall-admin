@@ -1,13 +1,11 @@
 package com.hthyaq.malladmin;
 
-import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.IdUtil;
+import com.hthyaq.malladmin.common.utils.GenerateOrderId;
 
 public class Test {
     public static void main(String[] args) {
-        String[] str = "1,2,3".split(",");
-        Integer[] categoryArr = ArrayUtil.newArray(Integer.class,str.length);
-        System.out.println(categoryArr.toString());
-        System.out.println(categoryArr.toString());
-        System.out.println(categoryArr.toString());
+        System.out.println(new GenerateOrderId().nextId());
+        System.out.println(IdUtil.getSnowflake(1,1).nextId());
     }
 }

@@ -1,14 +1,17 @@
 package com.hthyaq.malladmin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -19,6 +22,7 @@ import java.time.LocalDateTime;
  * @since 2020-01-15
  */
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class Order implements Serializable {
@@ -134,5 +138,9 @@ public class Order implements Serializable {
      */
     private Integer sourceType;
 
+    @TableField(exist = false)
+    private List<OrderDetail> orderDetails;
 
+    @TableField(exist = false)
+    private OrderStatus orderStatus;
 }
