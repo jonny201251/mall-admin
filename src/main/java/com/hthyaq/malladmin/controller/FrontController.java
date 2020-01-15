@@ -35,13 +35,17 @@ public class FrontController {
 
     @GetMapping("/item.html")
     public String item(Long id, Model model) {
-        System.out.println(id);
         // 查询数据模型
         Map<String, Object> attributes = spuService.getItemData(id);
         // 准备数据模型
         model.addAllAttributes(attributes);
         // 返回视图
         return "front/item-" + attributes.get("specType");
+    }
+
+    @GetMapping("/getOrderInfo.html")
+    public String getOrderInfo() {
+        return "front/getOrderInfo";
     }
 
     @GetMapping("/login.html")

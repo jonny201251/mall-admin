@@ -28,7 +28,7 @@ public class Order implements Serializable {
     /**
      * 订单id
      */
-    @TableId(value = "order_id", type = IdType.AUTO)
+    @TableId(value = "order_id", type = IdType.INPUT)
     private Long orderId;
 
     /**
@@ -40,7 +40,7 @@ public class Order implements Serializable {
      * 实付金额。
      */
     private Double actualPay;
-
+    //参与促销活动的id
     private String promotionIds;
 
     /**
