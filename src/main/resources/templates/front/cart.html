@@ -57,9 +57,11 @@
                                                                                          v-text="v"></span>
                                                     </p>
 												</span>
-                                                <span v-else>
-                                                    <p v-if="c.title.length<35" v-text="c.title" style="line-height: 70px"></p>
-													<p v-else v-text="c.title.substring(0, 35) + '...'" style="line-height: 70px"></p>
+                                            <span v-else>
+                                                    <p v-if="c.title.length<35" v-text="c.title"
+                                                       style="line-height: 70px"></p>
+													<p v-else v-text="c.title.substring(0, 35) + '...'"
+                                                       style="line-height: 70px"></p>
 												</span>
                                         </div>
                                     </div>
@@ -118,7 +120,7 @@
         async created() {
             try {
                 const resp = await ly.http.get("/auth/verify");
-                this.user = resp.data;
+                this.user = resp.data.data;
             } catch {
             }
             this.loadCarts();
@@ -177,13 +179,13 @@
                     }*/
                     // 已登录
                     ly.http.get("/cart/list").then(resp => {
-                        this.loadSku(resp.data).then(() => {
-                            this.carts = resp.data;
+                        this.loadSku(resp.data.data).then(() => {
+                            this.carts = resp.data.data;
                             this.selectedCarts = this.carts;
                         });
                     }).catch(() => {
                         // 提示
-                        alert("你的购物车是空的，赶紧去买点东西吧！");
+                        // alert("你的购物车是空的，赶紧去买点东西吧！");
                     })
                 }).catch(() => {
                     // 未登录
@@ -203,10 +205,7 @@
                 c.num++;
                 this.isLogin().then(() => {
                     // 已登录
-                    ly.http.put("/cart", ly.stringify({
-                        id: c.skuId,
-                        num: c.num
-                    })).catch(() => {
+                    ly.http.get("/cart/updateCartNum?skuId=" + c.skuId + "&num=" + c.num).catch(() => {
                         alert("服务器忙");
                     })
                 }).catch(() => {
@@ -219,10 +218,7 @@
                 c.num--;
                 this.isLogin().then(() => {
                     // 已登录
-                    ly.http.put("/cart", ly.stringify({
-                        id: c.skuId,
-                        num: c.num
-                    })).catch(() => {
+                    ly.http.get("/cart/updateCartNum?skuId=" + c.skuId + "&num=" + c.num).catch(() => {
                         alert("服务器忙");
                     })
                 }).catch(() => {
@@ -235,7 +231,7 @@
                 this.carts.splice(i, 1);
                 this.isLogin().then(() => {
                     // 已登录
-                    ly.http.delete("/cart/" + id).catch(() => {
+                    ly.http.get("/cart/delete?skuId=" + id).catch(() => {
                         alert("服务器忙");
                     })
                 }).catch(() => {

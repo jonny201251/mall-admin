@@ -18,7 +18,7 @@ import java.util.List;
  * 代码生成器
  */
 public class CodeGenerator {
-    private static String[] include = {"spec_seller_define"};
+    private static String[] include = {"sys_user"};
 
     public static void main(String[] args) throws IOException {
         AutoGenerator mpg = new AutoGenerator();

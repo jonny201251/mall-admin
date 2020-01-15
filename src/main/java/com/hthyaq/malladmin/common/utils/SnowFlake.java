@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 
 //twitter的雪花算法,一个分布式自增长ID的算法
+//暂时不用，用了hutool的
 public class SnowFlake {
 
     /**

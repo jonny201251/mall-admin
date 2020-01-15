@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hthyaq.malladmin.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hthyaq.malladmin.model.entity.SysUser">
+        <id column="id" property="id" />
+        <result column="login_name" property="loginName" />
+        <result column="login_password" property="loginPassword" />
+        <result column="nick_name" property="nickName" />
+        <result column="real_name" property="realName" />
+        <result column="gender" property="gender" />
+        <result column="user_avatar" property="userAvatar" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="comment" property="comment" />
+        <result column="company_id" property="companyId" />
+        <result column="salt" property="salt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_name, login_password, nick_name, real_name, gender, user_avatar, email, mobile, status, create_time, comment, company_id, salt
+    </sql>
+
+</mapper>

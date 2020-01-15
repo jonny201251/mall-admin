@@ -678,7 +678,7 @@
                 // 判断是否登录
                 ly.http.get("/auth/verify").then(() => {
                     // 已登录
-                    ly.http.post("/cart", {
+                    ly.http.post("/cart/add", {
                         skuId: this.sku.id,
                         title: this.sku.title,
                         image: this.images[0],
