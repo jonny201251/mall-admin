@@ -265,7 +265,7 @@
                         addressId: this.selectedAddress.id,// 收获地址的id
                     };
                     // 提交订单
-                    ly.http.post("/order/add",order).then(resp=>{
+                    ly.http.post("/order/create",order).then(resp=>{
                         // 订单创建成功，删除selectedCarts
                         ly.store.del("selectedCarts");
                         // 跳转到付款页,并传递付款id
