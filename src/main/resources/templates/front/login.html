@@ -113,7 +113,7 @@
                 leyou.http.post("/sysUser/login", leyou.stringify(this.form))
                     .then(() => {
                         const url = leyou.getUrlParam("returnUrl");
-                        window.location = url || 'http://www.leyou.com';
+                        window.location = url || 'http://mall.healthyun.com';
                     }).catch(() => this.msg = '用户名或密码错误')
             }
         }
