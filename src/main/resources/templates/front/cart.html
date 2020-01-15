@@ -168,15 +168,14 @@
                 // 查询购物车
                 this.isLogin().then(() => {
                     // 判断本地未登录购物车是否存在，如果存在，发到后台，添加到redis，删除本地购物车
-                    /*const carts = ly.store.get("carts");
+                    const carts = ly.store.get("carts");
                     if (carts && carts.length > 0) {
                         ly.http.post("/cart/batch", carts)
                             .then(
                                 () => ly.store.del("carts")
-                            ).catch(
-                        );
+                            ).catch();
                         this.loadCarts();
-                    }*/
+                    }
                     // 已登录
                     ly.http.get("/cart/list").then(resp => {
                         this.loadSku(resp.data.data).then(() => {

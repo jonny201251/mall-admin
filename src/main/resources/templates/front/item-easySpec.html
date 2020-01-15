@@ -645,16 +645,15 @@
                 // 判断是否登录
                 ly.http.get("/auth/verify").then(() => {
                     // 已登录
-                    ly.http.post("/cart", {
+                    ly.http.post("/cart/add", {
                         skuId: this.sku.id,
                         title: this.sku.title,
                         image: this.images[0],
                         price: this.sku.price,
-                        num: this.num,
-                        skuSpec: JSON.stringify(this.skuSpec)
+                        num: this.num
                     }).then(() => {
                         // 跳转到购物车列表页
-                        window.location.href = "http://www.leyou.com/cart.html";
+                        window.location.href = cartPath;
                     }).catch(() => {
                         alert("添加购物车失败，请重试！");
                     })

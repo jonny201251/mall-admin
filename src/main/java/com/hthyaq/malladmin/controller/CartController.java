@@ -5,6 +5,7 @@ import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.bean.Cart;
 import com.hthyaq.malladmin.model.entity.SysUser;
+import com.hthyaq.malladmin.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,28 +20,24 @@ import java.util.stream.Collectors;
 @ResponseResult
 public class CartController {
     @Autowired
+    private CartService cartService;
+    @Autowired
     private StringRedisTemplate redisTemplate;
     private static final String KEY_PREFIX = "cart:uid:";
+
+    @PostMapping("/batch")
+    public boolean batch(HttpSession httpSession, @RequestBody List<Cart> carts) {
+        //取出登录用户
+        SysUser user = (SysUser) httpSession.getAttribute("user");
+        cartService.batchAddCart(user, carts);
+        return true;
+    }
 
     @PostMapping("/add")
     public boolean add(HttpSession httpSession, @RequestBody Cart cart) {
         //取出登录用户
         SysUser user = (SysUser) httpSession.getAttribute("user");
-        // redis存储的结构是一个Map<String,Map<String,String>>,第一个key是用户的key，第二个key是商品的key，value是商品信息
-        String key = KEY_PREFIX + user.getId();
-        String hashKey = cart.getSkuId().toString();
-        BoundHashOperations<String, Object, Object> operation = redisTemplate.boundHashOps(key);
-
-        if (operation.hasKey(hashKey)) {
-            // 如果存在  商品数量新增,新增之前先取出商品信息
-            String json = operation.get(hashKey).toString();
-            Cart cacheCart = JSON.parseObject(json, Cart.class);
-            cacheCart.setNum(cacheCart.getNum() + cart.getNum());
-            operation.put(hashKey, JSON.toJSONString(cacheCart));
-        } else {
-            // 如果不存在 新增
-            operation.put(hashKey, JSON.toJSONString(cart));
-        }
+        cartService.skuAddCart(user, cart);
         return true;
     }
 
@@ -63,7 +60,7 @@ public class CartController {
     }
 
     @GetMapping("/updateCartNum")
-    public boolean updateCartNum(HttpSession httpSession,Long skuId, Integer num) {
+    public boolean updateCartNum(HttpSession httpSession, Long skuId, Integer num) {
         //取出登录用户
         SysUser user = (SysUser) httpSession.getAttribute("user");
         String key = KEY_PREFIX + user.getId();

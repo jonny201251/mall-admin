@@ -8,6 +8,8 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartService {
     @Autowired
@@ -15,7 +17,7 @@ public class CartService {
 
     private static final String KEY_PREFIX = "cart:uid:";
 
-    public void addCart(SysUser user, Cart cart) {
+    public void skuAddCart(SysUser user, Cart cart) {
         // redis存储的结构是一个Map<String,Map<String,String>>,第一个key是用户的key，第二个key是商品的key，value是商品信息
         String key = KEY_PREFIX + user.getId();
         String hashKey = cart.getSkuId().toString();
@@ -31,6 +33,11 @@ public class CartService {
             // 如果不存在 新增
             operation.put(hashKey, JSON.toJSONString(cart));
         }
+    }
 
+    public void batchAddCart(SysUser user, List<Cart> carts) {
+        for (Cart cart : carts) {
+            this.skuAddCart(user, cart);
+        }
     }
 }
