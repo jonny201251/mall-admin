@@ -1,18 +1,18 @@
 package com.hthyaq.malladmin.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
 import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.service.SysUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>
@@ -38,6 +38,26 @@ public class SysUserController {
         }
         return user;
     }
+
+    //登录
+    @PostMapping("/sysUser/login")
+    public boolean login(HttpSession httpSession, @RequestParam("username") String username, @RequestParam("password") String password) {
+        //根据用户名查询用户
+        List<SysUser> list = sysUserService.list(new QueryWrapper<SysUser>().eq("login_name", username));
+        //校验用户名
+        if (list.size() != 1) {
+            throw new MyExceptionNotCatch("用户名错误!");
+        }
+        SysUser user = list.get(0);
+        // 校验密码
+        if (!StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(password, user.getSalt()))) {
+            throw new MyExceptionNotCatch("密码错误!");
+        }
+        //将用户放入session中
+        httpSession.setAttribute("user", user);
+        return true;
+    }
+
     //测试用的
     @GetMapping("/sysUser/add")
     public boolean add(HttpSession httpSession, String loginName, String loginPassword) {

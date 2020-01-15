@@ -108,6 +108,7 @@
 <script src="front/js/common.js"></script>
 <script type="text/javascript">
     var cartPath = "http://localhost:8082/mall/cart.html";
+    var orderPath = "http://localhost:8082/mall/getOrderInfo.html";
     var cartVm = new Vue({
         el: "#cartApp",
         data: {
@@ -245,7 +246,7 @@
                     return;
                 }
                 ly.store.set("selectedCarts", this.selectedCarts);
-                window.location.href = "/getOrderInfo.html";
+                window.location.href = "/mall/getOrderInfo.html";
             }
         },
         watch: {
