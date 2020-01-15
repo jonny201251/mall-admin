@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hthyaq.malladmin.mapper.OrderDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hthyaq.malladmin.model.entity.OrderDetail">
+        <id column="id" property="id" />
+        <result column="order_id" property="orderId" />
+        <result column="sku_id" property="skuId" />
+        <result column="num" property="num" />
+        <result column="title" property="title" />
+        <result column="sku_spec" property="skuSpec" />
+        <result column="price" property="price" />
+        <result column="image" property="image" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_id, sku_id, num, title, sku_spec, price, image
+    </sql>
+
+</mapper>
