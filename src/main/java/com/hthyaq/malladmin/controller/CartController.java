@@ -80,7 +80,6 @@ public class CartController {
 
     @GetMapping("/delete")
     public boolean delete(HttpSession httpSession, Long skuId) {
-        System.out.println("delete");
         //取出登录用户
         SysUser user = (SysUser) httpSession.getAttribute("user");
         String key = KEY_PREFIX + user.getId();
