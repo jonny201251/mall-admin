@@ -1,8 +1,9 @@
 package com.hthyaq.malladmin.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
 import com.hthyaq.malladmin.model.entity.Order;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.hthyaq.malladmin.model.entity.SysUser;
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OrderService extends IService<Order> {
 
-    Long createOrder(OrderDTO orderDTO);
+    Long createOrder(SysUser user, OrderDTO orderDTO);
 
     Order queryById(Long id);
 }

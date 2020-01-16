@@ -4,9 +4,12 @@ package com.hthyaq.malladmin.controller;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
 import com.hthyaq.malladmin.model.entity.Order;
+import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -24,8 +27,10 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/create")
-    public Long createOrder(@RequestBody OrderDTO orderDTO) {
-        return orderService.createOrder(orderDTO);
+    public Long createOrder(HttpSession httpSession, @RequestBody OrderDTO orderDTO) {
+        //取出登录用户
+        SysUser user = (SysUser) httpSession.getAttribute("user");
+        return orderService.createOrder(user, orderDTO);
     }
 
     @GetMapping("/queryById")
