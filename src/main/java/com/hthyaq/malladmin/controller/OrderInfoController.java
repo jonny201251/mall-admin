@@ -1,6 +1,7 @@
 package com.hthyaq.malladmin.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * <p>
@@ -48,7 +48,7 @@ public class OrderInfoController {
     }
 
     @GetMapping("/orderList")
-    public List<OrderInfo> orderList(HttpSession httpSession,Integer currentPage,Integer pageSize){
+    public IPage<OrderInfo> orderList(HttpSession httpSession, Integer currentPage, Integer pageSize){
         SysUser user = (SysUser) httpSession.getAttribute("user");
         return orderInfoService.getOrderList(user.getId(),currentPage,pageSize);
     }

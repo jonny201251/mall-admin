@@ -151,13 +151,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public List<OrderInfo> getOrderList(Integer userId, Integer currentPage, Integer pageSize) {
+    public IPage<OrderInfo> getOrderList(Integer userId, Integer currentPage, Integer pageSize) {
         //获取分页的订单
         IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), new QueryWrapper<OrderInfo>().eq("user_id", userId));
         List<OrderInfo> list = page.getRecords();
         for (OrderInfo orderInfo : list) {
             this.setOrderDetailStatus(orderInfo);
         }
-        return list;
+        return page;
     }
 }

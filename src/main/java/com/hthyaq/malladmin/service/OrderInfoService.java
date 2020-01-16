@@ -1,11 +1,10 @@
 package com.hthyaq.malladmin.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
 import com.hthyaq.malladmin.model.entity.OrderInfo;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hthyaq.malladmin.model.entity.SysUser;
-
-import java.util.List;
 
 /**
  * <p>
@@ -21,5 +20,5 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderInfo queryById(Long id);
 
-    List<OrderInfo> getOrderList(Integer userId,Integer currentPage,Integer pageSize);
+    IPage<OrderInfo> getOrderList(Integer userId, Integer currentPage, Integer pageSize);
 }
