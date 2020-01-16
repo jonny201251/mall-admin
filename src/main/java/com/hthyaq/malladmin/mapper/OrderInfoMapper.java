@@ -1,6 +1,6 @@
 package com.hthyaq.malladmin.mapper;
 
-import com.hthyaq.malladmin.model.entity.Order;
+import com.hthyaq.malladmin.model.entity.OrderInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author zhangqiang
- * @since 2020-01-15
+ * @since 2020-01-16
  */
-public interface OrderMapper extends BaseMapper<Order> {
+public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
 
 }

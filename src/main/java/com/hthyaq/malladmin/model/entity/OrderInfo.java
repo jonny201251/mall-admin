@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -19,13 +18,12 @@ import java.util.List;
  * </p>
  *
  * @author zhangqiang
- * @since 2020-01-15
+ * @since 2020-01-16
  */
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Order implements Serializable {
+public class OrderInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +42,10 @@ public class Order implements Serializable {
      * 实付金额。
      */
     private Double actualPay;
-    //参与促销活动的id
+
+    /**
+     * 参与促销活动的id
+     */
     private String promotionIds;
 
     /**

@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
-import com.hthyaq.malladmin.mapper.OrderMapper;
+import com.hthyaq.malladmin.mapper.OrderInfoMapper;
 import com.hthyaq.malladmin.model.dto.CartDTO;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
 import com.hthyaq.malladmin.model.entity.*;
@@ -18,16 +18,18 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * <p>
  * 订单表，包括用户信息、收货地址 服务实现类
  * </p>
  *
  * @author zhangqiang
- * @since 2020-01-15
+ * @since 2020-01-16
  */
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo> implements OrderInfoService {
     @Autowired
     ReceiveAddressService receiveAddressService;
     @Autowired
@@ -40,7 +42,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Long createOrder(SysUser user, OrderDTO orderDTO) {
         // 1 新增订单
-        Order order = new Order();
+        OrderInfo order = new OrderInfo();
         // 1.1 订单编号，基本信息 -- 订单ID，雪花算法（snowflake）生成全局唯一的ID
         long orderId = IdUtil.getSnowflake(1, 1).nextId();
         order.setOrderId(orderId);
@@ -87,10 +89,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             details.add(detail);
         }
         order.setTotalPay(totalPrice);
-        order.setActualPay(totalPrice + order.getPostFee() - 0);// 实付金额= 总金额 + 邮费 - 优惠金额
+        order.setActualPay(totalPrice + ofNullable(order.getPostFee()).orElse(0.0) - 0);// 实付金额= 总金额 + 邮费 - 优惠金额
 
         // 1.5 写入数据库
-        boolean flag = this.save(order);
+        boolean flag = false;
+        try {
+            flag = this.save(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (!flag) {
             throw new MyExceptionNotCatch("[创建订单] 创建订单失败，orderID:" + orderId);
         }
@@ -115,8 +122,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public Order queryById(Long id) {
-        Order order = this.getById(id);
+    public OrderInfo queryById(Long id) {
+        OrderInfo order = this.getById(id);
         if (order == null) {
             throw new MyExceptionNotCatch("没有发现订单");
         }
