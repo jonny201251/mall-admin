@@ -29,18 +29,6 @@ public class OrderInfoController {
     @Autowired
     private OrderInfoService orderInfoService;
 
-    @GetMapping("/a")
-    public boolean a(){
-        OrderInfo order=new OrderInfo();
-        order.setOrderId(1L);
-        orderInfoService.save(order);
-
-        OrderInfo order2=new OrderInfo();
-        order2.setOrderId(2L);
-        order2.setBuyerNick(null);
-        orderInfoService.save(order2);
-        return true;
-    }
     @PostMapping("/create")
     public Long createOrder(HttpSession httpSession, @RequestBody OrderDTO orderDTO) {
         //取出登录用户
