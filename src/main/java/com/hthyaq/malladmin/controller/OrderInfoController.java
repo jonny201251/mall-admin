@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>
@@ -44,5 +45,11 @@ public class OrderInfoController {
     @GetMapping("/queryById")
     public OrderInfo queryById(Long id) {
         return orderInfoService.queryById(id);
+    }
+
+    @GetMapping("/orderList")
+    public List<OrderInfo> orderList(HttpSession httpSession,Integer currentPage,Integer pageSize){
+        SysUser user = (SysUser) httpSession.getAttribute("user");
+        return orderInfoService.getOrderList(user.getId(),currentPage,pageSize);
     }
 }

@@ -2,6 +2,8 @@ package com.hthyaq.malladmin.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.mapper.OrderInfoMapper;
@@ -127,21 +129,35 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         if (order == null) {
             throw new MyExceptionNotCatch("没有发现订单");
         }
+        this.setOrderDetailStatus(order);
+        return order;
+    }
 
+    //设置订单的详情和状态
+    private void setOrderDetailStatus(OrderInfo order) {
         // 查询订单详情
-        List<OrderDetail> orderDetails = orderDetailService.list(new QueryWrapper<OrderDetail>().eq("order_id",id));
-        if(CollectionUtils.isEmpty(orderDetails)){
+        List<OrderDetail> orderDetails = orderDetailService.list(new QueryWrapper<OrderDetail>().eq("order_id", order.getOrderId()));
+        if (CollectionUtils.isEmpty(orderDetails)) {
             throw new MyExceptionNotCatch("没有发现订单详情");
         }
         order.setOrderDetails(orderDetails);
 
         // 查询订单状态
-        OrderStatus orderStatus = orderStatusService.getOne(new QueryWrapper<OrderStatus>().eq("order_id",id));
-        if(orderStatus == null){
+        OrderStatus orderStatus = orderStatusService.getOne(new QueryWrapper<OrderStatus>().eq("order_id", order.getOrderId()));
+        if (orderStatus == null) {
             throw new MyExceptionNotCatch("没有发现订单状态");
         }
         order.setOrderStatus(orderStatus);
+    }
 
-        return order;
+    @Override
+    public List<OrderInfo> getOrderList(Integer userId, Integer currentPage, Integer pageSize) {
+        //获取分页的订单
+        IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), new QueryWrapper<OrderInfo>().eq("user_id", userId));
+        List<OrderInfo> list = page.getRecords();
+        for (OrderInfo orderInfo : list) {
+            this.setOrderDetailStatus(orderInfo);
+        }
+        return list;
     }
 }
