@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AntdSelect {
     private String label;
-    private String value;
+    private Integer value;
 }

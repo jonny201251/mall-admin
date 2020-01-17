@@ -61,7 +61,6 @@ public class FactoryController {
 
     @GetMapping("/factoryList")
     public List<AntdSelect> getFactoryList() {
-        return companyService.list().stream().map(company -> new AntdSelect(company.getName(), company.getId() + "")).collect(Collectors.toList());
+        return companyService.list().stream().map(company -> new AntdSelect(company.getName(), company.getId())).collect(Collectors.toList());
     }
-
 }
