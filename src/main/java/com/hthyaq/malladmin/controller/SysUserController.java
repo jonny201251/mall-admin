@@ -59,7 +59,7 @@ public class SysUserController {
     }
 
     //后台登录
-    @PostMapping("/user/login")
+    @PostMapping("/admin/login")
     @ResponseResult
     public boolean adminLogin(@RequestBody SysUser sysUser) {
         String loginName=sysUser.getLoginName();
