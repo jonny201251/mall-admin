@@ -50,6 +50,7 @@ public class OrderInfoController {
     @GetMapping("/orderList")
     public IPage<OrderInfo> orderList(HttpSession httpSession, Integer currentPage, Integer pageSize){
         SysUser user = (SysUser) httpSession.getAttribute("user");
-        return orderInfoService.getOrderList(user.getId(),currentPage,pageSize);
+        IPage<OrderInfo> page= orderInfoService.getOrderList(user.getId(),currentPage,pageSize);
+        return page;
     }
 }
