@@ -2,10 +2,11 @@ package com.hthyaq.malladmin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ public class MoneyLimit implements Serializable {
     /**
      * 季度，0：一季度，1：二季度，2：三季度，3：四季度
      */
-    private Boolean quarter;
+    private Integer quarter;
 
     /**
      * 限制的下单金额
