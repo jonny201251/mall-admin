@@ -29,7 +29,7 @@ public class OrderStatus implements Serializable {
      * 订单id
      */
     @TableId(value = "order_id", type = IdType.INPUT)
-    private Long orderId;
+    private String orderId;
 
     /**
      * 状态：0、暂不付款 1、未付款 2、已付款,未发货 3、已发货,未确认 4、交易成功 5、交易关闭 6、已评价

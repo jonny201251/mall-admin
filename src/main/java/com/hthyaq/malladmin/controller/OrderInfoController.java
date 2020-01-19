@@ -43,7 +43,7 @@ public class OrderInfoController {
     }
 
     @GetMapping("/queryById")
-    public OrderInfo queryById(Long id) {
+    public OrderInfo queryById(String id) {
         return orderInfoService.queryById(id);
     }
 

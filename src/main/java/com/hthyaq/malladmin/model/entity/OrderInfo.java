@@ -31,7 +31,7 @@ public class OrderInfo implements Serializable {
      * 订单id
      */
     @TableId(value = "order_id", type = IdType.INPUT)
-    private Long orderId;
+    private String orderId;
 
     /**
      * 总金额

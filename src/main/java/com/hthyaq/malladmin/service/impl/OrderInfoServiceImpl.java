@@ -47,7 +47,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         OrderInfo order = new OrderInfo();
         // 1.1 订单编号，基本信息 -- 订单ID，雪花算法（snowflake）生成全局唯一的ID
         long orderId = IdUtil.getSnowflake(1, 1).nextId();
-        order.setOrderId(orderId);
+        order.setOrderId(String.valueOf(orderId));
         order.setPaymentType(orderDTO.getPaymentType());
 
         // 1.2 用户信息
@@ -82,7 +82,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             OrderDetail detail = new OrderDetail();
             detail.setImage(StringUtils.substringBefore(sku.getImages(), ","));
             detail.setNum(numMap.get(sku.getId()));
-            detail.setOrderId(orderId);
+            detail.setOrderId(String.valueOf(orderId));
             detail.setSkuSpec(sku.getSkuSpec());
             detail.setPrice(sku.getPrice());
             detail.setSkuId(sku.getId());
@@ -112,7 +112,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         // 3 新增订单状态
         OrderStatus orderStatus = new OrderStatus();
-        orderStatus.setOrderId(orderId);
+        orderStatus.setOrderId(String.valueOf(orderId));
         orderStatus.setStatus(OrderStatusEnum.NO_PAY.code());
         flag = orderStatusService.save(orderStatus);
         if (!flag) {
@@ -124,7 +124,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public OrderInfo queryById(Long id) {
+    public OrderInfo queryById(String id) {
         OrderInfo order = this.getById(id);
         if (order == null) {
             throw new MyExceptionNotCatch("没有发现订单");
