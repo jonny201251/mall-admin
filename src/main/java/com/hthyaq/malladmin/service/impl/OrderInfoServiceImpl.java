@@ -124,8 +124,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public OrderInfo queryById(String id) {
-        OrderInfo order = this.getById(id);
+    public OrderInfo queryById(String orderId) {
+        OrderInfo order = this.getById(orderId);
         if (order == null) {
             throw new MyExceptionNotCatch("没有发现订单");
         }

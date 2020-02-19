@@ -1,13 +1,16 @@
 package com.hthyaq.malladmin.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
 import com.hthyaq.malladmin.model.entity.OrderInfo;
+import com.hthyaq.malladmin.model.entity.OrderStatus;
 import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.service.OrderInfoService;
+import com.hthyaq.malladmin.service.OrderStatusService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +32,8 @@ import javax.servlet.http.HttpSession;
 public class OrderInfoController {
     @Autowired
     private OrderInfoService orderInfoService;
+    @Autowired
+    private OrderStatusService orderStatusService;
 
     @PostMapping("/create")
     public Long createOrder(HttpSession httpSession, @RequestBody OrderDTO orderDTO) {
@@ -43,14 +48,24 @@ public class OrderInfoController {
     }
 
     @GetMapping("/queryById")
-    public OrderInfo queryById(String id) {
-        return orderInfoService.queryById(id);
+    public OrderInfo queryById(String orderId) {
+        return orderInfoService.queryById(orderId);
     }
 
     @GetMapping("/orderList")
-    public IPage<OrderInfo> orderList(HttpSession httpSession, Integer currentPage, Integer pageSize){
+    public IPage<OrderInfo> orderList(HttpSession httpSession, Integer currentPage, Integer pageSize) {
         SysUser user = (SysUser) httpSession.getAttribute("user");
-        IPage<OrderInfo> page= orderInfoService.getOrderList(user.getId(),currentPage,pageSize);
+        IPage<OrderInfo> page = orderInfoService.getOrderList(user.getId(), currentPage, pageSize);
         return page;
+    }
+
+    //取消订单
+    @GetMapping("/orderCancel")
+    public boolean orderCancel(String orderId) {
+        boolean flag;
+        OrderStatus orderStatus = orderStatusService.getOne(new QueryWrapper<OrderStatus>().eq("order_id", orderId));
+        orderStatus.setStatus(7);
+        flag = orderStatusService.updateById(orderStatus);
+        return flag;
     }
 }
