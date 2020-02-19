@@ -28,7 +28,6 @@ public class OrderStatusCron {
     //每天凌晨1点执行一次
     @Scheduled(cron = "0 0 1 * * ?")
     public void closeOrder() {
-        System.out.println("关闭订单开始执行了" + LocalDateTime.now());
         //获取订单状态
         List<OrderStatus> list = orderStatusService.list(new QueryWrapper<OrderStatus>().eq("status", 0));
         //超过1个月的订单
@@ -46,7 +45,7 @@ public class OrderStatusCron {
         }
         if (list2.size() > 0) {
             List<String> tmp = list2.stream().map(OrderStatus::getOrderId).collect(Collectors.toList());
-            log.info("更新的订单号=" + Joiner.on(",").join(tmp));
+            log.info("订单号=" + Joiner.on(",").join(tmp) + ",更新时间=" + LocalDateTime.now());
             orderStatusService.updateBatchById(list2);
         }
     }
