@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 public class OrderStatusCron {
     @Autowired
     OrderStatusService orderStatusService;
-
-    //每天凌晨1点执行一次
+    // 每隔10秒执行一次
 //    @Scheduled(cron = "*/10 * * * * ?")
+    //每天凌晨1点执行一次
     @Scheduled(cron = "0 0 1 * * ?")
     public void closeOrder() {
         System.out.println("关闭订单开始执行了" + DateTime.now());
