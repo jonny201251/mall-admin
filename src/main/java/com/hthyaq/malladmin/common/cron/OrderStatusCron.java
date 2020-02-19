@@ -1,6 +1,5 @@
 package com.hthyaq.malladmin.common.cron;
 
-import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -26,7 +25,7 @@ public class OrderStatusCron {
     //每天凌晨1点执行一次
     @Scheduled(cron = "0 0 1 * * ?")
     public void closeOrder() {
-        System.out.println("关闭订单开始执行了" + DateTime.now());
+        System.out.println("关闭订单开始执行了" + LocalDateTime.now());
         //获取订单状态
         List<OrderStatus> list = orderStatusService.list(new QueryWrapper<OrderStatus>().eq("status", 0));
         //超过1个月的订单
