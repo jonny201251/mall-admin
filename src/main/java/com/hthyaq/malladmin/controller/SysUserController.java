@@ -6,6 +6,7 @@ import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
 import com.hthyaq.malladmin.model.entity.SysUser;
+import com.hthyaq.malladmin.model.vo.SysUserPassword;
 import com.hthyaq.malladmin.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class SysUserController {
 
     //前台登录
     @PostMapping("/sysUser/login")
-    public boolean login(HttpSession httpSession, @RequestParam("username") String username, @RequestParam("password") String password) {
+    public SysUser login(HttpSession httpSession, @RequestParam("username") String username, @RequestParam("password") String password) {
         //根据用户名查询用户
         List<SysUser> list = sysUserService.list(new QueryWrapper<SysUser>().eq("login_name", username));
         //校验用户名
@@ -55,15 +56,15 @@ public class SysUserController {
         }
         //将用户放入session中
         httpSession.setAttribute("user", user);
-        return true;
+        return user;
     }
 
     //后台登录
     @PostMapping("/admin/login")
     @ResponseResult
-    public boolean adminLogin(@RequestBody SysUser sysUser) {
-        String loginName=sysUser.getLoginName();
-        String loginPassword=sysUser.getLoginPassword();
+    public SysUser adminLogin(HttpSession httpSession, @RequestBody SysUser sysUser) {
+        String loginName = sysUser.getLoginName();
+        String loginPassword = sysUser.getLoginPassword();
         List<SysUser> list = sysUserService.list(new QueryWrapper<SysUser>().eq("login_name", loginName));
         if (list.size() != 1) {
             throw new RuntimeException("用户名或密码错误");
@@ -72,7 +73,9 @@ public class SysUserController {
         if (!StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(loginPassword, user.getSalt()))) {
             throw new RuntimeException("密码错误!");
         }
-        return true;
+        //将用户放入session中
+        httpSession.setAttribute("user", user);
+        return user;
     }
 
     //测试用的
@@ -100,5 +103,17 @@ public class SysUserController {
         user.setLoginPassword(UserCodecUtils.md5Hex(user.getLoginPassword(), salt));
         flag = sysUserService.save(user);
         return flag;
+    }
+
+    @PostMapping("/sysUser/changePassword")
+    public boolean changePassword(HttpSession httpSession, @RequestBody SysUserPassword sysUserPassword) {
+        SysUser user = (SysUser) httpSession.getAttribute("user");
+        if (StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(sysUserPassword.getLoginPassword(), user.getSalt()))) {
+            user.setLoginPassword(UserCodecUtils.md5Hex(sysUserPassword.getNewPassword(), user.getSalt()));
+            sysUserService.updateById(user);
+            return true;
+        }else{
+            throw new RuntimeException("原密码错误!");
+        }
     }
 }
