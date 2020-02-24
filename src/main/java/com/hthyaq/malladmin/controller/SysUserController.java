@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
+import com.hthyaq.malladmin.model.entity.Company;
 import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.model.vo.SysUserPassword;
+import com.hthyaq.malladmin.service.CompanyService;
 import com.hthyaq.malladmin.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ import java.util.List;
 public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private CompanyService companyService;
 
     //验证用户是否已登录
     @GetMapping("/auth/verify")
@@ -73,6 +77,9 @@ public class SysUserController {
         if (!StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(loginPassword, user.getSalt()))) {
             throw new RuntimeException("密码错误!");
         }
+        //设置用户的公司
+        Company company = companyService.getById(user.getCompanyId());
+        user.setCompany(company);
         //将用户放入session中
         httpSession.setAttribute("user", user);
         return user;
@@ -112,7 +119,7 @@ public class SysUserController {
             user.setLoginPassword(UserCodecUtils.md5Hex(sysUserPassword.getNewPassword(), user.getSalt()));
             sysUserService.updateById(user);
             return true;
-        }else{
+        } else {
             throw new RuntimeException("原密码错误!");
         }
     }

@@ -34,7 +34,7 @@ public class Company implements Serializable {
     private String name;
 
     /**
-     * 0：159厂，1：商家
+     * 0：159厂，1：159分厂，2：供应商，3：管理员
      */
     private Integer type;
 

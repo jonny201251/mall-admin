@@ -1,6 +1,7 @@
 package com.hthyaq.malladmin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -92,5 +93,6 @@ public class SysUser implements Serializable {
      */
     private String salt;
 
-
+    @TableField(exist = false)
+    private Company company;
 }
