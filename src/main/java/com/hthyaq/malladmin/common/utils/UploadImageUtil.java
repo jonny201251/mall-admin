@@ -22,12 +22,12 @@ public class UploadImageUtil {
         }
         String suffix = tmp[1];
         InputStream inputStream = imageFile.getInputStream();
-        String uuid = IdUtil.fastUUID();
+        String uuid = IdUtil.fastSimpleUUID();
         //图片保存到本地硬盘
-        String diskPath = GlobalConstants.IMAGE_PATH + "/" + type + "/" + fileName + "-" + uuid + "." + suffix;
+        String diskPath = GlobalConstants.IMAGE_PATH + "/" + type + "/" + uuid + "." + suffix;
         IOUtils.copy(inputStream, new FileOutputStream(diskPath));
         //图片的数据库路径
-        String dbPath = "/image/" + type + "/" + fileName + "-" + uuid + "." + suffix;
+        String dbPath = "/image/" + type + "/" + uuid + "." + suffix;
         return dbPath;
     }
 }
