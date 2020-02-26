@@ -46,7 +46,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         brand.setCategoryIds(ArrayUtil.join(brandView.getCategoryArr(), ","));
         //品牌的首字母大写
         if (!Strings.isNullOrEmpty(brand.getLetter())) {
-            brand.setLetter(brand.getLetter().toUpperCase());
+            brand.setLetter(brand.getLetter().substring(0,1).toUpperCase());
         }
         flag = this.save(brand);
         //处理一下品牌的sort,默认等于id
