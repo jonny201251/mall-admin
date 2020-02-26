@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.base.Strings;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.mapper.OrderInfoMapper;
 import com.hthyaq.malladmin.model.dto.CartDTO;
@@ -151,9 +152,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public IPage<OrderInfo> getOrderList(Integer userId, Integer currentPage, Integer pageSize) {
+    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId) {
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        if (!Strings.isNullOrEmpty(orderId)) {
+            queryWrapper.like("order_id", orderId);
+        }
+        if (user.getCompany().getType() == 0 || user.getCompany().getType() == 1) {
+            //159厂、159分厂
+            queryWrapper.eq("user_id", user.getId());
+        } else if (user.getCompany().getType() == 2) {
+            //供应商？？？
+
+        }
         //获取分页的订单
-        IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), new QueryWrapper<OrderInfo>().eq("user_id", userId));
+        IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), queryWrapper);
         List<OrderInfo> list = page.getRecords();
         for (OrderInfo orderInfo : list) {
             this.setOrderDetailStatus(orderInfo);

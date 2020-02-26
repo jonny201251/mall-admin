@@ -70,10 +70,12 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     }
 
     @Override
-    public Boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
+    public Boolean add(SysUser user, MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
         boolean flag = true;
         JSONObject jsonObject = JSON.parseObject(form);
         Spu spuView = JSON.parseObject(form, Spu.class);
+        //设置spu的companyId
+        spuView.setCompanyId(user.getCompany().getId());
         String specType = this.getSpecType(spuView.getCategoryId());
         if (GlobalConstants.complexSpecHave.equals(specType)) {
             //1.spu

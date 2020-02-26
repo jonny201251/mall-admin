@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -64,20 +66,32 @@ public class SpuController {
 
     @GetMapping("/list")
     @ResponseResult
-    public IPage<Spu> list(String json) {
+    public IPage<Spu> list(HttpSession httpSession, String json) {
         //字符串解析成java对象
         JSONObject jsonObject = JSON.parseObject(json);
         //从对象中获取值
+        String title = jsonObject.getString("title");
         Integer currentPage = jsonObject.getInteger("currentPage");
         Integer pageSize = jsonObject.getInteger("pageSize");
         QueryWrapper<Spu> queryWrapper = new QueryWrapper<>();
+        if (!Strings.isNullOrEmpty(title)) {
+            queryWrapper.like("title", title);
+        }
+        //从session中取出用户
+        SysUser user = (SysUser) httpSession.getAttribute("user");
+        Company company = user.getCompany();
+        if (company.getType() == 2) {
+            //供应商
+            queryWrapper.eq("company_id", company.getId());
+        }
         return spuService.page(new Page<>(currentPage, pageSize), queryWrapper);
     }
 
     @PostMapping("/add")
     @ResponseResult
-    public boolean add(MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
-        return spuService.add(images, description, form, genericSpec);
+    public boolean add(HttpSession httpSession,MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
+        SysUser user = (SysUser) httpSession.getAttribute("user");
+        return spuService.add(user,images, description, form, genericSpec);
     }
 
     @PostMapping("/edit")
@@ -165,7 +179,7 @@ public class SpuController {
 
     @GetMapping("/a")
     @ResponseResult
-    public Map<String, Object> a(Long id){
+    public Map<String, Object> a(Long id) {
         return spuService.getItemData(id);
     }
 }

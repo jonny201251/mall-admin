@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.base.Strings;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.utils.cascade.CascadeUtil;
 import com.hthyaq.malladmin.common.utils.cascade.CascadeView;
@@ -41,9 +42,13 @@ public class CategoryController {
         //字符串解析成java对象
         JSONObject jsonObject = JSON.parseObject(json);
         //从对象中获取值
+        String categoryName = jsonObject.getString("categoryName");
         Integer currentPage = jsonObject.getInteger("currentPage");
         Integer pageSize = jsonObject.getInteger("pageSize");
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+        if (!Strings.isNullOrEmpty(categoryName)) {
+            queryWrapper.like("name", categoryName);
+        }
         return categoryService.page(new Page<>(currentPage, pageSize), queryWrapper);
     }
 

@@ -40,11 +40,14 @@ public class FactoryController {
         Integer currentPage = jsonObject.getInteger("currentPage");
         Integer pageSize = jsonObject.getInteger("pageSize");
         QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type",1);
         return companyService.page(new Page<>(currentPage, pageSize), queryWrapper);
     }
 
     @PostMapping("/add")
     public boolean add(@RequestBody Company company) {
+        //添加 159分厂
+        company.setType(1);
         return companyService.save(company);
     }
 
@@ -61,6 +64,6 @@ public class FactoryController {
 
     @GetMapping("/factoryList")
     public List<AntdSelect> getFactoryList() {
-        return companyService.list().stream().map(company -> new AntdSelect(company.getName(), company.getId())).collect(Collectors.toList());
+        return companyService.list(new QueryWrapper<Company>().eq("type",1)).stream().map(company -> new AntdSelect(company.getName(), company.getId())).collect(Collectors.toList());
     }
 }

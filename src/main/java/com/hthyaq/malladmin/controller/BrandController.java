@@ -49,9 +49,13 @@ public class BrandController {
         //字符串解析成java对象
         JSONObject jsonObject = JSON.parseObject(json);
         //从对象中获取值
+        String brandName = jsonObject.getString("brandName");
         Integer currentPage = jsonObject.getInteger("currentPage");
         Integer pageSize = jsonObject.getInteger("pageSize");
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
+        if (!Strings.isNullOrEmpty(brandName)) {
+            queryWrapper.like("name", brandName);
+        }
         return brandService.page(new Page<>(currentPage, pageSize), queryWrapper);
     }
 

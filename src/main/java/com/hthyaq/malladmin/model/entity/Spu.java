@@ -78,5 +78,8 @@ public class Spu implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastUpdateTime;
 
-
+    /**
+     * 该商品所属的供应商
+     */
+    private Integer companyId;
 }
