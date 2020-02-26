@@ -18,7 +18,7 @@ public class CreateDirectoryConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         String directory = "D:/mallFile";
-        String[] strArr = {"/ureportfiles", "/excel", "/image/brand"};
+        String[] strArr = {"/ureportfiles", "/excel", "/image/brand", "/image/item"};
         for (String tmp : strArr) {
             File dir1 = new File(directory + tmp);
             if (!dir1.exists()) {

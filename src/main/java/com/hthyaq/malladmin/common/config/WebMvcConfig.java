@@ -1,5 +1,6 @@
 package com.hthyaq.malladmin.common.config;
 
+import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.interceptor.ResponseResultInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -20,7 +21,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //前端页面相关的js、css、img等资源无法访问
 //        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/image/**").addResourceLocations("file:D:/mallFile/image/");
+        registry.addResourceHandler("/image/**").addResourceLocations("file:"+ GlobalConstants.IMAGE_PATH+"/");
         registry.addResourceHandler("/front/**").addResourceLocations("classpath:/static/front/");
         super.addResourceHandlers(registry);
     }

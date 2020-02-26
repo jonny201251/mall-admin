@@ -85,7 +85,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (images.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : images) {
-                    String dbPath = UploadImageUtil.save(imageFile);
+                    String dbPath = UploadImageUtil.save(imageFile,"item");
                     list.add(dbPath);
                 }
                 spu.setImages(Joiner.on(",").join(list));
@@ -158,7 +158,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (images.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : images) {
-                    String dbPath = UploadImageUtil.save(imageFile);
+                    String dbPath = UploadImageUtil.save(imageFile,"item");
                     list.add(dbPath);
                 }
                 spu.setImages(Joiner.on(",").join(list));
@@ -217,7 +217,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (newImages.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : newImages) {
-                    String dbPath = UploadImageUtil.save(imageFile);
+                    String dbPath = UploadImageUtil.save(imageFile,"item");
                     list.add(dbPath);
                 }
                 if (!Strings.isNullOrEmpty(oldImages)) {
@@ -302,7 +302,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (newImages.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : newImages) {
-                    String dbPath = UploadImageUtil.save(imageFile);
+                    String dbPath = UploadImageUtil.save(imageFile,"item");
                     list.add(dbPath);
                 }
                 if (!Strings.isNullOrEmpty(oldImages)) {

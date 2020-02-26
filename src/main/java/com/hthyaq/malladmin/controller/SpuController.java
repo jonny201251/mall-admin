@@ -60,7 +60,7 @@ public class SpuController {
     //将富文本编辑器的图片存储起来
     @PostMapping("/uploadImage")
     public GlobalResponseResult uploadImage(MultipartFile imageFile) throws IOException {
-        String dbPath = UploadImageUtil.save(imageFile);
+        String dbPath = UploadImageUtil.save(imageFile,"item");
         return GlobalResponseResult.success(dbPath);
     }
 

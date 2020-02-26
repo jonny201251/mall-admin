@@ -35,7 +35,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     public boolean add(BrandView brandView, MultipartFile imageFile) throws IOException {
         boolean flag;
         if (imageFile != null) {
-            String dbPath = UploadImageUtil.save(imageFile);
+            String dbPath = UploadImageUtil.save(imageFile,"brand");
             //设置
             brandView.setImage(dbPath);
         }
