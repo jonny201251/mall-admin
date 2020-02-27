@@ -370,6 +370,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         SpuDetail detail = spuDetailService.getById(spuId);
         // 查询brand
         Brand brand = brandService.getById(spu.getBrandId());
+        if(brand==null){
+            brand=new Brand();
+        }
         // 查询商品的分类
         List<Category> categories = categoryService.getAllParenCategory(spu.getCategoryId());
         String specType = this.getSpecType(spu.getCategoryId());

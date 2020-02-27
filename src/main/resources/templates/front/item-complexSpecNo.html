@@ -218,7 +218,7 @@
                     <li th:each="c : ${categories}">
                         <a href="#" th:text="${c.name}">手机</a>
                     </li>
-                    <li>
+                    <li th:if="${brand.name}">
                         <a href="#" th:text="${brand.name}">Apple</a>
                     </li>
                     <li class="active" th:text="${title}">Apple iPhone 6s</li>
