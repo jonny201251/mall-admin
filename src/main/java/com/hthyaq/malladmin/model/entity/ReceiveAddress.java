@@ -1,13 +1,12 @@
 package com.hthyaq.malladmin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -15,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author zhangqiang
- * @since 2020-01-15
+ * @since 2020-02-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -72,6 +71,11 @@ public class ReceiveAddress implements Serializable {
      * sys_user表的id
      */
     private Integer userId;
+
+    /**
+     * 商家、公司的id
+     */
+    private Integer companyId;
 
 
 }
