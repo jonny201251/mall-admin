@@ -344,7 +344,9 @@
                                         <h3 v-text="group.name"></h3>
                                         <dl>
             <span v-for="param in group.params" :key="param.id">
-				<dt v-text="param.name"></dt><dd v-text="param.value + (param.unit || '')"></dd>
+                <div v-if="param.value!=null">
+                    <dt v-text="param.name"></dt><dd v-text="param.value + (param.unit || '')"></dd>
+                </div>
 			</span>
                                         </dl>
                                     </div>
