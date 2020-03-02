@@ -14,6 +14,6 @@ import java.util.List;
  * @since 2019-09-25
  */
 public interface CategoryService extends IService<Category> {
-    //根据categoryId获取所有父级节点的名称
+    //根据categoryId获取所有父级节点的名称,包括自己
     List<Category> getAllParenCategory(Integer categoryId);
 }

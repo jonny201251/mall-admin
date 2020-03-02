@@ -1,29 +1,31 @@
 package com.hthyaq.malladmin.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.UploadImageUtil;
 import com.hthyaq.malladmin.mapper.SpuMapper;
 import com.hthyaq.malladmin.model.entity.*;
 import com.hthyaq.malladmin.model.vo.*;
 import com.hthyaq.malladmin.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -85,7 +87,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (images.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : images) {
-                    String dbPath = UploadImageUtil.save(imageFile,"item");
+                    String dbPath = UploadImageUtil.save(imageFile, "item");
                     list.add(dbPath);
                 }
                 spu.setImages(Joiner.on(",").join(list));
@@ -158,7 +160,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (images.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : images) {
-                    String dbPath = UploadImageUtil.save(imageFile,"item");
+                    String dbPath = UploadImageUtil.save(imageFile, "item");
                     list.add(dbPath);
                 }
                 spu.setImages(Joiner.on(",").join(list));
@@ -217,7 +219,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (newImages.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : newImages) {
-                    String dbPath = UploadImageUtil.save(imageFile,"item");
+                    String dbPath = UploadImageUtil.save(imageFile, "item");
                     list.add(dbPath);
                 }
                 if (!Strings.isNullOrEmpty(oldImages)) {
@@ -302,7 +304,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             if (newImages.length > 0) {
                 List<String> list = Lists.newArrayList();
                 for (MultipartFile imageFile : newImages) {
-                    String dbPath = UploadImageUtil.save(imageFile,"item");
+                    String dbPath = UploadImageUtil.save(imageFile, "item");
                     list.add(dbPath);
                 }
                 if (!Strings.isNullOrEmpty(oldImages)) {
@@ -370,8 +372,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         SpuDetail detail = spuDetailService.getById(spuId);
         // 查询brand
         Brand brand = brandService.getById(spu.getBrandId());
-        if(brand==null){
-            brand=new Brand();
+        if (brand == null) {
+            brand = new Brand();
         }
         // 查询商品的分类
         List<Category> categories = categoryService.getAllParenCategory(spu.getCategoryId());
@@ -397,7 +399,70 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
     @Override
     public SearchResult getSearchData(SearchRequest request) {
-        return null;
+        SearchResult searchResult = new SearchResult();
+        String key = request.getKey();
+        int currentPage = request.getPage();
+        int pageSize = request.getSize();
+        //分页查询出spu
+        QueryWrapper<Spu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("title", key);
+        IPage<Spu> spuPage = this.page(new Page<>(currentPage, pageSize), queryWrapper);
+        List<Spu> spuList = spuPage.getRecords();
+        //
+        long total = spuPage.getTotal();
+        long totalPage = total / pageSize + ((total % pageSize == 0) ? 0 : 1);
+        searchResult.setTotal(total);
+        searchResult.setTotalPage(totalPage);
+        //
+        List<SearchItems> itemList = Lists.newArrayList();
+        if (spuList.size() > 0) {
+            for (Spu spu : spuList) {
+                SearchItems tmp = new SearchItems();
+                tmp.setId(spu.getId());
+                tmp.setTitle(spu.getTitle());
+                tmp.setSubTitle(spu.getSubTitle());
+                tmp.setBrandId(spu.getBrandId());
+                List<Category> categoryList = categoryService.getAllParenCategory(spu.getCategoryId());
+                for (int i = 0; i < categoryList.size(); i++) {
+                    if (i == 0) {
+                        tmp.setCid1(categoryList.get(i).getId());
+                    } else if (i == 1) {
+                        tmp.setCid2(categoryList.get(i).getId());
+                    } else if (i == 2) {
+                        tmp.setCid3(categoryList.get(i).getId());
+                    }
+                }
+                tmp.setCreateTime(spu.getCreateTime());
+                //查询出sku
+                List<Sku> skuList = skuService.list(new QueryWrapper<Sku>().eq("spu_id", spu.getId()));
+
+                Set<Double> priceSet = Sets.newHashSet();
+                List<Map<String, Object>> skusList = Lists.newArrayList();
+                for (Sku sku : skuList) {
+                    priceSet.add(sku.getPrice());
+
+                    Map<String, Object> skus = Maps.newHashMap();
+                    skus.put("id", sku.getId());
+                    skus.put("title", sku.getTitle());
+                    skus.put("price", sku.getPrice());
+                    skus.put("image", StringUtils.substringBefore(sku.getImages(), ","));//sku中有多个图片，只展示第一张
+                    skusList.add(skus);
+                }
+                tmp.setPrice(priceSet);
+                tmp.setSkus(JSONUtil.toJsonStr(skusList));
+
+                itemList.add(tmp);
+                //tmp的规格参数 暂时不做！！
+            }
+        }
+        searchResult.setItems(itemList);
+        List<Category> categoryList = categoryService.list(new QueryWrapper<Category>().in("id", spuList.stream().map(Spu::getCategoryId).collect(Collectors.toList())));
+        List<Brand> brandList = brandService.list(new QueryWrapper<Brand>().in("id", spuList.stream().map(Spu::getBrandId).collect(Collectors.toList())));
+
+        searchResult.setCategories(categoryList);
+        searchResult.setBrands(brandList);
+        //searchResult的规格参数 暂时不做！！
+        return searchResult;
     }
 
 }

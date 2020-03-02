@@ -227,7 +227,7 @@
             <div class="clearfix selector">
                 <div class="type-wrap" v-for="(f,i) in remainFilter" v-show="i<=4 || showMore" :key="f.k"
                      v-if="f.k !== 'brandId'">
-                    <div class="fl key" v-text="f.k === 'cid3' ? '分类' : f.k"></div>
+                    <div class="fl key" v-text="f.k === 'cid3' ? '商品分类' : f.k"></div>
                     <div class="fl value">
                         <ul class="type-list">
                             <li v-for="(o,j) in f.options" :key="j" v-if="o" @click="selectFilter(f.k,o.id || o)">
@@ -263,176 +263,92 @@
                     <v-icon>keyboard_arrow_up</v-icon>
                 </v-btn>
             </div>
-        </div>
-        <!--details-->
-        <div class="details">
-            <div class="sui-navbar">
-                <div class="navbar-inner filter">
-                    <ul class="sui-nav">
-                        <li class="active">
-                            <a href="#">综合</a>
-                        </li>
-                        <li>
-                            <a href="#">销量</a>
-                        </li>
-                        <li>
-                            <a href="#">新品</a>
-                        </li>
-                        <li>
-                            <a href="#">评价</a>
-                        </li>
-                        <li>
-                            <a href="#">价格</a>
-                        </li>
-                    </ul>
-                    <div class="top-pagination">
-                        <span>共 <i style="color: #222;">{{total}}</i> 商品</span>
-                        <span><i style="color: red;">{{search.page}}</i>/{{totalPage}}</span>
-                        <a class="btn-arrow" href="#" @click.prevent="prePage" style="display: inline-block">&lt;</a>
-                        <a class="btn-arrow" href="#" @click.prevent="nextPage" style="display: inline-block">&gt;</a>
+            <!--details-->
+            <div class="details">
+                <div class="sui-navbar">
+                    <div class="navbar-inner filter">
+<!--                        <ul class="sui-nav">
+                            <li class="active">
+                                <a href="#">综合</a>
+                            </li>
+                            <li>
+                                <a href="#">销量</a>
+                            </li>
+                            <li>
+                                <a href="#">新品</a>
+                            </li>
+                            <li>
+                                <a href="#">评价</a>
+                            </li>
+                            <li>
+                                <a href="#">价格</a>
+                            </li>
+                        </ul>-->
+                        <div class="top-pagination">
+                            <span>共 <i style="color: #222;">{{total}}</i> 商品</span>
+                            <span><i style="color: red;">{{search.page}}</i>/{{totalPage}}</span>
+                            <a class="btn-arrow" href="#" @click.prevent="prePage" style="display: inline-block">&lt;</a>
+                            <a class="btn-arrow" href="#" @click.prevent="nextPage" style="display: inline-block">&gt;</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="goods-list">
-                <ul class="yui3-g">
-                    <li class="yui3-u-1-5" v-for="goods in goodslist" :key="goods.id">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a :href="'item/'+goods.id+'.html'" target="_blank"><img :src="goods.selectedSku.image"
-                                                                                         height="200"/></a>
-                                <ul class="skus">
-                                    <li :class="{selected:goods.selectedSku.id === sku.id}"
-                                        @mouseenter="goods.selectedSku=sku"
-                                        v-for="sku in goods.skus" :key="sku.id">
-                                        <img :src="sku.image"></li>
-                                </ul>
+                <div class="goods-list">
+                    <ul class="yui3-g">
+                        <li class="yui3-u-1-5" v-for="goods in goodslist" :key="goods.id">
+                            <div class="list-wrap">
+                                <div class="p-img">
+                                    <a :href="'item/'+goods.id+'.html'" target="_blank"><img :src="goods.selectedSku.image"
+                                                                                             height="200"/></a>
+                                    <ul class="skus">
+                                        <li :class="{selected:goods.selectedSku.id === sku.id}"
+                                            @mouseenter="goods.selectedSku=sku"
+                                            v-for="sku in goods.skus" :key="sku.id">
+                                            <img :src="sku.image"></li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="price">
+                                    <strong>
+                                        <em>¥</em>
+                                        <i v-text="goods.selectedSku.price"></i>
+                                    </strong>
+                                </div>
+                                <div class="attr">
+                                    <em v-text="goods.selectedSku.title.substring(0,22)"></em>
+                                </div>
+                                <!--                            <div class="cu">
+                                                                <em><span>促</span>{{goods.subTitle.substring(0,16) + '...'}}</em>
+                                                            </div>-->
+                                <div class="operate">
+                                    <a :href="'item/'+goods.id+'.html'" target="_blank"
+                                       class="sui-btn btn-bordered btn-danger">点击查看详情</a>
+                                </div>
                             </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i v-text="goods.selectedSku.price"></i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em v-text="goods.selectedSku.title.substring(0,22)"></em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>{{goods.subTitle.substring(0,16) + '...'}}</em>
-                            </div>
-                            <div class="operate">
-                                <a :href="'item/'+goods.id+'.html'" target="_blank"
-                                   class="sui-btn btn-bordered btn-danger">点击查看详情</a>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="fr">
-                <div class="sui-pagination pagination-large">
-                    <ul>
-                        <li :class="{prev:true, disabled: search.page === 1}">
-                            <a href="#" @click.prevent="prePage">«上一页</a>
-                        </li>
-                        <li :class="{active: index(i) === search.page}" v-for="i in Math.min(5,totalPage)" :key="i">
-                            <a href="#" v-text="index(i)" @click="pageBtn(index(i))"></a>
                         </li>
 
-                        <li class="dotted" v-show="search.page + 2 < totalPage"><span>...</span></li>
-                        <li :class="{next:true, disabled: search.page === totalPage}">
-                            <a href="#" @click.prevent="nextPage">下一页»</a>
-                        </li>
                     </ul>
-                    <div><span>共{{totalPage}}页&nbsp;</span><span>
+                </div>
+                <div class="fr">
+                    <div class="sui-pagination pagination-large">
+                        <ul>
+                            <li :class="{prev:true, disabled: search.page === 1}">
+                                <a href="#" @click.prevent="prePage">«上一页</a>
+                            </li>
+                            <li :class="{active: index(i) === search.page}" v-for="i in Math.min(5,totalPage)" :key="i">
+                                <a href="#" v-text="index(i)" @click="pageBtn(index(i))"></a>
+                            </li>
+
+                            <li class="dotted" v-show="search.page + 2 < totalPage"><span>...</span></li>
+                            <li :class="{next:true, disabled: search.page === totalPage}">
+                                <a href="#" @click.prevent="nextPage">下一页»</a>
+                            </li>
+                        </ul>
+                        <div><span>共{{totalPage}}页&nbsp;</span><span>
       到第
       <input type="text" class="page-num" v-model="myPage">
       页 <button class="page-confirm" @click="toPage">确定</button></span></div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!--hotsale-->
-        <div class="clearfix hot-sale">
-            <h4 class="title">热卖商品</h4>
-            <div class="hot-list">
-                <ul class="yui3-g">
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="img/like_01.png"/>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="img/like_03.png"/>
-                            </div>
-                            <div class="attr">
-                                <em>金属A面，360°翻转，APP下单省300！</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="img/like_04.png"/>
-                            </div>
-                            <div class="attr">
-                                <em>256SSD商务大咖，完爆职场，APP下单立减200</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4068.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有20人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="img/like_02.png"/>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -488,7 +404,7 @@
         methods: {
             loadData() {
                 //发送到后台
-                ly.http.post("/search/page", this.search).then((resp) => {
+                ly.http.post("/spu/search", this.search).then((resp) => {
                     //保存分页结果
                     this.total = resp.data.total;
                     //手动计算页面总数
