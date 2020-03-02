@@ -1,5 +1,6 @@
 package com.hthyaq.malladmin.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class SearchItems {
     private Integer cid1;// 1级分类id
     private Integer cid2;// 2级分类id
     private Integer cid3;// 3级分类id
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;// 创建时间
     private Set<Double> price;// 价格，一个spu有多个sku，就有多个价格
     private String skus;// sku信息的json结构，只是一个展示结果

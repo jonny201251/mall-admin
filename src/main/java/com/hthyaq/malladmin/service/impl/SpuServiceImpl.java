@@ -406,6 +406,15 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         //分页查询出spu
         QueryWrapper<Spu> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("title", key);
+        //暂时处理 分类(cid3)、品牌(brandId)
+        String categoryId = request.getFilter().get("cid3");
+        String brandId = request.getFilter().get("brandId");
+        if (!Strings.isNullOrEmpty(categoryId)) {
+            queryWrapper.eq("category_id", Integer.parseInt(categoryId));
+        }
+        if (!Strings.isNullOrEmpty(brandId)) {
+            queryWrapper.eq("brand_id", Integer.parseInt(brandId));
+        }
         IPage<Spu> spuPage = this.page(new Page<>(currentPage, pageSize), queryWrapper);
         List<Spu> spuList = spuPage.getRecords();
         //

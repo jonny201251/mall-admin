@@ -209,15 +209,15 @@
             <div class="bread">
                 <!--面包屑-->
                 <ul class="fl sui-breadcrumb">
-                    <li><span>全部结果:</span></li>
-                    <li><a href="#">手机</a></li>
-                    <li><span>手机通讯</span></li>
+                    <li><span>筛选结果:</span></li>
+                    <!--                    <li><a href="#">手机</a></li>
+                                        <li><span>手机通讯</span></li>-->
                 </ul>
 
                 <!--已选择过滤项-->
                 <ul class="tags-choose">
                     <li class="tag" v-for=" (v,k) in search.filter" :key="k">
-                        {{k === 'brandId' ? '品牌': k}}:<span style="color: red" v-text="findValue(k,v)"></span>
+                        {{k === 'brandId' ? '品牌': '商品分类'}}:<span style="color: red" v-text="findValue(k,v)"></span>
                         <i class="sui-icon icon-tb-close" @click="deleteFilter(k)"></i>
                     </li>
                 </ul>
@@ -267,28 +267,30 @@
             <div class="details">
                 <div class="sui-navbar">
                     <div class="navbar-inner filter">
-<!--                        <ul class="sui-nav">
-                            <li class="active">
-                                <a href="#">综合</a>
-                            </li>
-                            <li>
-                                <a href="#">销量</a>
-                            </li>
-                            <li>
-                                <a href="#">新品</a>
-                            </li>
-                            <li>
-                                <a href="#">评价</a>
-                            </li>
-                            <li>
-                                <a href="#">价格</a>
-                            </li>
-                        </ul>-->
+                        <!--                        <ul class="sui-nav">
+                                                    <li class="active">
+                                                        <a href="#">综合</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">销量</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">新品</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">评价</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">价格</a>
+                                                    </li>
+                                                </ul>-->
                         <div class="top-pagination">
                             <span>共 <i style="color: #222;">{{total}}</i> 商品</span>
                             <span><i style="color: red;">{{search.page}}</i>/{{totalPage}}</span>
-                            <a class="btn-arrow" href="#" @click.prevent="prePage" style="display: inline-block">&lt;</a>
-                            <a class="btn-arrow" href="#" @click.prevent="nextPage" style="display: inline-block">&gt;</a>
+                            <a class="btn-arrow" href="#" @click.prevent="prePage"
+                               style="display: inline-block">&lt;</a>
+                            <a class="btn-arrow" href="#" @click.prevent="nextPage"
+                               style="display: inline-block">&gt;</a>
                         </div>
                     </div>
                 </div>
@@ -297,8 +299,9 @@
                         <li class="yui3-u-1-5" v-for="goods in goodslist" :key="goods.id">
                             <div class="list-wrap">
                                 <div class="p-img">
-                                    <a :href="'item/'+goods.id+'.html'" target="_blank"><img :src="goods.selectedSku.image"
-                                                                                             height="200"/></a>
+                                    <a :href="'item.html?id='+goods.id" target="_blank"><img
+                                            :src="goods.selectedSku.image"
+                                            height="200"/></a>
                                     <ul class="skus">
                                         <li :class="{selected:goods.selectedSku.id === sku.id}"
                                             @mouseenter="goods.selectedSku=sku"
@@ -320,7 +323,7 @@
                                                                 <em><span>促</span>{{goods.subTitle.substring(0,16) + '...'}}</em>
                                                             </div>-->
                                 <div class="operate">
-                                    <a :href="'item/'+goods.id+'.html'" target="_blank"
+                                    <a :href="'item.html?id='+goods.id" target="_blank"
                                        class="sui-btn btn-bordered btn-danger">点击查看详情</a>
                                 </div>
                             </div>
@@ -470,11 +473,21 @@
 
             },
             findValue(k, v) {
-                if (!this.filters) {
-                    return;
+                var name;
+                if (k === 'cid3') {
+                    this.filters.find(f => f.k === 'cid3').options.forEach(option => {
+                        if (option.id === v) {
+                            name = option.name;
+                        }
+                    });
+                } else if (k === 'brandId') {
+                    this.filters.find(f => f.k === 'brandId').options.forEach(option => {
+                        if (option.id === v) {
+                            name = option.name;
+                        }
+                    });
                 }
-                if (k !== 'brandId') return v;
-                return this.filters.find(f => f.k === 'brandId').options[0].name;
+                return name;
             },
             deleteFilter(k) {
                 //从filter中复制属性到obj
