@@ -395,4 +395,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         return model;
     }
 
+    @Override
+    public SearchResult getSearchData(SearchRequest request) {
+        return null;
+    }
+
 }

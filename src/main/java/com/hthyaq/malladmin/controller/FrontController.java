@@ -68,6 +68,7 @@ public class FrontController {
         return "front/register";
     }
 
+    //第一次的搜索
     @GetMapping("/search.html")
     public String search() {
         return "front/search";

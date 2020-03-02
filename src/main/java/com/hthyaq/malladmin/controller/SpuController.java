@@ -15,15 +15,11 @@ import com.hthyaq.malladmin.common.utils.UploadImageUtil;
 import com.hthyaq.malladmin.model.bean.ChildForm;
 import com.hthyaq.malladmin.model.entity.*;
 import com.hthyaq.malladmin.model.responseResult.GlobalResponseResult;
-import com.hthyaq.malladmin.model.vo.LabelName;
-import com.hthyaq.malladmin.model.vo.SpuReverseView;
+import com.hthyaq.malladmin.model.vo.*;
 import com.hthyaq.malladmin.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -60,7 +56,7 @@ public class SpuController {
     //将富文本编辑器的图片存储起来
     @PostMapping("/uploadImage")
     public GlobalResponseResult uploadImage(MultipartFile imageFile) throws IOException {
-        String dbPath = UploadImageUtil.save(imageFile,"item");
+        String dbPath = UploadImageUtil.save(imageFile, "item");
         return GlobalResponseResult.success(dbPath);
     }
 
@@ -89,9 +85,9 @@ public class SpuController {
 
     @PostMapping("/add")
     @ResponseResult
-    public boolean add(HttpSession httpSession,MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
+    public boolean add(HttpSession httpSession, MultipartFile[] images, String description, String form, String genericSpec) throws IOException {
         SysUser user = (SysUser) httpSession.getAttribute("user");
-        return spuService.add(user,images, description, form, genericSpec);
+        return spuService.add(user, images, description, form, genericSpec);
     }
 
     @PostMapping("/edit")
@@ -175,6 +171,12 @@ public class SpuController {
         spuReverseView.setSkuList(skuList);
         spuReverseView.setType(specType);
         return spuReverseView;
+    }
+
+    //搜索时，返回商品数据
+    @PostMapping("/search")
+    public SearchResult search(@RequestBody SearchRequest request) {
+        return spuService.getSearchData(request);
     }
 
     @GetMapping("/a")
