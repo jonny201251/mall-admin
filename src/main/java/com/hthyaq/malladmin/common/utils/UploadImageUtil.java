@@ -2,6 +2,7 @@ package com.hthyaq.malladmin.common.utils;
 
 import cn.hutool.core.util.IdUtil;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,7 @@ public class UploadImageUtil {
         if (lastIndex > 0) {
             fileName = fileName.substring(lastIndex + 1);
         }
-        String suffix = tmp[1];
+        String suffix = FilenameUtils.getExtension(fileName);
         InputStream inputStream = imageFile.getInputStream();
         String uuid = IdUtil.fastSimpleUUID();
         //图片保存到本地硬盘
