@@ -1,6 +1,7 @@
 <!--顶部-->
 <div class="nav-top">
     <!--页面顶部白条条，由js动态加载-->
+    <div id="shortcutt"></div>
     <!--头部-->
     <div class="header" id="headApp">
         <div class="py-container">
@@ -70,6 +71,7 @@
         </div>
     </div>
     <script src="front/js/vue/vue.js"></script>
+    <script type="text/javascript">$("#shortcutt").load("shortcut.html");</script>
     <script type="text/javascript">
         console.log(Vue);
         var headVm = new Vue({

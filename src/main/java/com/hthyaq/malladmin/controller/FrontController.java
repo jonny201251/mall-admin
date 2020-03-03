@@ -44,11 +44,6 @@ public class FrontController {
         return "front/copyright";
     }
 
-    @GetMapping("/shortcut.html")
-    public String shortcut() {
-        return "front/shortcut";
-    }
-
     @GetMapping("/item.html")
     public String item(Long id, Model model) {
         // 查询数据模型
@@ -102,6 +97,10 @@ public class FrontController {
     @GetMapping("/top.html")
     public String top() {
         return "front/top";
+    }
+    @GetMapping("/shortcut.html")
+    public String shortcut() {
+        return "front/shortcut";
     }
 
     @GetMapping("/index.html")
