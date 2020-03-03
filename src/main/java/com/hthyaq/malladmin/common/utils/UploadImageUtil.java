@@ -14,14 +14,7 @@ public class UploadImageUtil {
     //type为brand（品牌）、item（商品）
     public static String save(MultipartFile imageFile, String type) throws IOException {
         String originalFilename = imageFile.getOriginalFilename();
-        String[] tmp = originalFilename.split("\\.");
-        String fileName = tmp[0];
-        //fileName兼容处理
-        int lastIndex = fileName.lastIndexOf("\\");
-        if (lastIndex > 0) {
-            fileName = fileName.substring(lastIndex + 1);
-        }
-        String suffix = FilenameUtils.getExtension(fileName);
+        String suffix = FilenameUtils.getExtension(originalFilename);
         InputStream inputStream = imageFile.getInputStream();
         String uuid = IdUtil.fastSimpleUUID();
         //图片保存到本地硬盘
