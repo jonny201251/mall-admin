@@ -1,9 +1,10 @@
 package com.hthyaq.malladmin;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class Test {
     public static void main(String[] args) {
-        System.out.println(FilenameUtils.getExtension("aa.bb.jpg"));
+       String s= StringUtils.substringAfter("aa.jpg,b.png", ",");
+        System.out.println(s);
     }
 }

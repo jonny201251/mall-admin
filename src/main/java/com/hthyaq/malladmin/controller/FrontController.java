@@ -114,7 +114,7 @@ public class FrontController {
             Spu spu=scrollTmp.get(i);
             SpuView scroll = new SpuView();
             scroll.setSpuId(spu.getId());
-            scroll.setImage(StringUtils.substringBefore(spu.getImages(), ","));
+            scroll.setImage(StringUtils.substringAfter(spu.getImages(), ","));
             if(i==0){
                 indexView.setScroll1(scroll);
             }else if(i==1){
