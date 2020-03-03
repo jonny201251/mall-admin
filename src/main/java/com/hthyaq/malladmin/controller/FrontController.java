@@ -99,6 +99,10 @@ public class FrontController {
     public String side() {
         return "front/side";
     }
+    @GetMapping("/top.html")
+    public String top() {
+        return "front/top";
+    }
 
     @GetMapping("/index.html")
     public String index(Model model) {

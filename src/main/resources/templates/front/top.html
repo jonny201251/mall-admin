@@ -1,8 +1,6 @@
 <!--顶部-->
 <div class="nav-top">
-
     <!--页面顶部白条条，由js动态加载-->
-
     <!--头部-->
     <div class="header" id="headApp">
         <div class="py-container">
@@ -15,7 +13,7 @@
                         <form action="" class="sui-form form-inline">
                             <!--searchAutoComplete-->
                             <div class="input-append">
-                                <input type="text" id="autocomplete" type="text" v-model="key"
+                                <input type="text" id="autocomplete" v-model="key"
                                        class="input-error input-xxlarge"/>
                                 <button @click="search" class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
                             </div>
@@ -71,8 +69,7 @@
             </div>
         </div>
     </div>
-    <script src="./js/vue/vue.js"></script>
-    <script src="./js/pages/shortcut.js"></script>
+    <script src="front/js/vue/vue.js"></script>
     <script type="text/javascript">
         console.log(Vue);
         var headVm = new Vue({
@@ -96,9 +93,6 @@
             },
             created() {
                 this.key = this.getUrlParam("key");
-            },
-            components: {
-                shortcut
             }
         })
     </script>
