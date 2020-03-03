@@ -1,13 +1,13 @@
 <div class='py-container'>
     <div class='shortcut' id="shortcutApp">
         <ul class='fl'>
-            <li class='f-item'>乐优欢迎您！</li>
-            <li class='f-item' v-if='user && user.username'>
-                尊敬的会员，<span style='color: red;'>{{user.username}}</span>
+            <li class='f-item' v-if='user && user.loginName'>
+                欢迎您,<span style='color: red;'>{{user.loginName}}</span>
+                <a href='javascript:void(0)' @click='gotoLogout'>退出</a>　
             </li>
             <li v-else class='f-item'>
-                请<a href='javascript:void(0)' @click='gotoLogin'>登录</a>　
-                <span><a href='/register.html' target='_blank'>免费注册</a></span>
+                <a href='javascript:void(0)' @click='gotoLogin'>请登录</a>　
+                <span><a href='register.html' target='_blank'>免费注册</a></span>
             </li>
         </ul>
         <ul class='fr'>
@@ -40,17 +40,23 @@
         var headVm = new Vue({
             el: "#shortcutApp",
             data: {
-                user:null
+                user: null
             },
             methods: {
                 gotoLogin() {
-                    window.location = "/login.html?returnUrl=" + window.location;
+                    window.location = "login.html?returnUrl=" + window.location;
+                },
+                gotoLogout() {
+                    ly.http("/sysUser/logout")
+                        .then(resp => {
+                            window.location = "index.html"
+                        })
                 }
             },
             created() {
                 ly.http("/auth/verify")
                     .then(resp => {
-                        this.user = resp.data;
+                        this.user = resp.data.data;
                     })
             }
         })

@@ -78,6 +78,12 @@ public class SysUserController {
         return user;
     }
 
+    @GetMapping("/sysUser/logout")
+    public boolean logout(HttpSession httpSession) {
+        httpSession.removeAttribute("user");
+        return true;
+    }
+
     //后台登录
     @PostMapping("/admin/login")
     @ResponseResult
