@@ -79,4 +79,8 @@ public class FrontController {
         return "front/success";
     }
 
+    @GetMapping("/index.html")
+    public String index() {
+        return "front/index";
+    }
 }
