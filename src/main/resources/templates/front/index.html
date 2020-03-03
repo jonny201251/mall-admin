@@ -30,6 +30,10 @@
     });
 </script>
 
+<script th:inline="javascript">
+    const user = /*[[${indexView}]]*/ {};
+    console.log(user);
+</script>
 
 <!--列表-->
 <div class="sort">
@@ -37,100 +41,17 @@
         <div class="yui3-g SortList ">
             <div class="yui3-u Left all-sort-list">
                 <div class="all-sort-list2">
-                    <div class="item">
-                        <h3><a href="">家用电器</a></h3>
+                    <div class="item" th:each="category1:${indexView.getCategoryList()}">
+                        <h3><a th:href="@{'list.html?cid1='+${category1.getKey()}}" target="_blank" th:text="${category1.getTitle()}">家用电器</a></h3>
                         <div class="item-list clearfix">
                             <div class="subitem">
-                                <dl class="fore1">
-                                    <dt><a href="">电子书1</a></dt>
-                                    <dd><em><a href="">免费</a></em><em><a href="">小说</a></em><em><a
-                                            href="">励志与成功</a></em><em><a href="">婚恋/两性</a></em><em><a
-                                            href="">文学</a></em><em><a href="">经管</a></em><em><a href="">畅读VIP</a></em>
+                                <dl th:each="category2:${category1.getChildren()}">
+                                    <dt><a th:href="@{'list.html?cid2='+${category2.getKey()}}" target="_blank" th:text="${category2.getTitle()}">家用电器</a></dt>
+                                    <dd>
+                                        <em th:each="category3:${category2.getChildren()}">
+                                            <a th:href="@{'list.html?cid3='+${category3.getKey()}}" target="_blank" th:text="${category3.getTitle()}">家用电器</a>
+                                        </em>
                                     </dd>
-                                </dl>
-                                <dl class="fore2">
-                                    <dt><a href="">数字音乐</a></dt>
-                                    <dd><em><a href="">通俗流行</a></em><em><a href="">古典音乐</a></em><em><a href="">摇滚说唱</a></em><em><a
-                                            href="">爵士蓝调</a></em><em><a href="">乡村民谣</a></em><em><a
-                                            href="">有声读物</a></em></dd>
-                                </dl>
-                                <dl class="fore3">
-                                    <dt><a href="">音像</a></dt>
-                                    <dd><em><a href="">音乐</a></em><em><a href="">影视</a></em><em><a href="">教育音像</a></em><em><a
-                                            href="">游戏</a></em></dd>
-                                </dl>
-                                <dl class="fore4">
-                                    <dt>文艺</dt>
-                                    <dd><em><a href="">小说</a></em><em><a href="">文学</a></em><em><a href="">青春文学</a></em><em><a
-                                            href="">传记</a></em><em><a href="">艺术</a></em></dd>
-                                </dl>
-                                <dl class="fore5">
-                                    <dt>人文社科</dt>
-                                    <dd><em><a href="">历史</a></em><em><a href="">心理学</a></em><em><a
-                                            href="">政治/军事</a></em><em><a href="">国学/古籍</a></em><em><a href="">哲学/宗教</a></em><em><a
-                                            href="">社会科学</a></em></dd>
-                                </dl>
-                                <dl class="fore6">
-                                    <dt>经管励志</dt>
-                                    <dd><em><a href="">经济</a></em><em><a href="">金融与投资</a></em><em><a
-                                            href="">管理</a></em><em><a href="">励志与成功</a></em></dd>
-                                </dl>
-                                <dl class="fore7">
-                                    <dt>生活</dt>
-                                    <dd><em><a href="">家庭与育儿</a></em><em><a href="">旅游/地图</a></em><em><a
-                                            href="">烹饪/美食</a></em><em><a href="">时尚/美妆</a></em><em><a
-                                            href="">家居</a></em><em><a href="">婚恋与两性</a></em><em><a
-                                            href="">娱乐/休闲</a></em><em><a href="">健身与保健</a></em><em><a href="">动漫/幽默</a></em><em><a
-                                            href="">体育/运动</a></em></dd>
-                                </dl>
-                                <dl class="fore8">
-                                    <dt>科技</dt>
-                                    <dd><em><a href="">科普</a></em><em><a href="">IT</a></em><em><a
-                                            href="">建筑</a></em><em><a href="">医学</a></em><em><a
-                                            href="">工业技术</a></em><em><a href="">电子/通信</a></em><em><a href="">农林</a></em><em><a
-                                            href="">科学与自然</a></em></dd>
-                                </dl>
-                                <dl class="fore9">
-                                    <dt>少儿</dt>
-                                    <dd><em><a href="">少儿</a></em><em><a href="">0-2岁</a></em><em><a
-                                            href="">3-6岁</a></em><em><a href="">7-10岁</a></em><em><a href="">11-14岁</a></em>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <h3><a href="">手机、数码</a></h3>
-                        <div class="item-list clearfix">
-                            <div class="subitem">
-                                <dl class="fore1">
-                                    <dt><a href="">电子书2</a></dt>
-                                    <dd><em><a href="">免费</a></em><em><a href="">小说</a></em><em><a
-                                            href="">励志与成功</a></em><em><a href="">婚恋/两性</a></em><em><a
-                                            href="">文学</a></em><em><a href="">经管</a></em><em><a href="">畅读VIP</a></em>
-                                    </dd>
-                                </dl>
-                                <dl class="fore2">
-                                    <dt><a href="">数字音乐</a></dt>
-                                    <dd><em><a href="">通俗流行</a></em><em><a href="">古典音乐</a></em><em><a href="">摇滚说唱</a></em><em><a
-                                            href="">爵士蓝调</a></em><em><a href="">乡村民谣</a></em><em><a
-                                            href="">有声读物</a></em></dd>
-                                </dl>
-                                <dl class="fore3">
-                                    <dt><a href="">音像</a></dt>
-                                    <dd><em><a href="">音乐</a></em><em><a href="">影视</a></em><em><a href="">教育音像</a></em><em><a
-                                            href="">游戏</a></em></dd>
-                                </dl>
-                                <dl class="fore4">
-                                    <dt>文艺</dt>
-                                    <dd><em><a href="">小说</a></em><em><a href="">文学</a></em><em><a href="">青春文学</a></em><em><a
-                                            href="">传记</a></em><em><a href="">艺术</a></em></dd>
-                                </dl>
-                                <dl class="fore5">
-                                    <dt>人文社科</dt>
-                                    <dd><em><a href="">历史</a></em><em><a href="">心理学</a></em><em><a
-                                            href="">政治/军事</a></em><em><a href="">国学/古籍</a></em><em><a href="">哲学/宗教</a></em><em><a
-                                            href="">社会科学</a></em></dd>
                                 </dl>
                             </div>
                         </div>
@@ -147,20 +68,22 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="active item">
-                            <a href="/" style="display:block;width:990px;height:460px">
-                                <img src="image/item/493dec99be3d4442a8a64554be1950ee.jpg"/>
+                            <a th:href="@{'item.html?id='+${indexView.scroll1.spuId}}" target="_blank"
+                               style="display:block;width:990px;height:455px">
+                                <img th:src="@{${indexView.scroll1.image}}"/>
                             </a>
                         </div>
                         <div class="item">
-                            <a href="/" style="display:block;width:990px;height:460px">
-                                <img src="image/item/33a45403f9cd47d09091b497e287f8d0.jpg"/>
+                            <a th:href="@{'item.html?id='+${indexView.scroll2.spuId}}" target="_blank"
+                               style="display:block;width:990px;height:455px">
+                                <img th:src="@{${indexView.scroll2.image}}"/>
                             </a>
                         </div>
                         <div class="item">
-                            <a href="/" style="display:block;width:990px;height:460px">
-                                <img src="image/item/03647b40b27b4aac9969f52d55bee1c3.jpg"/>
+                            <a th:href="@{'item.html?id='+${indexView.scroll3.spuId}}" target="_blank"
+                               style="display:block;width:990px;height:455px">
+                                <img th:src="@{${indexView.scroll3.image}}"/>
                             </a>
-
                         </div>
                     </div>
                     <a href="#myCarousel" data-slide="prev" class="carousel-control left">‹</a><a href="#myCarousel"
@@ -175,109 +98,53 @@
 <div id="floor-1" class="floor">
     <div class="py-container">
         <div class="title floors">
-            <h3 class="fl">家用电器</h3>
+            <h3 class="fl" th:text="${indexView.getFloor1().getTitle()}">家用电器</h3>
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
                     <li class="active">
                         <a href="#tab1" data-toggle="tab">热门</a>
                     </li>
-                    <li>
-                        <a href="#tab2" data-toggle="tab">大家电</a>
-                    </li>
-                    <li>
-                        <a href="#tab3" data-toggle="tab">生活电器</a>
-                    </li>
-                    <li>
-                        <a href="#tab4" data-toggle="tab">厨房电器</a>
-                    </li>
-                    <li>
-                        <a href="#tab5" data-toggle="tab">应季电器</a>
-                    </li>
-                    <li>
-                        <a href="#tab6" data-toggle="tab">空气/净水</a>
-                    </li>
-                    <li>
-                        <a href="#tab7" data-toggle="tab">高端电器</a>
+                    <li th:each="category : ${indexView.getFloor1().getChildren()}">
+                        <a th:href="@{'list.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                           th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="clearfix  tab-content floor-content">
             <div id="tab1" class="tab-pane active">
-                <div class="yui3-g Floor-1">
+                <div class="yui3-g Floor-1" style="height:300px">
                     <div class="yui3-u Left blockgary">
-                        <ul class="jd-list">
-                            <li>节能补贴</li>
-                            <li>4K电视</li>
-                            <li>空气净化器</li>
-                            <li>IH电饭煲</li>
-                            <li>滚筒洗衣机</li>
-                            <li>电热水器</li>
-                        </ul>
-                        <img src="img/floor-1-1.png"/>
+                        <a th:href="@{'item.html?id='+${indexView.getFloor1Data().get(0).spuId}}" target="_blank"
+                           style="display:block;border:1px solid #e4e4e4;">
+                            <img th:src="@{${indexView.getFloor1Data().get(0).image}}" style="height:300px"/>
+                        </a>
                     </div>
-                    <div class="yui3-u row-330 floorBanner">
-                        <div id="floorCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
-                            <ol class="carousel-indicators">
-                                <li data-target="#floorCarousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#floorCarousel" data-slide-to="1"></li>
-                                <li data-target="#floorCarousel" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="active item">
-                                    <img src="img/floor-1-b01.png">
-                                </div>
-                                <div class="item">
-                                    <img src="img/floor-1-b02.png">
-                                </div>
-                                <div class="item">
-                                    <img src="img/floor-1-b03.png">
-                                </div>
-                            </div>
-                            <a href="#floorCarousel" data-slide="prev" class="carousel-control left">‹</a>
-                            <a href="#floorCarousel" data-slide="next" class="carousel-control right">›</a>
-                        </div>
+                    <div class="yui3-u row-330">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor1Data().get(1).spuId}}" target="_blank"
+                           style="display:block;border-right:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor1Data().get(1).image}}" style="height:300px;"/>
+                        </a>
                     </div>
-                    <div class="yui3-u row-220 split">
-                        <span class="floor-x-line"></span>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-2.png"/>
-                        </div>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-3.png"/>
-                        </div>
+                    <div class="yui3-u row-220">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor1Data().get(2).spuId}}" target="_blank"
+                           style="display:block;">
+                            <img th:src="@{${indexView.getFloor1Data().get(2).image}}" style="height:300px"/>
+                        </a>
                     </div>
                     <div class="yui3-u row-218 split">
-                        <img src="img/floor-1-4.png"/>
+                        <a th:href="@{'item.html?id='+${indexView.getFloor1Data().get(3).spuId}}" target="_blank"
+                           style="display:block;">
+                            <img th:src="@{${indexView.getFloor1Data().get(3).image}}" style="height:300px"/>
+                        </a>
                     </div>
                     <div class="yui3-u row-220 split">
-                        <span class="floor-x-line"></span>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-5.png"/>
-                        </div>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-6.png"/>
-                        </div>
+                        <a th:href="@{'item.html?id='+${indexView.getFloor1Data().get(4).spuId}}" target="_blank"
+                           style="display:block;border-right:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor1Data().get(4).image}}" style="height:300px"/>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div id="tab2" class="tab-pane">
-                <p>第二个</p>
-            </div>
-            <div id="tab3" class="tab-pane">
-                <p>第三个</p>
-            </div>
-            <div id="tab4" class="tab-pane">
-                <p>第4个</p>
-            </div>
-            <div id="tab5" class="tab-pane">
-                <p>第5个</p>
-            </div>
-            <div id="tab6" class="tab-pane">
-                <p>第6个</p>
-            </div>
-            <div id="tab7" class="tab-pane">
-                <p>第7个</p>
             </div>
         </div>
     </div>
@@ -285,117 +152,111 @@
 <div id="floor-2" class="floor">
     <div class="py-container">
         <div class="title floors">
-            <h3 class="fl">手机通讯</h3>
+            <h3 class="fl" th:text="${indexView.getFloor2().getTitle()}">家用电器</h3>
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
                     <li class="active">
-                        <a href="#tab8" data-toggle="tab">热门</a>
+                        <a href="#tab1" data-toggle="tab">热门</a>
                     </li>
-                    <li>
-                        <a href="#tab9" data-toggle="tab">品质优选</a>
-                    </li>
-                    <li>
-                        <a href="#tab10" data-toggle="tab">新机尝鲜</a>
-                    </li>
-                    <li>
-                        <a href="#tab11" data-toggle="tab">高性价比</a>
-                    </li>
-                    <li>
-                        <a href="#tab12" data-toggle="tab">合约机</a>
-                    </li>
-                    <li>
-                        <a href="#tab13" data-toggle="tab">手机卡</a>
-                    </li>
-                    <li>
-                        <a href="#tab14" data-toggle="tab">手机配件</a>
+                    <li th:each="category : ${indexView.getFloor2().getChildren()}">
+                        <a th:href="@{'list.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                           th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="clearfix  tab-content floor-content">
-            <div id="tab8" class="tab-pane active">
-                <div class="yui3-g Floor-1">
+            <div id="tab2" class="tab-pane active">
+                <div class="yui3-g Floor-1" style="height:300px">
                     <div class="yui3-u Left blockgary">
-                        <ul class="jd-list">
-                            <li>节能补贴</li>
-                            <li>4K电视</li>
-                            <li>空气净化器</li>
-                            <li>IH电饭煲</li>
-                            <li>滚筒洗衣机</li>
-                            <li>电热水器</li>
-                        </ul>
-                        <img src="img/floor-1-1.png"/>
+                        <a th:href="@{'item.html?id='+${indexView.getFloor2Data().get(0).spuId}}" target="_blank"
+                           style="display:block;border:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor2Data().get(0).image}}" style="height:300px"/>
+                        </a>
                     </div>
-                    <div class="yui3-u row-330 floorBanner">
-                        <div id="floorCarousell" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
-                            <ol class="carousel-indicators">
-                                <li data-target="#floorCarousell" data-slide-to="0" class="active"></li>
-                                <li data-target="#floorCarousell" data-slide-to="1"></li>
-                                <li data-target="#floorCarousell" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="active item">
-                                    <img src="img/floor-1-b01.png">
-                                </div>
-                                <div class="item">
-                                    <img src="img/floor-1-b02.png">
-                                </div>
-                                <div class="item">
-                                    <img src="img/floor-1-b03.png">
-                                </div>
-                            </div>
-                            <a href="#floorCarousell" data-slide="prev" class="carousel-control left">‹</a>
-                            <a href="#floorCarousell" data-slide="next" class="carousel-control right">›</a>
-                        </div>
+                    <div class="yui3-u row-330">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor2Data().get(1).spuId}}" target="_blank"
+                           style="display:block;border-right:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor2Data().get(1).image}}" style="height:300px"/>
+                        </a>
                     </div>
-                    <div class="yui3-u row-220 split">
-                        <span class="floor-x-line"></span>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-2.png"/>
-                        </div>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-3.png"/>
-                        </div>
+                    <div class="yui3-u row-220">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor2Data().get(2).spuId}}" target="_blank"
+                           style="display:block;">
+                            <img th:src="@{${indexView.getFloor2Data().get(2).image}}" style="height:300px"/>
+                        </a>
                     </div>
                     <div class="yui3-u row-218 split">
-                        <img src="img/floor-1-4.png"/>
+                        <a th:href="@{'item.html?id='+${indexView.getFloor2Data().get(3).spuId}}" target="_blank"
+                           style="display:block;">
+                            <img th:src="@{${indexView.getFloor2Data().get(3).image}}" style="height:300px"/>
+                        </a>
                     </div>
                     <div class="yui3-u row-220 split">
-                        <span class="floor-x-line"></span>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-5.png"/>
-                        </div>
-                        <div class="floor-conver-pit">
-                            <img src="img/floor-1-6.png"/>
-                        </div>
+                        <a th:href="@{'item.html?id='+${indexView.getFloor2Data().get(4).spuId}}" target="_blank"
+                           style="display:block;border-right:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor2Data().get(4).image}}" style="height:300px"/>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div id="tab2--" class="tab-pane">
-                <p>第二个</p>
-            </div>
-            <div id="tab9" class="tab-pane">
-                <p>第三个</p>
-            </div>
-            <div id="tab10" class="tab-pane">
-                <p>第4个</p>
-            </div>
-            <div id="tab11" class="tab-pane">
-                <p>第5个</p>
-            </div>
-            <div id="tab12" class="tab-pane">
-                <p>第6个</p>
-            </div>
-            <div id="tab13" class="tab-pane">
-                <p>第7个</p>
-            </div>
-            <div id="tab14" class="tab-pane">
-                <p>第8个</p>
             </div>
         </div>
     </div>
 </div>
-
+<div id="floor-3" class="floor">
+    <div class="py-container">
+        <div class="title floors">
+            <h3 class="fl" th:text="${indexView.getFloor3().getTitle()}">家用电器</h3>
+            <div class="fr">
+                <ul class="sui-nav nav-tabs">
+                    <li class="active">
+                        <a href="#tab1" data-toggle="tab">热门</a>
+                    </li>
+                    <li th:each="category : ${indexView.getFloor3().getChildren()}">
+                        <a th:href="@{'list.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                           th:text="${category.getTitle()}">热门</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix  tab-content floor-content">
+            <div id="tab3" class="tab-pane active">
+                <div class="yui3-g Floor-1" style="height:300px">
+                    <div class="yui3-u Left blockgary">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor3Data().get(0).spuId}}" target="_blank"
+                           style="display:block;border:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor3Data().get(0).image}}" style="height:300px"/>
+                        </a>
+                    </div>
+                    <div class="yui3-u row-330">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor3Data().get(1).spuId}}" target="_blank"
+                           style="display:block;border-right:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor3Data().get(1).image}}" style="height:300px"/>
+                        </a>
+                    </div>
+                    <div class="yui3-u row-220">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor3Data().get(2).spuId}}" target="_blank"
+                           style="display:block;">
+                            <img th:src="@{${indexView.getFloor3Data().get(2).image}}" style="height:300px"/>
+                        </a>
+                    </div>
+                    <div class="yui3-u row-218 split">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor3Data().get(3).spuId}}" target="_blank"
+                           style="display:block;">
+                            <img th:src="@{${indexView.getFloor3Data().get(3).image}}" style="height:300px"/>
+                        </a>
+                    </div>
+                    <div class="yui3-u row-220 split">
+                        <a th:href="@{'item.html?id='+${indexView.getFloor3Data().get(4).spuId}}" target="_blank"
+                           style="display:block;border-right:1px solid #e4e4e4">
+                            <img th:src="@{${indexView.getFloor3Data().get(4).image}}" style="height:300px"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 底部栏位 -->
 <!--页面底部，由js动态加载-->
 <script type="text/javascript" src="front/js/plugins/jquery/jquery.min.js"></script>
