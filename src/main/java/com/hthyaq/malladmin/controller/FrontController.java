@@ -79,6 +79,11 @@ public class FrontController {
         return "front/success";
     }
 
+    @GetMapping("/side.html")
+    public String side() {
+        return "front/side";
+    }
+
     @GetMapping("/index.html")
     public String index() {
         return "front/index";
