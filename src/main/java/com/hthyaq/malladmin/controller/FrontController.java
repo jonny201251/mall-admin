@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.common.utils.treeSelect.TreeSelectUtil;
 import com.hthyaq.malladmin.common.utils.treeSelect.TreeSelectView;
 import com.hthyaq.malladmin.model.entity.Category;
@@ -112,15 +113,16 @@ public class FrontController {
         List<TreeSelectView> categoryList = TreeSelectUtil.get(list);
         indexView.setCategoryList(categoryList);
         //
-        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 34, 33, 16));
+        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 3,16,34));
         for (int i = 0; i < scrollTmp.size(); i++) {
             Spu spu=scrollTmp.get(i);
+            Long id=spu.getId();
             SpuView scroll = new SpuView();
-            scroll.setSpuId(spu.getId());
-            scroll.setImage(StringUtils.substringAfterLast(spu.getImages(), ","));
-            if(i==0){
+            scroll.setSpuId(id);
+            scroll.setImage(StringLastUtil.get(spu.getImages()));
+            if(id==16L){
                 indexView.setScroll1(scroll);
-            }else if(i==1){
+            }else if(id==34L){
                 indexView.setScroll2(scroll);
             }else{
                 indexView.setScroll3(scroll);

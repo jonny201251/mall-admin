@@ -30,9 +30,10 @@
     });
 </script>
 
-<!--<script th:inline="javascript">-->
-<!--    const user = /*[[${indexView}]]*/ {};-->
-<!--</script>-->
+<script th:inline="javascript">
+    const indexView = /*[[${indexView}]]*/ {};
+    console.log(indexView);
+</script>
 
 <!--列表-->
 <div class="sort">
