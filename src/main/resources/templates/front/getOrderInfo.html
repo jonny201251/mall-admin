@@ -246,7 +246,7 @@
         methods: {
             submit() {
                 if (this.money > 0 && this.totalPrice > this.money) {
-                    alert("已经超过了该季度的金额!");
+                    alert("已经超过了季度金额:"+this.money+"元!");
                     return
                 }
                 ly.http.get("/auth/verify").then(() => {
