@@ -23,6 +23,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 //        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/image/**").addResourceLocations("file:"+ GlobalConstants.IMAGE_PATH+"/");
         registry.addResourceHandler("/front/**").addResourceLocations("classpath:/static/front/");
+        registry.addResourceHandler("/back/**").addResourceLocations("classpath:/static/back/");
+        registry.addResourceHandler("/back/static/**").addResourceLocations("classpath:/static/back/");
         super.addResourceHandlers(registry);
     }
 

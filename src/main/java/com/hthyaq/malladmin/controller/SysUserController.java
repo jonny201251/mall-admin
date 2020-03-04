@@ -73,6 +73,9 @@ public class SysUserController {
         if (!StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(password, user.getSalt()))) {
             throw new MyExceptionNotCatch("密码错误!");
         }
+        //设置用户的公司
+        Company company = companyService.getById(user.getCompanyId());
+        user.setCompany(company);
         //将用户放入session中
         httpSession.setAttribute("user", user);
         return user;

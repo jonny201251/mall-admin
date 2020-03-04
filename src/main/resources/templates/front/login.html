@@ -111,7 +111,11 @@
         methods: {
             login() {
                 leyou.http.post("/sysUser/login", leyou.stringify(this.form))
-                    .then(() => {
+                    .then((resp) => {
+                        //将用户存到session中
+                        sessionStorage.setItem("loginName", resp.data.data.loginName)
+                        sessionStorage.setItem("companyType", resp.data.data.company.type)
+
                         const url = leyou.getUrlParam("returnUrl");
                         window.location = url || '';
                     }).catch(() => this.msg = '用户名或密码错误')
