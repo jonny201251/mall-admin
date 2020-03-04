@@ -6,9 +6,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.model.entity.ReceiveAddress;
 import com.hthyaq.malladmin.model.entity.SysUser;
+import com.hthyaq.malladmin.model.vo.AddressView;
 import com.hthyaq.malladmin.service.ReceiveAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,9 +65,20 @@ public class ReceiveAddressController {
         return receiveAddressService.updateById(receiveAddress);
     }
 
-    @GetMapping("/all")
-    public List<ReceiveAddress> getAll(HttpSession httpSession) {
+    @GetMapping("/page")
+    public List<AddressView> getAll(HttpSession httpSession) {
+        List<AddressView> data = Lists.newArrayList();
         SysUser user = (SysUser) httpSession.getAttribute("user");
-        return receiveAddressService.list(new QueryWrapper<ReceiveAddress>().eq("user_id", user.getId()));
+        List<ReceiveAddress> list = receiveAddressService.list(new QueryWrapper<ReceiveAddress>().eq("user_id", user.getId()).orderByDesc("isDefault"));
+        for (ReceiveAddress tmp : list) {
+            AddressView addressView = new AddressView();
+            addressView.setId(tmp.getId());
+            addressView.setName(tmp.getRealName());
+            addressView.setPhone(tmp.getMobile());
+            addressView.setAddress(tmp.getAddress());
+            addressView.setIsDefault(tmp.getIsDefault());
+            data.add(addressView);
+        }
+        return data;
     }
 }
