@@ -34,7 +34,8 @@
             <div class="checkout-steps">
                 <!--收件人信息-->
                 <div class="step-tit">
-                    <h5>收件人信息<span><a data-toggle="modal" data-target=".edit" data-keyboard="false" class="newadd">新增收货地址</a></span>
+                    <h5>收件人信息
+<!--                        <span><a data-toggle="modal" data-target=".edit" data-keyboard="false" class="newadd">新增收货地址</a></span>-->
                     </h5>
                 </div>
                 <div class="step-cont">
@@ -47,9 +48,9 @@
                                             title="点击取消选择"></span>&nbsp;</a></div>
                                     <div class="con address">{{a.state + a.city + a.district }} <span>{{a.phone}}</span>
                                         <span class="base" v-if="a.isDefault">默认地址</span>
-                                        <span class="edittext"><a data-toggle="modal" data-target=".edit"
-                                                                  data-keyboard="false">编辑</a>&nbsp;&nbsp;<a
-                                                href="javascript:;">删除</a></span>
+<!--                                        <span class="edittext"><a data-toggle="modal" data-target=".edit"-->
+<!--                                                                  data-keyboard="false">编辑</a>&nbsp;&nbsp;<a-->
+<!--                                                href="javascript:;">删除</a></span>-->
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -91,17 +92,6 @@
                                                 <label class="control-label">邮箱：</label>
                                                 <div class="controls">
                                                     <input type="text" class="input-medium">
-                                                </div>
-                                            </div>
-                                            <div class="control-group">
-                                                <label class="control-label">地址别名：</label>
-                                                <div class="controls">
-                                                    <input type="text" class="input-medium">
-                                                </div>
-                                                <div class="othername">
-                                                    建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#"
-                                                                                                               class="sui-btn btn-default">父母家</a>　<a
-                                                        href="#" class="sui-btn btn-default">公司</a>
                                                 </div>
                                             </div>
                                         </form>
@@ -248,7 +238,7 @@
                     district: "丰台区",// 区
                     address: "云岗西路7号",// 街道地址
                     zipCode: "210000", // 邮编
-                    isDefault: true
+                    isDefault: 1
                 },
                 {
                     id: 2,
@@ -259,7 +249,7 @@
                     district: "朝阳区",// 区
                     address: "天堂路 3号楼",// 街道地址
                     zipCode: "100000", // 邮编
-                    isDefault: false
+                    isDefault: 0
                 }
             ];
             // 初始化默认地址
