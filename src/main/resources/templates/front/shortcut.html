@@ -5,7 +5,7 @@
                 <span><a href='index.html' target='_blank'>首页&nbsp;&nbsp;</a></span>
             </li>
             <li class='f-item' v-if='user && user.loginName'>
-                欢迎您,<span style='color: red;'>{{user.loginName}}</span>
+                <span style='color: red;'>{{user.loginName}}</span>
                 <a href='javascript:void(0)' @click='gotoLogout'>退出</a>　
             </li>
             <li v-else class='f-item'>
