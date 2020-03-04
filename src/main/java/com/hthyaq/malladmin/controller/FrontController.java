@@ -45,6 +45,21 @@ public class FrontController {
         return "front/copyright";
     }
 
+    @GetMapping("/side.html")
+    public String side() {
+        return "front/side";
+    }
+
+    @GetMapping("/top.html")
+    public String top() {
+        return "front/top";
+    }
+
+    @GetMapping("/shortcut.html")
+    public String shortcut() {
+        return "front/shortcut";
+    }
+
     @GetMapping("/item.html")
     public String item(Long id, Model model) {
         // 查询数据模型
@@ -91,19 +106,6 @@ public class FrontController {
         return "front/success";
     }
 
-    @GetMapping("/side.html")
-    public String side() {
-        return "front/side";
-    }
-    @GetMapping("/top.html")
-    public String top() {
-        return "front/top";
-    }
-    @GetMapping("/shortcut.html")
-    public String shortcut() {
-        return "front/shortcut";
-    }
-
     @GetMapping("/index.html")
     public String index(Model model) {
         //获取商城首页的数据
@@ -113,18 +115,18 @@ public class FrontController {
         List<TreeSelectView> categoryList = TreeSelectUtil.get(list);
         indexView.setCategoryList(categoryList);
         //
-        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 3,16,34));
+        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 3, 16, 34));
         for (int i = 0; i < scrollTmp.size(); i++) {
-            Spu spu=scrollTmp.get(i);
-            Long id=spu.getId();
+            Spu spu = scrollTmp.get(i);
+            Long id = spu.getId();
             SpuView scroll = new SpuView();
             scroll.setSpuId(id);
             scroll.setImage(StringLastUtil.get(spu.getImages()));
-            if(id==16L){
+            if (id == 16L) {
                 indexView.setScroll1(scroll);
-            }else if(id==34L){
+            } else if (id == 34L) {
                 indexView.setScroll2(scroll);
-            }else{
+            } else {
                 indexView.setScroll3(scroll);
             }
         }
@@ -142,8 +144,8 @@ public class FrontController {
             IPage<Spu> page = spuService.page(new Page<>(1, 5), new QueryWrapper<Spu>().in("category_id", categoryIdList));
             int size = page.getRecords().size();
             if (size >= 5) {
-                List<Spu> recordList=page.getRecords();
-                List<SpuView> floorData= Lists.newArrayList();
+                List<Spu> recordList = page.getRecords();
+                List<SpuView> floorData = Lists.newArrayList();
                 for (Spu spu : recordList) {
                     SpuView floorSpu = new SpuView();
                     floorSpu.setSpuId(spu.getId());

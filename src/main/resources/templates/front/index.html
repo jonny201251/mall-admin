@@ -15,11 +15,8 @@
 </head>
 
 <body>
-
 <!-- 头部栏位 -->
-<div id="nav-bottom">
-
-	</div>
+<div id="nav-bottom"></div>
 <!--页面顶部，由js动态加载-->
 <script src="front/js/vue/vue.js"></script>
 <script src="front/js/axios.min.js"></script>
@@ -258,12 +255,13 @@
     </div>
 </div>
 <!-- 底部栏位 -->
-<!--页面底部，由js动态加载-->
-<script type="text/javascript" src="front/js/plugins/jquery/jquery.min.js"></script>
+<!-- 头部栏位 -->
+<div id="nav-foot"></div>
 <div class="clearfix footer"></div>
 <!--页面底部END-->
 <script type="text/javascript" src="front/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">$("#nav-bottom").load("top.html");</script>
+<script type="text/javascript">$("#nav-foot").load("foot.html");</script>
 <script type="text/javascript">
     $(function () {
         $("#service").hover(function () {
