@@ -46,7 +46,7 @@
                                     <div :class="{con:true,name:true,selected:a.id === selectedAddress.id}"><a
                                             href="javascript:;" @click.stop="selectedAddress=a">{{a.name}}<span
                                             title="点击取消选择"></span>&nbsp;</a></div>
-                                    <div class="con address">{{a.state + a.city + a.district }} <span>{{a.phone}}</span>
+                                    <div class="con address">{{a.address }} <span>{{a.phone}}</span>
                                         <span class="base" v-if="a.isDefault">默认地址</span>
 <!--                                        <span class="edittext"><a data-toggle="modal" data-target=".edit"-->
 <!--                                                                  data-keyboard="false">编辑</a>&nbsp;&nbsp;<a-->

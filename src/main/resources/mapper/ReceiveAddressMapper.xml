@@ -14,12 +14,11 @@
         <result column="zip" property="zip" />
         <result column="isDefault" property="isDefault" />
         <result column="user_id" property="userId" />
-        <result column="company_id" property="companyId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, real_name, mobile, state, city, district, address, zip, isDefault, user_id, company_id
+        id, real_name, mobile, state, city, district, address, zip, isDefault, user_id
     </sql>
 
 </mapper>

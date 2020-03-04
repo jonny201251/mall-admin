@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author zhangqiang
- * @since 2020-02-27
+ * @since 2020-03-04
  */
 public interface ReceiveAddressMapper extends BaseMapper<ReceiveAddress> {
 

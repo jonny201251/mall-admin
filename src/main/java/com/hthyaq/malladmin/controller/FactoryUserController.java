@@ -9,8 +9,10 @@ import com.google.common.collect.Maps;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
 import com.hthyaq.malladmin.model.entity.Company;
+import com.hthyaq.malladmin.model.entity.ReceiveAddress;
 import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.service.CompanyService;
+import com.hthyaq.malladmin.service.ReceiveAddressService;
 import com.hthyaq.malladmin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,8 @@ public class FactoryUserController {
     SysUserService sysUserService;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    ReceiveAddressService receiveAddressService;
 
     @GetMapping("/list")
     public IPage<SysUser> list(String json) {
@@ -54,10 +58,24 @@ public class FactoryUserController {
 
     @PostMapping("/add")
     public boolean add(@RequestBody SysUser user) {
+        boolean flag = false;
         String salt = UserCodecUtils.generateSalt();
         user.setSalt(salt);
         user.setLoginPassword(UserCodecUtils.md5Hex(user.getLoginPassword(), salt));
-        return sysUserService.save(user);
+        flag = sysUserService.save(user);
+        if (flag) {
+            //往收货人地址中添加一条信息
+            ReceiveAddress receiveAddress = new ReceiveAddress();
+            receiveAddress.setRealName(user.getLoginName());
+            receiveAddress.setMobile(user.getMobile());
+            receiveAddress.setAddress("北京市丰台区东王佐北路9号");
+            receiveAddress.setZip("100074");
+            receiveAddress.setIsDefault(1);
+            receiveAddress.setUserId(user.getId());
+            flag = flag && receiveAddressService.save(receiveAddress);
+        }
+
+        return flag;
     }
 
     @GetMapping("/getById")
@@ -67,9 +85,15 @@ public class FactoryUserController {
 
     @PostMapping("/edit")
     public boolean edit(@RequestBody SysUser user) {
-        String salt = UserCodecUtils.generateSalt();
-        user.setSalt(salt);
-        user.setLoginPassword(UserCodecUtils.md5Hex(user.getLoginPassword(), salt));
+        String loginPassword = user.getLoginPassword();
+        try {
+            Integer.parseInt(loginPassword);
+            //修改了密码
+            String salt = UserCodecUtils.generateSalt();
+            user.setSalt(salt);
+            user.setLoginPassword(UserCodecUtils.md5Hex(user.getLoginPassword(), salt));
+        } catch (Exception e) {
+        }
         return sysUserService.updateById(user);
     }
 
