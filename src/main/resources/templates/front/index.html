@@ -39,14 +39,14 @@
             <div class="yui3-u Left all-sort-list">
                 <div class="all-sort-list2">
                     <div class="item" th:each="category1:${indexView.getCategoryList()}">
-                        <h3><a th:href="@{'list.html?cid1='+${category1.getKey()}}" target="_blank" th:text="${category1.getTitle()}">家用电器</a></h3>
+                        <h3><a th:href="@{'search.html?cid1='+${category1.getKey()}}" target="_blank" th:text="${category1.getTitle()}">家用电器</a></h3>
                         <div class="item-list clearfix">
                             <div class="subitem">
                                 <dl th:each="category2:${category1.getChildren()}">
-                                    <dt><a th:href="@{'list.html?cid2='+${category2.getKey()}}" target="_blank" th:text="${category2.getTitle()}">家用电器</a></dt>
+                                    <dt><a th:href="@{'search.html?cid2='+${category2.getKey()}}" target="_blank" th:text="${category2.getTitle()}">家用电器</a></dt>
                                     <dd>
                                         <em th:each="category3:${category2.getChildren()}">
-                                            <a th:href="@{'list.html?cid3='+${category3.getKey()}}" target="_blank" th:text="${category3.getTitle()}">家用电器</a>
+                                            <a th:href="@{'search.html?cid3='+${category3.getKey()}}" target="_blank" th:text="${category3.getTitle()}">家用电器</a>
                                         </em>
                                     </dd>
                                 </dl>
@@ -102,7 +102,7 @@
                         <a href="#tab1" data-toggle="tab">热门</a>
                     </li>
                     <li th:each="category : ${indexView.getFloor1().getChildren()}">
-                        <a th:href="@{'list.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
                            th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
@@ -156,7 +156,7 @@
                         <a href="#tab1" data-toggle="tab">热门</a>
                     </li>
                     <li th:each="category : ${indexView.getFloor2().getChildren()}">
-                        <a th:href="@{'list.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
                            th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
@@ -210,7 +210,7 @@
                         <a href="#tab1" data-toggle="tab">热门</a>
                     </li>
                     <li th:each="category : ${indexView.getFloor3().getChildren()}">
-                        <a th:href="@{'list.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
                            th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>

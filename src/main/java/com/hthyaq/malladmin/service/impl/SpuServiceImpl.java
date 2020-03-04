@@ -388,7 +388,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             model.put("specs", specs);
         }
 
-        model.put("title", spu.getTitle()+"-商品详情页");
+        model.put("title", spu.getTitle() + "-商品详情页");
         model.put("subTitle", spu.getSubTitle());
         model.put("skus", skus);
         model.put("detail", detail);
@@ -405,7 +405,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         int pageSize = request.getSize();
         //分页查询出spu
         QueryWrapper<Spu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("title", key);
+        if (!Strings.isNullOrEmpty(key)) {
+            queryWrapper.like("title", key);
+        }
         //暂时处理 分类(cid3)、品牌(brandId)
         String categoryId = request.getFilter().get("cid3");
         String brandId = request.getFilter().get("brandId");
@@ -415,6 +417,22 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         if (!Strings.isNullOrEmpty(brandId)) {
             queryWrapper.eq("brand_id", Integer.parseInt(brandId));
         }
+        //处理一下商品的三级分类
+        if (!Strings.isNullOrEmpty(request.getCid1())) {
+            List<Category> cid2List = categoryService.list(new QueryWrapper<Category>().eq("pid", Integer.parseInt(request.getCid1())));
+            List<Category> cid3List = categoryService.list(new QueryWrapper<Category>().in("pid", cid2List.stream().map(Category::getId).collect(Collectors.toList())));
+            if (cid3List.size() > 0) {
+                queryWrapper.in("category_id", cid3List.stream().map(Category::getId).collect(Collectors.toList()));
+            }
+        } else if (!Strings.isNullOrEmpty(request.getCid2())) {
+            List<Category> cid3List = categoryService.list(new QueryWrapper<Category>().eq("pid", Integer.parseInt(request.getCid2())));
+            if (cid3List.size() > 0) {
+                queryWrapper.in("category_id", cid3List.stream().map(Category::getId).collect(Collectors.toList()));
+            }
+        } else if (!Strings.isNullOrEmpty(request.getCid3())) {
+            queryWrapper.eq("category_id", Integer.parseInt(request.getCid3()));
+        }
+
         IPage<Spu> spuPage = this.page(new Page<>(currentPage, pageSize), queryWrapper);
         List<Spu> spuList = spuPage.getRecords();
         //

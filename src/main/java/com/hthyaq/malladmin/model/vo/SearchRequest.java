@@ -15,6 +15,11 @@ public class SearchRequest {
     private Boolean descending; //是否降序
     private Map<String, String> filter;//过滤字段
 
+    //商品的三级分类
+    private String cid1;
+    private String cid2;
+    private String cid3;
+
     public Integer getPage() {
         if (page == null) {//默认为1
             return DEFAULT_PAGE;
