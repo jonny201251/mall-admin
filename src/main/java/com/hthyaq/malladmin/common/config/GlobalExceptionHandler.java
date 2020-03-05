@@ -16,13 +16,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public MyException handleException(HttpServletRequest request, Exception e) {
-        try {
-            MyExceptionNotCatch myExceptionNotCatch = (MyExceptionNotCatch) e;
-            if (e != null) {
-                log.error(e.getMessage().length() > 50 ? "java代码错误!" : e.getMessage());
-                throw myExceptionNotCatch;
-            }
-        } catch (Exception e2) {
+        if (e instanceof MyExceptionNotCatch) {
+            return new MyException(e.getMessage().length() > 50 ? "java代码错误!" : e.getMessage());
         }
         //记录异常信息到日志
         log.error("url={}", request.getRequestURL());
