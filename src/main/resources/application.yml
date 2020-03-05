@@ -10,7 +10,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   redis:
     host: 106.74.18.237
-    port: 26423
+    port: 23099
     database: 1
   session:
     store-type: redis
