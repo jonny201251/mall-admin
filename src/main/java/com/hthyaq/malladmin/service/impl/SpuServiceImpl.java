@@ -483,8 +483,15 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             }
         }
         searchResult.setItems(itemList);
-        List<Category> categoryList = categoryService.list(new QueryWrapper<Category>().in("id", spuList.stream().map(Spu::getCategoryId).collect(Collectors.toList())));
-        List<Brand> brandList = brandService.list(new QueryWrapper<Brand>().in("id", spuList.stream().map(Spu::getBrandId).collect(Collectors.toList())));
+        List<Category> categoryList = Lists.newArrayList();
+        if (spuList.size() > 0) {
+            categoryList = categoryService.list(new QueryWrapper<Category>().in("id", spuList.stream().map(Spu::getCategoryId).collect(Collectors.toList())));
+        }
+
+        List<Brand> brandList = Lists.newArrayList();
+        if (spuList.size() > 0) {
+            brandList = brandService.list(new QueryWrapper<Brand>().in("id", spuList.stream().map(Spu::getBrandId).collect(Collectors.toList())));
+        }
 
         searchResult.setCategories(categoryList);
         searchResult.setBrands(brandList);
