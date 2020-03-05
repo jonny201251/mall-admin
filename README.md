@@ -23,3 +23,5 @@
         2.3双击gradle -> Tasks -> build -> build
             (注意：bootWar、War等双击打出的War无效)
         2.4拷贝build -> libs 下的zyb.war即可
+    3.数据库
+        修改商品的详情图片的地址
