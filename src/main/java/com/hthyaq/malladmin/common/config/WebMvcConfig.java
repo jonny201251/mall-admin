@@ -22,6 +22,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         //前端页面相关的js、css、img等资源无法访问
 //        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/image/**").addResourceLocations("file:"+ GlobalConstants.IMAGE_PATH+"/");
+//        registry.addResourceHandler("/image/**").addResourceLocations("http://haiyingmall.paas.casicloud.com/mallFile/image/");
         registry.addResourceHandler("/front/**").addResourceLocations("classpath:/static/front/");
         registry.addResourceHandler("/back/**").addResourceLocations("classpath:/static/back/");
         registry.addResourceHandler("/back/static/**").addResourceLocations("classpath:/static/back/");
