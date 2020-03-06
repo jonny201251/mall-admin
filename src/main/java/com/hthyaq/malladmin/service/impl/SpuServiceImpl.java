@@ -388,7 +388,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             model.put("specs", specs);
         }
 
-        model.put("title", spu.getTitle() + "-商品详情页");
+        model.put("title", spu.getTitle());
         model.put("subTitle", spu.getSubTitle());
         model.put("skus", skus);
         model.put("detail", detail);
