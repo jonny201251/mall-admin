@@ -7,7 +7,6 @@ public class BackController {
     //商城后台的入口
 //    @GetMapping({"/user/**", "/*List", "/*Add", "/*Edit", "/ImageRichText", "/*Detail"})
     public String entry() {
-        System.out.println("back/index");
         return "back/index";
     }
 }

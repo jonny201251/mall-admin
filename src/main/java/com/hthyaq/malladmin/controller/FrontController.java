@@ -106,7 +106,7 @@ public class FrontController {
         return "front/success";
     }
 
-    @GetMapping("/index.html")
+    @GetMapping({"/", "/index.html"})
     public String index(Model model) {
         //获取商城首页的数据
         IndexView indexView = new IndexView();
