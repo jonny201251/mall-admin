@@ -70,6 +70,7 @@ public class SpuController {
         Integer currentPage = jsonObject.getInteger("currentPage");
         Integer pageSize = jsonObject.getInteger("pageSize");
         QueryWrapper<Spu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
         if (!Strings.isNullOrEmpty(title)) {
             queryWrapper.like("title", title);
         }
