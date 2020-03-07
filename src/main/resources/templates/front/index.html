@@ -94,10 +94,10 @@
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
                     <li class="active">
-                        <a href="#tab1" data-toggle="tab">热门</a>
+                        <a href="#tab1">热门</a>
                     </li>
                     <li th:each="category : ${indexView.getFloor1().getChildren()}">
-                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank"
                            th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
@@ -148,10 +148,10 @@
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
                     <li class="active">
-                        <a href="#tab1" data-toggle="tab">热门</a>
+                        <a href="#tab1">热门</a>
                     </li>
                     <li th:each="category : ${indexView.getFloor2().getChildren()}">
-                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank"
                            th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
@@ -202,10 +202,10 @@
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
                     <li class="active">
-                        <a href="#tab1" data-toggle="tab">热门</a>
+                        <a href="#tab1">热门</a>
                     </li>
                     <li th:each="category : ${indexView.getFloor3().getChildren()}">
-                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank" data-toggle="tab"
+                        <a th:href="@{'search.html?cid2='+${category.getKey()}}" target="_blank"
                            th:text="${category.getTitle()}">热门</a>
                     </li>
                 </ul>
