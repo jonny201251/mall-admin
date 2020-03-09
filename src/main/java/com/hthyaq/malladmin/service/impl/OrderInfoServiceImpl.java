@@ -41,6 +41,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     OrderDetailService orderDetailService;
     @Autowired
     OrderStatusService orderStatusService;
+    @Autowired
+    CompanyService companyService;
+    @Autowired
+    SysUserService sysUserService;
 
     @Override
     public Long createOrder(SysUser user, OrderDTO orderDTO) {
@@ -130,12 +134,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         if (order == null) {
             throw new MyExceptionNotCatch("没有发现订单");
         }
-        this.setOrderDetailStatus(order);
+        this.setOrderOther(order);
         return order;
     }
 
-    //设置订单的详情和状态
-    private void setOrderDetailStatus(OrderInfo order) {
+    //设置订单的详情、状态、分厂名称
+    private void setOrderOther(OrderInfo order) {
         // 查询订单详情
         List<OrderDetail> orderDetails = orderDetailService.list(new QueryWrapper<OrderDetail>().eq("order_id", order.getOrderId()));
         if (CollectionUtils.isEmpty(orderDetails)) {
@@ -149,16 +153,34 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             throw new MyExceptionNotCatch("没有发现订单状态");
         }
         order.setOrderStatus(orderStatus);
+
+        //分厂名称
+        SysUser user = sysUserService.getById(order.getUserId());
+        Company company=companyService.getById(user.getCompanyId());
+        order.setCompany(company);
     }
 
     @Override
-    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId) {
+    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId,String companyId) {
         QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
         if (!Strings.isNullOrEmpty(orderId)) {
             queryWrapper.like("order_id", orderId);
         }
-        if (user.getCompany().getType() == 0 || user.getCompany().getType() == 1) {
-            //159厂、159分厂
+        if (user.getCompany().getType() == 0) {
+            //159厂
+            if(Strings.isNullOrEmpty(companyId)){
+                //1.取出159分厂的id
+                List<Company> companyList = companyService.list(new QueryWrapper<Company>().eq("type", 1));
+                //2.取出分厂人员的id
+                List<SysUser> userList = sysUserService.list(new QueryWrapper<SysUser>().in("company_id", companyList.stream().map(Company::getId).collect(Collectors.toList())));
+
+                queryWrapper.in("user_id", userList.stream().map(SysUser::getId).collect(Collectors.toList()));
+            }else{
+                List<SysUser> userList = sysUserService.list(new QueryWrapper<SysUser>().in("company_id", Integer.parseInt(companyId)));
+                queryWrapper.in("user_id", userList.stream().map(SysUser::getId).collect(Collectors.toList()));
+            }
+        } else if (user.getCompany().getType() == 1) {
+            //159分厂
             queryWrapper.eq("user_id", user.getId());
         } else if (user.getCompany().getType() == 2) {
             //供应商？？？
@@ -168,7 +190,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), queryWrapper);
         List<OrderInfo> list = page.getRecords();
         for (OrderInfo orderInfo : list) {
-            this.setOrderDetailStatus(orderInfo);
+            this.setOrderOther(orderInfo);
         }
         return page;
     }

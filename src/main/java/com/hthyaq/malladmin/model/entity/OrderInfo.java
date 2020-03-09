@@ -144,4 +144,7 @@ public class OrderInfo implements Serializable {
 
     @TableField(exist = false)
     private OrderStatus orderStatus;
+
+    @TableField(exist = false)
+    private Company company;
 }
