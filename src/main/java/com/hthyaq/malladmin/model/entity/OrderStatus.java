@@ -32,7 +32,7 @@ public class OrderStatus implements Serializable {
     private String orderId;
 
     /**
-     * 状态：0、等待商家发货 1、未付款 2、已付款,未发货 3、已发货,未确认 4、交易成功 5、交易关闭 6、已评价7、取消订单
+     * 状态：0、等待商家发货 1、未付款 2、已付款,未发货 3、已发货,未确认 4、交易成功 5、交易关闭 6、已评价7、取消订单 8、确认收货
      */
     private Integer status;
 
