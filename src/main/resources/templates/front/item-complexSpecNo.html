@@ -271,7 +271,6 @@
     const specs = /*[[${specs}]]*/ [];
 </script>
 <script>
-    var cartPath = "http://localhost:8082/mall/cart.html";
     var itemVm = new Vue({
         el: "#itemApp",
         data: {
@@ -299,7 +298,7 @@
                         num: this.num
                     }).then(() => {
                         // 跳转到购物车列表页
-                        window.location.href = cartPath;
+                        window.location.href = "cart.html";
                     }).catch(() => {
                         alert("添加购物车失败，请重试！");
                     })
@@ -324,7 +323,7 @@
                     // 未登录
                     ly.store.set("carts", carts);
                     // 跳转到购物车列表页
-                    window.location.href = cartPath;
+                    window.location.href = "cart.html";
                 })
             }
         },

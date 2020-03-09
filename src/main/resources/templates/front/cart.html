@@ -44,7 +44,7 @@
                                 </li>
                                 <li class="yui3-u-11-24">
                                     <div class="good-item">
-                                        <div class="item-img"><a :href="'/mall/item.html?id='+c.spuId"
+                                        <div class="item-img"><a :href="'item.html?id='+c.spuId"
                                                                  target="_blank"><img
                                                 :src="c.image" width="80px" height="80px"/></a></div>
                                         <div class="item-msg">
@@ -107,8 +107,6 @@
 <script src="front/js/axios.min.js"></script>
 <script src="front/js/common.js"></script>
 <script type="text/javascript">
-    var cartPath = "http://localhost:8082/mall/cart.html";
-    var orderPath = "http://localhost:8082/mall/getOrderInfo.html";
     var cartVm = new Vue({
         el: "#cartApp",
         data: {
@@ -135,7 +133,7 @@
                         if (this.user) {
                             // 重新登录
                             console.log("已过期");
-                            window.location.href = "http://localhost:8082/mall/login.html?returnUrl=" + window.location.href;
+                            window.location.href = "login.html?returnUrl=" + window.location.href;
                         }
                         reject(error);
                     })
@@ -246,7 +244,7 @@
                     return;
                 }
                 ly.store.set("selectedCarts", this.selectedCarts);
-                window.location.href = "/mall/getOrderInfo.html";
+                window.location.href = "getOrderInfo.html";
             }
         },
         watch: {

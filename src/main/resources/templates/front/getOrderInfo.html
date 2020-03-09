@@ -240,7 +240,7 @@
                 this.carts = ly.store.get("selectedCarts");
             }).catch(() => {
                 // 未登录则跳转到登录页
-                window.location.href = "/mall/login.html?returnUrl=" + window.location.href;
+                window.location.href = "login.html?returnUrl=" + window.location.href;
             })
         },
         methods: {
@@ -262,12 +262,12 @@
                         // 订单创建成功，删除selectedCarts
                         ly.store.del("selectedCarts");
                         // 跳转到付款页,并传递付款id
-                        window.location.href = "/mall/success.html";
+                        window.location.href = "success.html";
                     }).catch(() => {
                         alert("创建订单失败！");
                     })
                 }).catch(() => {
-                    window.location.href = "/mall/login.html?returnUrl=" + window.location.href;
+                    window.location.href = "login.html?returnUrl=" + window.location.href;
                 })
             }
         },

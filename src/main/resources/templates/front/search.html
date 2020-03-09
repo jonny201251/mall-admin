@@ -192,8 +192,7 @@
                             <div class="list-wrap">
                                 <div class="p-img">
                                     <a :href="'item.html?id='+goods.id" target="_blank"><img
-                                            :src="goods.selectedSku.image"
-                                            height="200"/></a>
+                                            :src="goods.selectedSku.image" style="width:215px;height:254px"/></a>
                                     <ul class="skus">
                                         <li :class="{selected:goods.selectedSku.id === sku.id}"
                                             @mouseenter="goods.selectedSku=sku"
