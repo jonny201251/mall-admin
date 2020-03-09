@@ -62,11 +62,11 @@ public class OrderInfoController {
     }
 
     //取消订单
-    @GetMapping("/orderCancel")
-    public boolean orderCancel(String orderId) {
+    @GetMapping("/orderStatus")
+    public boolean orderCancel(String orderId,String status) {
         boolean flag;
         OrderStatus orderStatus = orderStatusService.getOne(new QueryWrapper<OrderStatus>().eq("order_id", orderId));
-        orderStatus.setStatus(7);
+        orderStatus.setStatus(Integer.parseInt(status));
         flag = orderStatusService.updateById(orderStatus);
         return flag;
     }

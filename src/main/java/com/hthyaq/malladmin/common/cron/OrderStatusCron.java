@@ -29,7 +29,7 @@ public class OrderStatusCron {
     @Scheduled(cron = "0 0 1 * * ?")
     public void closeOrder() {
         //获取订单状态
-        List<OrderStatus> list = orderStatusService.list(new QueryWrapper<OrderStatus>().eq("status", 0));
+        List<OrderStatus> list = orderStatusService.list(new QueryWrapper<OrderStatus>().eq("status", 8));
         //超过1个月的订单
         List<OrderStatus> list2 = Lists.newArrayList();
         //处理
