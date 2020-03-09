@@ -22,5 +22,5 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderInfo queryById(String orderId);
 
-    IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId,String companyId);
+    IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId,String companyId,String status);
 }

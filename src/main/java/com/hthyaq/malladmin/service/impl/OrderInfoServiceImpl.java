@@ -198,8 +198,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId, String companyId) {
+    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId, String companyId, String status) {
         QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_time").orderByAsc("order_id");
         if (!Strings.isNullOrEmpty(orderId)) {
             queryWrapper.like("order_id", orderId);
         }
@@ -222,6 +223,15 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         } else if (user.getCompany().getType() == 2) {
             //供应商
             queryWrapper.eq("company_id", user.getCompanyId());
+        }
+        if (!Strings.isNullOrEmpty(status) && !status.equals("100")) {
+            List<OrderStatus> statusList = orderStatusService.list(new QueryWrapper<OrderStatus>().eq("status", Integer.parseInt(status)));
+            if (statusList.size() > 0) {
+                queryWrapper.in("order_id", statusList.stream().map(OrderStatus::getOrderId).collect(Collectors.toList()));
+            } else {
+                queryWrapper.eq("order_id", 0L);
+            }
+
         }
         //获取分页的订单
         IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), queryWrapper);
