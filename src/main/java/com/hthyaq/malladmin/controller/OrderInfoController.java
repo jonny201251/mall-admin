@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>
@@ -35,8 +36,9 @@ public class OrderInfoController {
     @Autowired
     private OrderStatusService orderStatusService;
 
+    //用户提交订单
     @PostMapping("/create")
-    public Long createOrder(HttpSession httpSession, @RequestBody OrderDTO orderDTO) {
+    public List<Long> createOrder(HttpSession httpSession, @RequestBody OrderDTO orderDTO) {
         //取出登录用户
         SysUser user = (SysUser) httpSession.getAttribute("user");
         try {

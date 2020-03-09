@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.mapper.OrderInfoMapper;
 import com.hthyaq.malladmin.model.dto.CartDTO;
@@ -45,11 +47,45 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     CompanyService companyService;
     @Autowired
     SysUserService sysUserService;
+    @Autowired
+    SpuService spuService;
 
     @Override
-    public Long createOrder(SysUser user, OrderDTO orderDTO) {
+    public List<Long> createOrder(SysUser user, OrderDTO orderDTO) {
+        List<Long> orderIdList = Lists.newArrayList();
+        List<CartDTO> cartList = orderDTO.getCarts();
+        Map<Integer, List<CartDTO>> map = Maps.newHashMap();
+        for (CartDTO cartDTO : cartList) {
+            //根据skuId获取companyId
+            Sku sku = skuService.getById(cartDTO.getSkuId());
+            Spu spu = spuService.getById(sku.getSpuId());
+            Integer companyId = spu.getCompanyId();
+            List<CartDTO> cartDTOList = map.get(companyId);
+            if (cartDTOList != null) {
+                cartDTOList.add(cartDTO);
+            } else {
+                cartDTOList = Lists.newArrayList();
+                cartDTOList.add(cartDTO);
+                map.put(companyId, cartDTOList);
+            }
+        }
+        for (Map.Entry<Integer, List<CartDTO>> entry : map.entrySet()) {
+            OrderDTO tmp = new OrderDTO();
+            tmp.setAddressId(orderDTO.getAddressId());
+            tmp.setPaymentType(orderDTO.getPaymentType());
+            tmp.setCarts(entry.getValue());
+            Long orderId = this.createOrderByCompany(user, tmp, entry.getKey());
+            orderIdList.add(orderId);
+        }
+        return orderIdList;
+    }
+
+    //按照商家进行创建订单
+    private Long createOrderByCompany(SysUser user, OrderDTO orderDTO, Integer companyId) {
         // 1 新增订单
         OrderInfo order = new OrderInfo();
+        //1.0设置订单所属的商家
+        order.setCompanyId(companyId);
         // 1.1 订单编号，基本信息 -- 订单ID，雪花算法（snowflake）生成全局唯一的ID
         long orderId = IdUtil.getSnowflake(1, 1).nextId();
         order.setOrderId(String.valueOf(orderId));
@@ -128,6 +164,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderId;
     }
 
+
     @Override
     public OrderInfo queryById(String orderId) {
         OrderInfo order = this.getById(orderId);
@@ -156,26 +193,26 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         //分厂名称
         SysUser user = sysUserService.getById(order.getUserId());
-        Company company=companyService.getById(user.getCompanyId());
+        Company company = companyService.getById(user.getCompanyId());
         order.setCompany(company);
     }
 
     @Override
-    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId,String companyId) {
+    public IPage<OrderInfo> getOrderList(SysUser user, Integer currentPage, Integer pageSize, String orderId, String companyId) {
         QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
         if (!Strings.isNullOrEmpty(orderId)) {
             queryWrapper.like("order_id", orderId);
         }
         if (user.getCompany().getType() == 0) {
             //159厂
-            if(Strings.isNullOrEmpty(companyId)){
+            if (Strings.isNullOrEmpty(companyId)) {
                 //1.取出159分厂的id
                 List<Company> companyList = companyService.list(new QueryWrapper<Company>().eq("type", 1));
                 //2.取出分厂人员的id
                 List<SysUser> userList = sysUserService.list(new QueryWrapper<SysUser>().in("company_id", companyList.stream().map(Company::getId).collect(Collectors.toList())));
 
                 queryWrapper.in("user_id", userList.stream().map(SysUser::getId).collect(Collectors.toList()));
-            }else{
+            } else {
                 List<SysUser> userList = sysUserService.list(new QueryWrapper<SysUser>().in("company_id", Integer.parseInt(companyId)));
                 queryWrapper.in("user_id", userList.stream().map(SysUser::getId).collect(Collectors.toList()));
             }
@@ -183,8 +220,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             //159分厂
             queryWrapper.eq("user_id", user.getId());
         } else if (user.getCompany().getType() == 2) {
-            //供应商？？？
-
+            //供应商
+            queryWrapper.eq("company_id", user.getCompanyId());
         }
         //获取分页的订单
         IPage<OrderInfo> page = this.page(new Page<>(currentPage, pageSize), queryWrapper);

@@ -49,7 +49,7 @@ public class OrderInfo implements Serializable {
     private String promotionIds;
 
     /**
-     * 支付类型，0、暂不付款 1、在线支付，2、货到付款
+     * 支付类型，0、等待商家发货 1、在线支付，2、货到付款
      */
     private Integer paymentType;
 
@@ -138,6 +138,10 @@ public class OrderInfo implements Serializable {
      * 订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端
      */
     private Integer sourceType;
+    /**
+     * 该订单所对应的商家
+     */
+    private Integer companyId;
 
     @TableField(exist = false)
     private List<OrderDetail> orderDetails;

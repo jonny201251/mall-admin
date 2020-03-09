@@ -15,4 +15,6 @@ public class OrderDTO {
     private Integer paymentType;// 付款类型
 
     private List<CartDTO> carts;// 订单详情
+
+    private Integer companyId;//商家id
 }

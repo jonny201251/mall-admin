@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2020-03-04 15:44:50
+Date: 2020-03-09 14:17:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -267,7 +267,7 @@ CREATE TABLE `order_info` (
   `total_pay` double(15,2) NOT NULL DEFAULT '0.00' COMMENT '总金额',
   `actual_pay` double(15,2) NOT NULL DEFAULT '0.00' COMMENT '实付金额。',
   `promotion_ids` varchar(256) COLLATE utf8_bin DEFAULT '' COMMENT '参与促销活动的id',
-  `payment_type` tinyint(1) unsigned zerofill NOT NULL DEFAULT '0' COMMENT '支付类型，0、暂不付款 1、在线支付，2、货到付款',
+  `payment_type` tinyint(1) unsigned zerofill NOT NULL DEFAULT '0' COMMENT '支付类型，0、等待商家发货 1、在线支付，2、货到付款',
   `post_fee` double(15,2) NOT NULL DEFAULT '0.00' COMMENT '邮费',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建时间',
   `shipping_name` varchar(20) COLLATE utf8_bin DEFAULT '' COMMENT '物流名称',
@@ -285,6 +285,7 @@ CREATE TABLE `order_info` (
   `receiver` varchar(32) COLLATE utf8_bin DEFAULT '' COMMENT '收货人',
   `invoice_type` int(1) DEFAULT '0' COMMENT '发票类型(0无发票1普通发票，2电子发票，3增值税发票)',
   `source_type` int(1) DEFAULT '2' COMMENT '订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端',
+  `company_id` int(11) DEFAULT '-1' COMMENT '该订单所对应的商家',
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='订单表，包括用户信息、收货地址';
 
@@ -298,7 +299,7 @@ CREATE TABLE `order_info` (
 DROP TABLE IF EXISTS `order_status`;
 CREATE TABLE `order_status` (
   `order_id` varchar(100) NOT NULL DEFAULT '' COMMENT '订单id',
-  `status` int(1) DEFAULT '0' COMMENT '状态：0、暂不付款 1、未付款 2、已付款,未发货 3、已发货,未确认 4、交易成功 5、交易关闭 6、已评价7、取消订单',
+  `status` int(1) DEFAULT '0' COMMENT '状态：0、等待商家发货 1、未付款 2、已付款,未发货 3、已发货,未确认 4、交易成功 5、交易关闭 6、已评价7、取消订单',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建时间',
   `payment_time` datetime DEFAULT NULL COMMENT '付款时间',
   `consign_time` datetime DEFAULT NULL COMMENT '发货时间',

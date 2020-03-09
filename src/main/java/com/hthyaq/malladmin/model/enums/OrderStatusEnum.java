@@ -1,7 +1,7 @@
 package com.hthyaq.malladmin.model.enums;
 
 public enum OrderStatusEnum {
-    NO_PAY(0, "暂不付款"),
+    NO_PAY(0, "等待商家发货"),
     UN_PAY(1, "初始化，未付款"),
     PAYED(2, "已付款，未发货"),
     DELIVERED(3, "已发货，未确认"),
