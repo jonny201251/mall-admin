@@ -2,6 +2,10 @@
 1.controller的方法如果返回json数据，需要加上@ResponseResult，返回值类型为String，必须使用GlobalResponseResult包装
 2.controller的方法需要跳转到页面，访问路径后加上‘.html’
 
+线上的域名和文件路径：
+    haiyingmall.paas.casicloud.com
+    /usr/local/tomcat/webapps/mallFile
+
 部署步骤：
     1.后台调整
         考虑config中的WebMvcConfig
@@ -14,8 +18,7 @@
         ureport.properties
             ureport.debug=false
             ureport.fileStoreDir=D:/zybFile/ureportfiles
-        注释掉application.yml的log-impl
-        修改application.yml的数据库的IP
+        注释掉application.yml的log-impl、修改数据库的IP
     2.前端整合
         2.1将dist下的index.html拷贝到templates
             在index.html中添加命名空间<html xmlns:th="http://www.thymeleaf.org">
