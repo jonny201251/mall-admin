@@ -9,6 +9,7 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.io.FilenameUtils;
@@ -85,6 +86,7 @@ public class MyExcelUtil {
 
     // 模型 解析监听器
     @Data
+    @EqualsAndHashCode(callSuper = false)
     private static class ExcelListener extends AnalysisEventListener {
         private List<Object> dataList;
 
