@@ -30,5 +30,5 @@ public class GlobalConstants {
     //简单规格
     public static final String easySpec = "easySpec";
     //项目名称
-    public static final String PROJECT_PATH = "http://localhost:8082/mall";
+    public static final String PROJECT_PATH = "http://localhost:8080/mall";
 }

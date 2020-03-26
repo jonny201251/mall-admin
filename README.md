@@ -17,7 +17,7 @@
             修改目录：    d:/zybFile
         ureport.properties
             ureport.debug=false
-            ureport.fileStoreDir=D:/zybFile/ureportfiles
+            ureport.fileStoreDir=D:/mallFile/ureportfiles
         注释掉application.yml的log-impl、修改数据库的IP
     2.前端整合
         2.1将dist下的index.html拷贝到templates

@@ -46,10 +46,11 @@
     </appender>
 
     <root level="ERROR">
+        <appender-ref ref="fileErrorApp"/>
+        <!--
         <appender-ref ref="consoleApp"/>
         <appender-ref ref="fileErrorApp"/>
         <appender-ref ref="fileInfoApp"/>
-        <!--
          ${catalina.base}/webapps
          -->
     </root>
