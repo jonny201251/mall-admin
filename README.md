@@ -10,7 +10,7 @@
     1.后台调整
         考虑config中的WebMvcConfig
         修改CreateDirectory中的directory
-        修改GlobalConstants中的IMAGE_PATH、PROJECT_PATH
+        修改GlobalConstants中的IMAGE_PATH、HOST_PATH
         去掉BackController中的entry的@GetMapping的注释
         logback-spring.xml
             修改日志级别：fileErrorApp

@@ -128,7 +128,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                     sku.setSpuId(spuId);
                     //设置图片
                     if (!Strings.isNullOrEmpty(spu.getImages())) {
-                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.HOST_PATH + image).collect(Collectors.toList());
                         sku.setImages(Joiner.on(",").join(skuImagesList));
                     }
                     //title
@@ -187,7 +187,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                     sku.setSpuId(spuId);
                     //设置图片
                     if (!Strings.isNullOrEmpty(spu.getImages())) {
-                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.HOST_PATH + image).collect(Collectors.toList());
                         sku.setImages(Joiner.on(",").join(skuImagesList));
                     }
                     sku.setTitle(spu.getTitle());
@@ -268,7 +268,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                     sku.setSpuId(spuId);
                     //设置图片
                     if (!Strings.isNullOrEmpty(spu.getImages())) {
-                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.HOST_PATH + image).collect(Collectors.toList());
                         sku.setImages(Joiner.on(",").join(skuImagesList));
                     }
                     //title
@@ -339,7 +339,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
                     sku.setSpuId(spuId);
                     //设置图片
                     if (!Strings.isNullOrEmpty(spu.getImages())) {
-                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.PROJECT_PATH + image).collect(Collectors.toList());
+                        List<String> skuImagesList = Arrays.stream(spu.getImages().split(",")).map(image -> GlobalConstants.HOST_PATH + image).collect(Collectors.toList());
                         sku.setImages(Joiner.on(",").join(skuImagesList));
                     }
                     sku.setTitle(spu.getTitle());
