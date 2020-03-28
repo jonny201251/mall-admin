@@ -39,6 +39,16 @@ public class AppController {
         return list;
     }
 
+    @GetMapping("/totalPage")
+    public Integer totalPage(Integer currentPage, Integer pageSize) {
+        int totalPage = 0;
+        IPage<Spu> page = spuService.page(new Page<>(currentPage, pageSize), new QueryWrapper<Spu>().orderByDesc("id"));
+        int total = (int) page.getTotal();
+        //计算总页数
+        totalPage = total / pageSize + ((total % pageSize == 0) ? 0 : 1);
+        return totalPage;
+    }
+
     @GetMapping("/spu")
     public List<AppSpuView> spu(Integer currentPage, Integer pageSize) {
         List<AppSpuView> list = Lists.newArrayList();
