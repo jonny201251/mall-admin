@@ -1,4 +1,4 @@
-package com.hthyaq.malladmin.controller;
+package com.hthyaq.malladmin.controller.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -7,11 +7,18 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
+import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.common.utils.StringLastUtil;
+import com.hthyaq.malladmin.common.utils.UserCodecUtils;
+import com.hthyaq.malladmin.model.entity.Company;
 import com.hthyaq.malladmin.model.entity.Spu;
 import com.hthyaq.malladmin.model.entity.SpuDetail;
+import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.model.vo.AppSpuView;
+import com.hthyaq.malladmin.service.CompanyService;
 import com.hthyaq.malladmin.service.SpuService;
+import com.hthyaq.malladmin.service.SysUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,6 +39,10 @@ import java.util.Map;
 public class AppController {
     @Autowired
     SpuService spuService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private CompanyService companyService;
 
 
     @GetMapping("/lunbo")
@@ -100,5 +111,27 @@ public class AppController {
         attributes.put("descriptionImages", descriptionImages);
         return attributes;
     }
+
+    @GetMapping("/login")
+    public SysUser login(@RequestParam("username") String username, @RequestParam("password") String password) {
+        //根据用户名查询用户
+        List<SysUser> list = sysUserService.list(new QueryWrapper<SysUser>().eq("login_name", username));
+        //校验用户名
+        if (list.size() != 1) {
+            throw new MyExceptionNotCatch("用户名错误!");
+        }
+        SysUser user = list.get(0);
+        // 校验密码
+        if (!StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(password, user.getSalt()))) {
+            throw new MyExceptionNotCatch("密码错误!");
+        }
+        //设置用户的公司
+        Company company = companyService.getById(user.getCompanyId());
+        user.setCompany(company);
+
+        return user;
+    }
+    //购物车
+
 
 }
