@@ -9,8 +9,13 @@ import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.model.entity.Spu;
+import com.hthyaq.malladmin.model.entity.SpuDetail;
 import com.hthyaq.malladmin.model.vo.AppSpuView;
 import com.hthyaq.malladmin.service.SpuService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/app")
@@ -77,6 +83,22 @@ public class AppController {
             list.add(spuView);
         }
         return list;
+    }
+
+    @GetMapping("/item")
+    public Map<String, Object> getItemById(Long id) {
+        // 查询数据模型
+        Map<String, Object> attributes = spuService.getItemData(id);
+        //根据detail->description取出所有的图片
+        List<String> descriptionImages = Lists.newArrayList();
+        SpuDetail spuDetail = (SpuDetail) attributes.get("detail");
+        Document doc = Jsoup.parse(spuDetail.getDescription());
+        Elements elements = doc.select("img");
+        for (Element element : elements) {
+            descriptionImages.add(element.attr("src"));
+        }
+        attributes.put("descriptionImages", descriptionImages);
+        return attributes;
     }
 
 }
