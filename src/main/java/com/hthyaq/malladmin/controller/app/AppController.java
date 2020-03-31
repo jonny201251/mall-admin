@@ -10,12 +10,10 @@ import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
-import com.hthyaq.malladmin.model.entity.Company;
-import com.hthyaq.malladmin.model.entity.Spu;
-import com.hthyaq.malladmin.model.entity.SpuDetail;
-import com.hthyaq.malladmin.model.entity.SysUser;
+import com.hthyaq.malladmin.model.entity.*;
 import com.hthyaq.malladmin.model.vo.AppSpuView;
 import com.hthyaq.malladmin.service.CompanyService;
+import com.hthyaq.malladmin.service.ReceiveAddressService;
 import com.hthyaq.malladmin.service.SpuService;
 import com.hthyaq.malladmin.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +41,8 @@ public class AppController {
     private SysUserService sysUserService;
     @Autowired
     private CompanyService companyService;
+    @Autowired
+    private ReceiveAddressService receiveAddressService;
 
 
     @GetMapping("/lunbo")
@@ -131,7 +131,11 @@ public class AppController {
 
         return user;
     }
-    //购物车
 
+    //根据用户，获取收货地址
+    @GetMapping("/receiveAddress")
+    public ReceiveAddress receiveAddress(Integer userId) {
+        return receiveAddressService.getOne(new QueryWrapper<ReceiveAddress>().eq("user_id", userId).eq("isDefault", 1));
+    }
 
 }
