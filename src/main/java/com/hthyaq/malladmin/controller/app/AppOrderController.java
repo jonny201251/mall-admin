@@ -42,8 +42,8 @@ public class AppOrderController {
 
     private static final String KEY_PREFIX = "cart:uid:";
 
-    @GetMapping("/list")
-    public List<Cart> list(Integer userId, String skuIds) {
+    @GetMapping("/getCarts")
+    public List<Cart> get(Integer userId, String skuIds) {
         return getCarts(userId, skuIds);
     }
 
@@ -129,13 +129,4 @@ public class AppOrderController {
         return flag;
     }
 
-    @GetMapping("/delete")
-    public boolean delete(Integer userId, Long skuId) {
-        //取出登录用户
-        SysUser user = sysUserService.getById(userId);
-        String key = KEY_PREFIX + user.getId();
-        // 删除
-        redisTemplate.opsForHash().delete(key, skuId.toString());
-        return true;
-    }
 }
