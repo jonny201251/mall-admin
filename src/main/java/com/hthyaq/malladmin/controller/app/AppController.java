@@ -11,10 +11,7 @@ import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
 import com.hthyaq.malladmin.model.entity.*;
 import com.hthyaq.malladmin.model.vo.AppSpuView;
-import com.hthyaq.malladmin.service.CompanyService;
-import com.hthyaq.malladmin.service.ReceiveAddressService;
-import com.hthyaq.malladmin.service.SpuService;
-import com.hthyaq.malladmin.service.SysUserService;
+import com.hthyaq.malladmin.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +40,8 @@ public class AppController {
     private CompanyService companyService;
     @Autowired
     private ReceiveAddressService receiveAddressService;
-
+    @Autowired
+    MoneyLimitService moneyLimitService;
 
     @GetMapping("/lunbo")
     public List<AppSpuView> lunbo() {
@@ -135,6 +134,30 @@ public class AppController {
     @GetMapping("/receiveAddress")
     public ReceiveAddress receiveAddress(Integer userId) {
         return receiveAddressService.getOne(new QueryWrapper<ReceiveAddress>().eq("user_id", userId).eq("isDefault", 1));
+    }
+
+    //提交订单时，订单金额限制
+    //根据userId查询出一季度的金额
+    @GetMapping("/moneyLimit/getMoney")
+    public Double getMoney(Integer userId) {
+        SysUser user = sysUserService.getById(userId);
+        Integer companyId = user.getCompanyId();
+
+        QueryWrapper<MoneyLimit> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("company_id", companyId);
+        //获取当前的月份
+        int month = LocalDateTime.now().getMonth().getValue();
+        if (month <= 3) {
+            queryWrapper.eq("quarter", 0);
+        } else if (month <= 6) {
+            queryWrapper.eq("quarter", 1);
+        } else if (month <= 9) {
+            queryWrapper.eq("quarter", 2);
+        } else {
+            queryWrapper.eq("quarter", 3);
+        }
+        MoneyLimit moneyLimit = moneyLimitService.getOne(queryWrapper);
+        return moneyLimit == null ? 0.0 : moneyLimit.getMoney();
     }
 
 }

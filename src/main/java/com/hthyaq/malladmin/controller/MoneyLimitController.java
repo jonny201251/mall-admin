@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -31,7 +32,20 @@ public class MoneyLimitController {
     public Double getMoney(HttpSession httpSession) {
         SysUser user = (SysUser) httpSession.getAttribute("user");
         Integer companyId = user.getCompanyId();
-        MoneyLimit moneyLimit = moneyLimitService.getOne(new QueryWrapper<MoneyLimit>().eq("company_id", companyId).eq("quarter", 0));
+        QueryWrapper<MoneyLimit> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("company_id", companyId);
+        //获取当前的月份
+        int month = LocalDateTime.now().getMonth().getValue();
+        if (month <= 3) {
+            queryWrapper.eq("quarter", 0);
+        } else if (month <= 6) {
+            queryWrapper.eq("quarter", 1);
+        } else if (month <= 9) {
+            queryWrapper.eq("quarter", 2);
+        } else {
+            queryWrapper.eq("quarter", 3);
+        }
+        MoneyLimit moneyLimit = moneyLimitService.getOne(queryWrapper);
         return moneyLimit == null ? 0.0 : moneyLimit.getMoney();
     }
 }
