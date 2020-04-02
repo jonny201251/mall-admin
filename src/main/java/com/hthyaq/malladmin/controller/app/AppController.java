@@ -7,7 +7,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
-import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
 import com.hthyaq.malladmin.model.entity.*;

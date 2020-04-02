@@ -2,7 +2,6 @@ package com.hthyaq.malladmin.controller.app;
 
 import com.alibaba.fastjson.JSON;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
-import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.bean.Cart;
 import com.hthyaq.malladmin.model.entity.SysUser;
 import com.hthyaq.malladmin.service.CartService;
