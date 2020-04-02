@@ -1,6 +1,7 @@
 package com.hthyaq.malladmin.controller.app;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Sets;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.bean.Cart;
@@ -15,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/app/cart")
+@RequestMapping("/app/order")
 @ResponseResult
-public class AppCartController {
+public class AppOrderController {
     @Autowired
     private CartService cartService;
     @Autowired
@@ -29,49 +31,28 @@ public class AppCartController {
     private StringRedisTemplate redisTemplate;
     private static final String KEY_PREFIX = "cart:uid:";
 
-    @GetMapping("/add")
-    public boolean add(Integer userId, Cart cart) {
-        //取出登录用户
-        SysUser user = sysUserService.getById(userId);
-        cartService.skuAddCart(user, cart);
-        return true;
-    }
-
     @GetMapping("/list")
-    public List<Cart> list(Integer userId) {
+    public List<Cart> list(Integer userId, String skuIds) {
+        Set<Long> skuSet = Sets.newHashSet();
+        String[] tmp = skuIds.split(",");
+        for (String s : tmp) {
+            skuSet.add(Long.parseLong(s));
+        }
         //取出登录用户
         SysUser user = sysUserService.getById(userId);
+        //根据skuIds从购物车中取出cart
         String key = KEY_PREFIX + user.getId();
         if (!redisTemplate.hasKey(key)) {
             throw new MyExceptionNotCatch("SKU商品不存在！");
         }
-
         // 获取登录用户的所有购物车
         BoundHashOperations<String, Object, Object> operation = redisTemplate.boundHashOps(key);
 
         List<Cart> carts = operation.values().stream()
                 .map(o -> JSON.parseObject(o.toString(), Cart.class))
+                .filter(cart -> skuSet.contains(cart.getSkuId()))
                 .collect(Collectors.toList());
         return carts;
-    }
-
-    @GetMapping("/updateCartNum")
-    public boolean updateCartNum(Integer userId, Long skuId, Integer num) {
-        //取出登录用户
-        SysUser user = sysUserService.getById(userId);
-        String key = KEY_PREFIX + user.getId();
-
-        // 获取登录用户的所有购物车
-        BoundHashOperations<String, Object, Object> operation = redisTemplate.boundHashOps(key);
-
-        // 查询
-        String json = operation.get(skuId.toString()).toString();
-        Cart cart = JSON.parseObject(json, Cart.class);
-        cart.setNum(num);
-
-        // 写回redis
-        operation.put(skuId.toString(), JSON.toJSONString(cart));
-        return true;
     }
 
     @GetMapping("/delete")
