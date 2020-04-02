@@ -142,13 +142,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             e.printStackTrace();
         }
         if (!flag) {
-            throw new MyExceptionNotCatch("[创建订单] 创建订单失败，orderID:" + orderId);
+            throw new RuntimeException("[创建订单] 创建订单失败，orderID:" + orderId);
         }
 
         // 2 新增订单详情
         flag = orderDetailService.saveBatch(details);
         if (!flag) {
-            throw new MyExceptionNotCatch("[创建订单] 创建订单失败，orderID:" + orderId);
+            throw new RuntimeException("[创建订单] 创建订单失败，orderID:" + orderId);
         }
 
         // 3 新增订单状态
@@ -157,7 +157,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderStatus.setStatus(OrderStatusEnum.NO_PAY.code());
         flag = orderStatusService.save(orderStatus);
         if (!flag) {
-            throw new MyExceptionNotCatch("[创建订单] 创建订单失败，orderID:" + orderId);
+            throw new RuntimeException("[创建订单] 创建订单失败，orderID:" + orderId);
         }
 
         // 4 减库存 -- 需要调用商品微服务，传递商品id和数量两个参数
@@ -169,7 +169,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     public OrderInfo queryById(String orderId) {
         OrderInfo order = this.getById(orderId);
         if (order == null) {
-            throw new MyExceptionNotCatch("没有发现订单");
+            throw new RuntimeException("没有发现订单");
         }
         this.setOrderOther(order);
         return order;
@@ -180,14 +180,14 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         // 查询订单详情
         List<OrderDetail> orderDetails = orderDetailService.list(new QueryWrapper<OrderDetail>().eq("order_id", order.getOrderId()));
         if (CollectionUtils.isEmpty(orderDetails)) {
-            throw new MyExceptionNotCatch("没有发现订单详情");
+            throw new RuntimeException("没有发现订单详情");
         }
         order.setOrderDetails(orderDetails);
 
         // 查询订单状态
         OrderStatus orderStatus = orderStatusService.getOne(new QueryWrapper<OrderStatus>().eq("order_id", order.getOrderId()));
         if (orderStatus == null) {
-            throw new MyExceptionNotCatch("没有发现订单状态");
+            throw new RuntimeException("没有发现订单状态");
         }
         order.setOrderStatus(orderStatus);
 

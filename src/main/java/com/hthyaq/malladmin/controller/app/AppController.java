@@ -118,12 +118,12 @@ public class AppController {
         List<SysUser> list = sysUserService.list(new QueryWrapper<SysUser>().eq("login_name", username));
         //校验用户名
         if (list.size() != 1) {
-            throw new MyExceptionNotCatch("用户名错误!");
+            throw new RuntimeException("用户名错误!");
         }
         SysUser user = list.get(0);
         // 校验密码
         if (!StringUtils.equals(user.getLoginPassword(), UserCodecUtils.md5Hex(password, user.getSalt()))) {
-            throw new MyExceptionNotCatch("密码错误!");
+            throw new RuntimeException("密码错误!");
         }
         //设置用户的公司
         Company company = companyService.getById(user.getCompanyId());

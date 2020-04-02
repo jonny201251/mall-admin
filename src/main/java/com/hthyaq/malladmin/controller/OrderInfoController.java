@@ -45,7 +45,7 @@ public class OrderInfoController {
             return orderInfoService.createOrder(user, orderDTO);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new MyExceptionNotCatch("[创建订单] 创建订单失败");
+            throw new RuntimeException("[创建订单] 创建订单失败");
         }
     }
 

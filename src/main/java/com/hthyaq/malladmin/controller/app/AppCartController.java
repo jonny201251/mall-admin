@@ -43,7 +43,7 @@ public class AppCartController {
         SysUser user = sysUserService.getById(userId);
         String key = KEY_PREFIX + user.getId();
         if (!redisTemplate.hasKey(key)) {
-            throw new MyExceptionNotCatch("SKU商品不存在！");
+            throw new RuntimeException("SKU商品不存在！");
         }
 
         // 获取登录用户的所有购物车
