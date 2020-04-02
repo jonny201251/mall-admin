@@ -3,18 +3,15 @@ package com.hthyaq.malladmin.controller.app;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.bean.Cart;
+import com.hthyaq.malladmin.model.dto.CartDTO;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
-import com.hthyaq.malladmin.model.entity.OrderInfo;
-import com.hthyaq.malladmin.model.entity.OrderStatus;
-import com.hthyaq.malladmin.model.entity.SysUser;
-import com.hthyaq.malladmin.service.CartService;
-import com.hthyaq.malladmin.service.OrderInfoService;
-import com.hthyaq.malladmin.service.OrderStatusService;
-import com.hthyaq.malladmin.service.SysUserService;
+import com.hthyaq.malladmin.model.entity.*;
+import com.hthyaq.malladmin.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -37,24 +34,28 @@ public class AppOrderController {
     @Autowired
     private OrderStatusService orderStatusService;
     @Autowired
-    private CartService cartService;
-    @Autowired
     private SysUserService sysUserService;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ReceiveAddressService receiveAddressService;
+
     private static final String KEY_PREFIX = "cart:uid:";
 
     @GetMapping("/list")
     public List<Cart> list(Integer userId, String skuIds) {
+        return getCarts(userId, skuIds);
+    }
+
+    //根据skuIds，从redis的购物车取出数据
+    private List<Cart> getCarts(Integer userId, String skuIds) {
         Set<Long> skuSet = Sets.newHashSet();
         String[] tmp = skuIds.split(",");
         for (String s : tmp) {
             skuSet.add(Long.parseLong(s));
         }
-        //取出登录用户
-        SysUser user = sysUserService.getById(userId);
         //根据skuIds从购物车中取出cart
-        String key = KEY_PREFIX + user.getId();
+        String key = KEY_PREFIX + userId;
         if (!redisTemplate.hasKey(key)) {
             throw new MyExceptionNotCatch("SKU商品不存在！");
         }
@@ -71,12 +72,35 @@ public class AppOrderController {
     //提交订单
     @GetMapping("/create")
     public List<Long> createOrder(Integer userId, String skuIds) {
+        List<Long> orderIdList = null;
         //取出登录用户
         SysUser user = sysUserService.getById(userId);
         //填充orderDTO
         OrderDTO orderDTO = new OrderDTO();
+        ReceiveAddress receiveAddress = receiveAddressService.getOne(new QueryWrapper<ReceiveAddress>().eq("user_id", userId).eq("isDefault", 1));
+        orderDTO.setAddressId(receiveAddress.getId().longValue());
+        orderDTO.setPaymentType(2);
+        List<CartDTO> carts = Lists.newArrayList();
+        List<Cart> cartList = this.getCarts(userId, skuIds);
+        for (Cart cart : cartList) {
+            CartDTO cartDTO = new CartDTO();
+            cartDTO.setSkuId(cart.getSkuId());
+            cartDTO.setNum(cart.getNum());
+            carts.add(cartDTO);
+        }
+        orderDTO.setCarts(carts);
+        orderDTO.setCompanyId(user.getCompanyId());
         try {
-            return orderInfoService.createOrder(user, orderDTO);
+            orderIdList = orderInfoService.createOrder(user, orderDTO);
+            if (orderIdList.size() > 0) {
+                //从购物车中删除已经提交的订单商品
+                String[] tmp = skuIds.split(",");
+                for (String skuId : tmp) {
+                    String key = KEY_PREFIX + user.getId();
+                    redisTemplate.opsForHash().delete(key, skuId);
+                }
+            }
+            return orderIdList;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new MyExceptionNotCatch("[创建订单] 创建订单失败");
