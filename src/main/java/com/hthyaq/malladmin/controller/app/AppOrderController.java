@@ -71,7 +71,6 @@ public class AppOrderController {
     //提交订单
     @GetMapping("/create")
     public List<Long> createOrder(Integer userId, String skuIds) {
-
         //取出登录用户
         SysUser user = sysUserService.getById(userId);
         //填充orderDTO
