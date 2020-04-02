@@ -195,6 +195,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         SysUser user = sysUserService.getById(order.getUserId());
         Company company = companyService.getById(user.getCompanyId());
         order.setCompany(company);
+        //供应商
+        Company seller = companyService.getById(order.getCompanyId());
+        order.setSeller(seller);
     }
 
     @Override

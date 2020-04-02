@@ -39,6 +39,8 @@ public class AppOrderController {
     private StringRedisTemplate redisTemplate;
     @Autowired
     private ReceiveAddressService receiveAddressService;
+    @Autowired
+    private CompanyService companyService;
 
     private static final String KEY_PREFIX = "cart:uid:";
 
@@ -115,6 +117,9 @@ public class AppOrderController {
     @GetMapping("/orderList")
     public IPage<OrderInfo> orderList(Integer userId, Integer currentPage, Integer pageSize, String orderId, String companyId, String status) {
         SysUser user = sysUserService.getById(userId);
+        //设置用户的公司
+        Company company = companyService.getById(user.getCompanyId());
+        user.setCompany(company);
         IPage<OrderInfo> page = orderInfoService.getOrderList(user, currentPage, pageSize, orderId, companyId, status);
         return page;
     }
