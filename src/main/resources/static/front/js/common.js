@@ -511,8 +511,10 @@ const stringify = function(object, options) {
 
     return values.join("&");
 }
-
-axios.defaults.baseURL = "http://haiyingmall.paas.casicloud.com";
+//开发时
+axios.defaults.baseURL = "http://localhost:8080/mall";
+//部署时
+// axios.defaults.baseURL = "http://haiyingmall.paas.casicloud.com";
 axios.defaults.timeout = 5000;
 axios.defaults.withCredentials = true
 

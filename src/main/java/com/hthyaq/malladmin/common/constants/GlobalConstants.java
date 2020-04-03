@@ -18,10 +18,10 @@ public class GlobalConstants {
     public static final String DB_OPERATE_INSERT = "insert";
     public static final String DB_OPERATE_UPDATE = "update";
     public static final String DB_OPERATE_DELETE = "delete";
-    //图片路径
-    public static final String IMAGE_PATH = "D:/mallFile/image";
-    //图片的品牌路径
-    public static final String IMAGE_BRAND_PATH = "/image/brand/";
+    //开发时图片路径
+    public static final String IMAGE_PATH = "d:/mallFile/image";
+    //部署时图片路径
+//    public static final String IMAGE_PATH = "/usr/local/tomcat/webapps/mallFile/image";
     //发布商品时的表单类型
     //复杂-有特有规格
     public static final String complexSpecHave = "complexSpecHave";
@@ -29,6 +29,8 @@ public class GlobalConstants {
     public static final String complexSpecNo = "complexSpecNo";
     //简单规格
     public static final String easySpec = "easySpec";
-    //项目名称
+    //开发时项目名称
     public static final String HOST_PATH = "http://192.168.99.233:8080/mall";
+    //部署时项目名称
+//    public static final String HOST_PATH = "http://haiyingmall.paas.casicloud.com";
 }
