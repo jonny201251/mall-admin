@@ -35,6 +35,8 @@ public class AppController {
     @Autowired
     SpuService spuService;
     @Autowired
+    SkuService skuService;
+    @Autowired
     private SysUserService sysUserService;
     @Autowired
     private CompanyService companyService;
@@ -95,9 +97,16 @@ public class AppController {
     }
 
     @GetMapping("/item")
-    public Map<String, Object> getItemById(Long id) {
+    public Map<String, Object> getItemById(String id) {
+        Long spuId = 0L;
+        if (id.contains("_skuId")) {
+            Sku sku = skuService.getById(Long.parseLong(id.replace("_skuId", "")));
+            spuId = sku.getSpuId();
+        } else {
+            spuId = Long.parseLong(id);
+        }
         // 查询数据模型
-        Map<String, Object> attributes = spuService.getItemData(id);
+        Map<String, Object> attributes = spuService.getItemData(spuId);
         //根据detail->description取出所有的图片
         List<String> descriptionImages = Lists.newArrayList();
         SpuDetail spuDetail = (SpuDetail) attributes.get("detail");
