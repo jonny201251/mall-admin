@@ -9,10 +9,15 @@ import com.hthyaq.malladmin.common.annotation.ResponseResult;
 import com.hthyaq.malladmin.common.constants.GlobalConstants;
 import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.common.utils.UserCodecUtils;
+import com.hthyaq.malladmin.common.utils.treeSelect.TreeSelectUtil;
+import com.hthyaq.malladmin.common.utils.treeSelect.TreeSelectView;
 import com.hthyaq.malladmin.model.entity.*;
 import com.hthyaq.malladmin.model.vo.AppSpuView;
+import com.hthyaq.malladmin.model.vo.IndexView;
+import com.hthyaq.malladmin.model.vo.SpuView;
 import com.hthyaq.malladmin.service.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.AutomapConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/app")
@@ -44,11 +50,13 @@ public class AppController {
     private ReceiveAddressService receiveAddressService;
     @Autowired
     MoneyLimitService moneyLimitService;
+    @Autowired
+    CategoryService categoryService;
 
     @GetMapping("/lunbo")
     public List<AppSpuView> lunbo() {
         List<AppSpuView> list = Lists.newArrayList();
-        List<Spu> spuList = spuService.list(new QueryWrapper<Spu>().in("id", 3, 16, 34));
+        List<Spu> spuList = spuService.list(new QueryWrapper<Spu>().in("id", 117, 2, 143));
         for (Spu spu : spuList) {
             AppSpuView spuView = new AppSpuView();
             spuView.setSpuId(spu.getId());
@@ -168,5 +176,69 @@ public class AppController {
         MoneyLimit moneyLimit = moneyLimitService.getOne(queryWrapper);
         return moneyLimit == null ? 0.0 : moneyLimit.getMoney();
     }
+
+    //获取商城首页数据
+    public IndexView indexView(){
+        //获取商城首页的数据
+        IndexView indexView = new IndexView();
+        //
+        List<Category> list = categoryService.list(new QueryWrapper<Category>().eq("status", 1).orderByAsc("sort").orderByDesc("id"));
+        List<TreeSelectView> categoryList = TreeSelectUtil.get(list);
+        indexView.setCategoryList(categoryList);
+        //
+        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 117, 2, 143));
+        for (int i = 0; i < scrollTmp.size(); i++) {
+            Spu spu = scrollTmp.get(i);
+            Long id = spu.getId();
+            SpuView scroll = new SpuView();
+            scroll.setSpuId(id);
+            scroll.setImage(StringLastUtil.get(spu.getImages()));
+            if (id == 2L) {
+                indexView.setScroll1(scroll);
+            } else if (id == 143L) {
+                indexView.setScroll2(scroll);
+            } else {
+                indexView.setScroll3(scroll);
+            }
+        }
+        //先做3个楼层，每个楼层显示5个商品
+        List<Spu> floorList = Lists.newArrayList();
+        List<TreeSelectView> children = categoryList.get(0).getChildren();
+        int count = 0;
+        for (int i = 0; i < children.size(); i++) {
+            if (count == 3) break;
+            TreeSelectView tmp = children.get(i);
+            //二级分类的id
+            Integer cid2 = tmp.getKey();
+            List<Category> categoryTmp = categoryService.list(new QueryWrapper<Category>().eq("pid", cid2));
+            List<Integer> categoryIdList = categoryTmp.stream().map(Category::getId).collect(Collectors.toList());
+            IPage<Spu> page = spuService.page(new Page<>(1, 5), new QueryWrapper<Spu>().in("category_id", categoryIdList));
+            int size = page.getRecords().size();
+            if (size >= 5) {
+                List<Spu> recordList = page.getRecords();
+                List<SpuView> floorData = Lists.newArrayList();
+                for (Spu spu : recordList) {
+                    SpuView floorSpu = new SpuView();
+                    floorSpu.setSpuId(spu.getId());
+                    floorSpu.setImage(StringUtils.substringBefore(spu.getImages(), ","));
+                    floorData.add(floorSpu);
+                }
+                if (count == 0) {
+                    indexView.setFloor1(tmp);
+                    indexView.setFloor1Data(floorData);
+                } else if (count == 1) {
+                    indexView.setFloor2(tmp);
+                    indexView.setFloor2Data(floorData);
+                } else if (count == 2) {
+                    indexView.setFloor3(tmp);
+                    indexView.setFloor3Data(floorData);
+                }
+                count++;
+            }
+        }
+        return indexView;
+    }
+
+
 
 }

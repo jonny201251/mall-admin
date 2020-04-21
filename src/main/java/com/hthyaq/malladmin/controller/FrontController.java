@@ -115,16 +115,16 @@ public class FrontController {
         List<TreeSelectView> categoryList = TreeSelectUtil.get(list);
         indexView.setCategoryList(categoryList);
         //
-        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 3, 16, 34));
+        List<Spu> scrollTmp = spuService.list(new QueryWrapper<Spu>().in("id", 117, 2, 143));
         for (int i = 0; i < scrollTmp.size(); i++) {
             Spu spu = scrollTmp.get(i);
             Long id = spu.getId();
             SpuView scroll = new SpuView();
             scroll.setSpuId(id);
             scroll.setImage(StringLastUtil.get(spu.getImages()));
-            if (id == 16L) {
+            if (id == 2L) {
                 indexView.setScroll1(scroll);
-            } else if (id == 34L) {
+            } else if (id == 143L) {
                 indexView.setScroll2(scroll);
             } else {
                 indexView.setScroll3(scroll);
