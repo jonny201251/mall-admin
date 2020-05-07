@@ -3,10 +3,10 @@ package com.hthyaq.malladmin.controller.app;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hthyaq.malladmin.common.annotation.ResponseResult;
-import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.model.bean.Cart;
 import com.hthyaq.malladmin.model.dto.CartDTO;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
@@ -73,7 +73,7 @@ public class AppOrderController {
 
     //提交订单
     @GetMapping("/create")
-    public List<Long> createOrder(Integer userId, String skuIds) {
+    public List<Long> createOrder(Integer userId, String skuIds, String taskNum) {
         List<Long> orderIdList = null;
         //取出登录用户
         SysUser user = sysUserService.getById(userId);
@@ -92,6 +92,9 @@ public class AppOrderController {
         }
         orderDTO.setCarts(carts);
         orderDTO.setCompanyId(user.getCompanyId());
+        if (!Strings.isNullOrEmpty(taskNum)) {
+            orderDTO.setTaskNum(taskNum);
+        }
         try {
             orderIdList = orderInfoService.createOrder(user, orderDTO);
             if (orderIdList.size() > 0) {

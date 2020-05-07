@@ -17,4 +17,6 @@ public class OrderDTO {
     private List<CartDTO> carts;// 订单详情
 
     private Integer companyId;//商家id
+
+    private String taskNum;//任务号
 }

@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hthyaq.malladmin.common.exception.MyExceptionNotCatch;
 import com.hthyaq.malladmin.mapper.OrderInfoMapper;
 import com.hthyaq.malladmin.model.dto.CartDTO;
 import com.hthyaq.malladmin.model.dto.OrderDTO;
@@ -74,6 +73,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             tmp.setAddressId(orderDTO.getAddressId());
             tmp.setPaymentType(orderDTO.getPaymentType());
             tmp.setCarts(entry.getValue());
+            if (!Strings.isNullOrEmpty(orderDTO.getTaskNum())) {
+                tmp.setTaskNum(orderDTO.getTaskNum());
+            }
             Long orderId = this.createOrderByCompany(user, tmp, entry.getKey());
             orderIdList.add(orderId);
         }
@@ -90,7 +92,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         long orderId = IdUtil.getSnowflake(1, 1).nextId();
         order.setOrderId(String.valueOf(orderId));
         order.setPaymentType(orderDTO.getPaymentType());
-
+        //任务号
+        if (!Strings.isNullOrEmpty(orderDTO.getTaskNum())) {
+            order.setTaskNum(orderDTO.getTaskNum());
+        }
         // 1.2 用户信息
         order.setUserId(user.getId());
         order.setBuyerNick(user.getRealName());

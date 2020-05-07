@@ -54,6 +54,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     private BrandService brandService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CompanyService companyService;
 
     //规格类型--以后放入缓存中
     public String getSpecType(Integer categoryId) {
@@ -388,12 +390,16 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             model.put("specs", specs);
         }
 
+        //所属公司
+        Company company = companyService.getById(spu.getCompanyId());
+
         model.put("title", spu.getTitle());
         model.put("subTitle", spu.getSubTitle());
         model.put("skus", skus);
         model.put("detail", detail);
         model.put("brand", brand);
         model.put("categories", categories);
+        model.put("company", company);
         return model;
     }
 

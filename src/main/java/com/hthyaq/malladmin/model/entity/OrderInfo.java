@@ -142,6 +142,12 @@ public class OrderInfo implements Serializable {
      * 该订单所对应的商家
      */
     private Integer companyId;
+
+    /**
+     * 任务号
+     */
+    private String taskNum;
+
     @TableField(exist = false)
     private Company seller;
 

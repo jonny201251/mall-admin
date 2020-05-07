@@ -17,7 +17,6 @@ import com.hthyaq.malladmin.model.vo.IndexView;
 import com.hthyaq.malladmin.model.vo.SpuView;
 import com.hthyaq.malladmin.service.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.AutomapConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -99,6 +98,9 @@ public class AppController {
             spuView.setImage(GlobalConstants.HOST_PATH + StringLastUtil.get(spu.getImages()));
             spuView.setTitle(spu.getTitle());
             spuView.setTmpPrice(spu.getTmpPrice());
+            //设置公司
+            Company company = companyService.getById(spu.getCompanyId());
+            spuView.setCompany(company);
             list.add(spuView);
         }
         return list;
@@ -178,7 +180,7 @@ public class AppController {
     }
 
     //获取商城首页数据
-    public IndexView indexView(){
+    public IndexView indexView() {
         //获取商城首页的数据
         IndexView indexView = new IndexView();
         //
@@ -238,7 +240,6 @@ public class AppController {
         }
         return indexView;
     }
-
 
 
 }
