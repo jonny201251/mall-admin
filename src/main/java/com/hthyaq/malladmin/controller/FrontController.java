@@ -8,10 +8,12 @@ import com.hthyaq.malladmin.common.utils.StringLastUtil;
 import com.hthyaq.malladmin.common.utils.treeSelect.TreeSelectUtil;
 import com.hthyaq.malladmin.common.utils.treeSelect.TreeSelectView;
 import com.hthyaq.malladmin.model.entity.Category;
+import com.hthyaq.malladmin.model.entity.Sku;
 import com.hthyaq.malladmin.model.entity.Spu;
 import com.hthyaq.malladmin.model.vo.IndexView;
 import com.hthyaq.malladmin.model.vo.SpuView;
 import com.hthyaq.malladmin.service.CategoryService;
+import com.hthyaq.malladmin.service.SkuService;
 import com.hthyaq.malladmin.service.SpuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ import java.util.stream.Collectors;
 public class FrontController {
     @Autowired
     SpuService spuService;
+    @Autowired
+    SkuService skuService;
     @Autowired
     CategoryService categoryService;
 
@@ -64,6 +68,18 @@ public class FrontController {
     public String item(Long id, Model model) {
         // 查询数据模型
         Map<String, Object> attributes = spuService.getItemData(id);
+        // 准备数据模型
+        model.addAllAttributes(attributes);
+        // 返回视图
+        return "front/item-" + attributes.get("specType");
+    }
+
+    @GetMapping("/item2.html")
+    public String item2(Long skuId, Model model) {
+        //根据skuId查询出spuId
+        Sku sku = skuService.getById(skuId);
+        // 查询数据模型
+        Map<String, Object> attributes = spuService.getItemData(sku.getSpuId());
         // 准备数据模型
         model.addAllAttributes(attributes);
         // 返回视图
